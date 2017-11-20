@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <% include ./header.ejs %>
+      <style>
+          #header div:nth-child(n+2) {
+              border: solid 1px #bbb;
+              padding: 5px;
+          }
+          .container {
+              left: 55px;
+          }
+          .row {
+              margin: 0;
+          }
+
+      </style>
+  </head>
+  <body class="fixed-nav sidenav-toggled" id="page-top">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+          <% include ./admin-nav.ejs %>
+      </nav>
+      <div class="container">
+          <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-2 mx-3">
+                  <h1><strong>회원관리</strong></h1>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-1 mx-4">
+                  <label for="category">구분:</label>
+                  <select class="" name="category">
+                      <option value="ALL">전체</option>
+                      <option value="ER">발주자</option>
+                      <option value="EE">수주자</option>
+                  </select>
+              </div>
+          </div>
+          <div id="header" class="row  text-center mx-4">
+              <div class="col-md-1"></div>
+              <div class="col-md-1">
+                  <strong>No.</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>구분</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>이름</strong>
+              </div>
+              <div class="col-md-3">
+                  <strong>이메일</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>나이</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>평점</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>관리</strong>
+              </div>
+          </div>
+          <$ for (int i = 0; i < data.length; i++) { %>
+            <div id="header" class="row  text-center mx-4">
+                <div class="col-md-1"></div>
+                <div class="col-md-1">
+                    <strong><%= i+1 %></strong>
+                </div>
+                <div class="col-md-1">
+                    <strong><%= data.UserType %></strong>
+                </div>
+                <div class="col-md-1">
+                    <strong><%= data.Name %></strong>
+                </div>
+                <div class="col-md-3">
+                    <strong><%= data.Email %></strong>
+                </div>
+                <div class="col-md-1">
+                    <strong><%= getAge(data.Birth) %></strong>
+                </div>
+                <div class="col-md-1">
+                    <strong><%= data.Score %></strong>
+                </div>
+                <div class="col-md-1">
+                    <strong><a class="btn btn-danger" href="">삭제</a></strong>
+                </div>
+            </div>
+          <% } %>
+      </div>
+  </body>
+</html>

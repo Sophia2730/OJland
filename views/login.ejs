@@ -11,16 +11,16 @@
         <div class="card card-login mx-auto mt-5">
           <div class="card-header">로그인</div>
             <div class="card-body">
-                <form>
+                <form action="/login" method="post">
                   <div class="form-group">
                     <label for="Email">이메일</label>
-                    <input class="form-control" id="Email" type="email" aria-describedby="emailHelp" placeholder="이메일을 입력하세요.">
+                    <input class="form-control" name="Email" type="email" aria-describedby="emailHelp" placeholder="이메일을 입력하세요.">
                   </div>
                   <div class="form-group">
                     <label for="Password">비밀번호</label>
-                    <input class="form-control" id="Password" type="password" placeholder="비밀번호를 입력하세요.">
+                    <input class="form-control" name="Password" type="password" placeholder="비밀번호를 입력하세요.">
                   </div>
-                  <a class="btn btn-primary btn-block" href="/">로그인</a>
+                  <input type="submit" class="btn btn-primary btn-block" value="로그인">
                 </form>
                 <div class="text-center">
                   <a class="d-block small mt-3" href="/register">회원가입</a>

@@ -1,73 +1,58 @@
 <!-- Navigation-->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="admin-main.html"><img src="imgs/logo.png" style="width:200px;height:40px;"></a>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="전체">
-          <a class="nav-link" href="admin-changeinfo-pwd.html">
-            <img src="imgs/icons/key.png" alt="">
-            <span class="nav-link-text">비밀번호 변경</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="전체">
-          <a class="nav-link" href="admin-members.html">
-            <img src="imgs/icons/members.png" alt="">
-            <span class="nav-link-text">회원관리</span>
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="기타">
-           <a class="nav-link" href="admin-orders.html">
-            <img src="imgs/icons/orders.png" alt="">
-            <span class="nav-link-text">발주관리</span>
-          </a>
-        </li>
-      </ul>
-      <ul class="navbar-nav sidenav-toggler">
-        <li class="nav-item">
-          <a class="nav-link text-center" id="sidenavToggler">
-            <i class="fa fa-fw fa-angle-left"></i>
-          </a>
-        </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="admin-main.html">
-            <i class="fa fa-fw fa-sign-out"></i>로그아웃</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <div class="content-wrapper">
-    <!-- /.container-fluid-->
-    <!-- /.content-wrapper-->
-    <footer class="sticky-footer">
-      <div class="container">
-        <div class="text-center">
-          <small>Copyright © Your Website 2017</small>
-        </div>
-      </div>
-    </footer>
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fa fa-angle-up"></i>
+<a class="navbar-brand" href="/admin"><img src="imgs/logo.png" style="width:200px;height:40px;"></a>
+<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarResponsive">
+<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="비밀번호 변경">
+    <a class="nav-link" href="/changPwd">
+      <img src="imgs/icons/key.png" alt="">
+      <span class="nav-link-text">비밀번호 변경</span>
     </a>
-  </div>
+  </li>
+  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="회원관리">
+    <a class="nav-link" href="/members">
+      <img src="imgs/icons/members.png" alt="">
+      <span class="nav-link-text">회원관리</span>
+    </a>
+  </li>
+  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="발주관리">
+     <a class="nav-link" href="/orders">
+      <img src="imgs/icons/orders.png" alt="">
+      <span class="nav-link-text">발주관리</span>
+    </a>
+  </li>
+</ul>
+<ul class="navbar-nav sidenav-toggler">
+  <li class="nav-item">
+    <a class="nav-link text-center" id="sidenavToggler">
+      <i class="fa fa-fw fa-angle-left"></i>
+    </a>
+  </li>
+</ul>
+<ul class="navbar-nav ml-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="/">
+      <i class="fa fa-fw fa-sign-out"></i>로그아웃</a>
+  </li>
+</div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-  <!-- Page level plugin JavaScript-->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-  <script src="vendor/datatables/jquery.dataTables.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin.min.js"></script>
-  <!-- Custom scripts for this page-->
-  <script src="js/sb-admin-datatables.min.js"></script>
-  <script src="js/sb-admin-charts.min.js"></script>
+  <!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fa fa-angle-up"></i>
+</a>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Page level plugin JavaScript-->
+<script src="vendor/chart.js/Chart.min.js"></script>
+<script src="vendor/datatables/jquery.dataTables.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin.min.js"></script>
+<!-- Custom scripts for this page-->
+<script src="js/sb-admin-datatables.min.js"></script>
+<script src="js/sb-admin-charts.min.js"></script>
