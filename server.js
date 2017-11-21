@@ -6,14 +6,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var login = require('./routes/login');
-var register = require('./routes/register');
-var forgot = require('./routes/forgot');
-var mypage = require('./routes/mypage');
-var admin = require('./routes/admin');
-var members = require('./routes/members');
-var orders = require('./routes/orders');
+var index = require('./routes/users/index');
+var login = require('./routes/users/login');
+var register = require('./routes/users/register');
+var forgot = require('./routes/users/forgot');
+var mypage = require('./routes/users/mypage');
+var admin = require('./routes/admin/index');
+var members = require('./routes/admin/members');
+var orders = require('./routes/admin/orders');
 
 var app = express();
 

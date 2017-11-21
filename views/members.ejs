@@ -61,26 +61,26 @@
                   <strong>관리</strong>
               </div>
           </div>
-          <% for (int i = 0; i < data.length; i++) { %>
+          <% for (int i = data.length - 1; i > -1; i++) { %>
             <div id="header" class="row  text-center mx-4">
                 <div class="col-md-1"></div>
                 <div class="col-md-1">
-                    <strong><%= i+1 %></strong>
+                    <strong><%= i %></strong>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= data.UserType %></strong>
+                    <strong><%= data[i].UserType %></strong>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= data.Name %></strong>
+                    <strong><%= data[i].Name %></strong>
                 </div>
                 <div class="col-md-3">
-                    <strong><%= data.Email %></strong>
+                    <strong><%= data[i].Email %></strong>
                 </div>
                 <div class="col-md-1">
                     <strong><%= getAge(data.Birth) %></strong>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= data.Score %></strong>
+                    <strong><%= data[i].Score %></strong>
                 </div>
                 <div class="col-md-1">
                     <strong><a class="btn btn-danger" href="">삭제</a></strong>
