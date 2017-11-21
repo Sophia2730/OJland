@@ -12,7 +12,6 @@ router.get('/', function(req, res, next) {
                 var d1 = rows[i].Birth.substring(0,4);
                 var d2 = new Date().toISOString().substring(0,4);
                 ages[i] = d2 - d1 + 1;
-                console.log('this is: ', rows[i]);
             }
             res.render('members', {
                 data: rows,
@@ -23,7 +22,15 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.post('/', function(req, res, next) {
+router.delete('/:id', function(req, res, next) {
+    var queryStr = "DELETE FROM user WHERE _UID='" + req.params.id + "';";
+    pool.getConnection(function(err, connection) {
+        connection.query(queryStr, function(err, rows) {
+            if(err) console.log("err: ", err);
+            res.redirect('/orders');
+            connection.release();
+        });
+    });
 });
 
 module.exports = router;

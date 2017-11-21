@@ -71,7 +71,7 @@
                   <strong>관리</strong>
               </div>
           </div>
-          <% for (var i = data.length - 1; i > -1; i--) { %>
+          <% for (var i = data.length - 1; i > data.length - 6; i--) { %>
             <div id="data" class="row  text-center mx-4">
                 <div class="col-md-1"></div>
                 <div class="col-md-1">
@@ -93,10 +93,23 @@
                     <p><%= age[i] %></p>
                 </div>
                 <div class="col-md-1">
-                    <p><a class="btn btn-danger" id="<%= data._OID %>" href="">삭제</a></p>
+                    <form action="/members/<%= data[i]._UID %>?_method=delete" method="post">
+                        <input type="submit" class="btn btn-danger btn-lg" style="margin-top:4px" value="삭제">
+                    </form>
                 </div>
             </div>
           <% } %>
+          <div class="row mt-5">
+              <div class="col-md-3 mx-auto">
+                  <a class="btn btn-primary btn-xs" href="">prev</a>
+                  <a class="btn btn-primary btn-xs b">1</a>
+                  <a class="btn btn-primary btn-xs">2</a>
+                  <a class="btn btn-primary btn-xs">3</a>
+                  <a class="btn btn-primary btn-xs">4</a>
+                  <a class="btn btn-primary btn-xs">5</a>
+                  <a class="btn btn-primary btn-xs" href="">next</a>
+              </div>
+          </div>
       </div>
   </body>
 </html>

@@ -23,11 +23,8 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.post('/', function(req, res, next) {
-});
-
-router.delete('/delete/:id', function(req, res, next) {
-    var queryStr = 'DELETE FROM orders WHERE _OID=' + id;
+router.delete('/:id', function(req, res, next) {
+    var queryStr = "DELETE FROM orders WHERE _OID='" + req.params.id + "';";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) console.log("err: ", err);
