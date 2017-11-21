@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./header.ejs %>
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      <% include ./nav.ejs %>
+  </nav>
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">개인정보 수정 %></div>
+      <div class="card-body">
+        <form method="POST" action="/changeinfo?_method=PUT">
+           <div class="text-center mb-3">
+                 <% if(data.UserType == 'EE') { %>
+                   <label class="radio-inline" style="margin-right: 20px;">
+                       <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" disabled> 발주자(기업)
+                   </label>
+                   <label class="radio-inline">
+                       <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" disabled checked="checked"> 수주자(학생)
+                   </label>
+               <% } else if(data.UserType == 'ER')  { %>
+                   <label class="radio-inline" style="margin-right: 20px;">
+                       <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" disabled checked="checked"> 발주자(기업)
+                   </label>
+                   <label class="radio-inline">
+                       <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" disabled> 수주자(학생)
+                   </label>
+               <% } %>
+           </div>
+           <div class="form-group">
+             <div class="form-group">
+               <label for="exampleInputEmail1">이메일(아이디)</label>
+               <input class="form-control" name="Email" type="email" aria-describedby="emailHelp" readonly="readonly" value="<%= data.Email %>">
+             </div>
+             <div class="form-row">
+               <div class="col-md-6">
+                <label for="exampleInputName">이름</label>
+                <input class="form-control" name="Name" type="text" aria-describedby="nameHelp" value="<%= data.Name %>">
+               </div>
+               <div class="col-md-6">
+                <label for="exampleInputLastName">생년월일</label>
+                <input class="form-control" name="Birth" type="text" aria-describedby="nameHelp" value="<%= data.Birth %>">
+               </div>
+             </div>
+           </div>
+           <div class="form-group">
+             <label for="exampleInputEmail1">전화번호</label>
+             <input class="form-control" name="Email1" type="text" aria-describedby="emailHelp" value="<%= data.Tel %>">
+           </div>
+           <div align="center">
+               <input type="submit" class="btn btn-primary btn-lg" style="margin-right:25px;" value="수정"></input>
+               <a class="btn btn-danger btn-lg" href="/mypage">취소</a>
+           </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

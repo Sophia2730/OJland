@@ -1,30 +1,27 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
-
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    prot: 3306,
-    database: 'ojland'
-});
+var moment = require('moment');
+var pool = require('../../config.js').pool;
 
 router.get('/', function(req, res, next) {
-    var user;
-    connection.connect();
-    connection.query('SELECT * FROM user', function(err, rows, fields) {
-        if (!err) {
-            console.log('The solution is: ', rows);
-            user = rows;
-            res.render('mypage');
-        } else
-            console.log('Error while performing Query.', err);
+    var queryStr = 'SELECT * FROM user';
+    pool.getConnection(function(err, connection) {
+        connection.query(queryStr, function(err, rows) {
+            if(err) console.log("err: ", err);
+            else {
+                res.render('mypage');
+            }
+            connection.release();
+        })
     });
-    connection.end();
 });
 
 router.post('/', function(req, res, next) {
+});
+
+router.put('/', function (req, res, next) {
+    var body = req.body;
+    console.log("body : " + body)
 });
 
 module.exports = router;
