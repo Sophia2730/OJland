@@ -9,8 +9,8 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var login = require('./routes/login');
 var register = require('./routes/register');
-var registerSuccess = require('./routes/register-success');
 var forgot = require('./routes/forgot');
+var mypage = require('./routes/mypage');
 var admin = require('./routes/admin');
 var members = require('./routes/members');
 var orders = require('./routes/orders');
@@ -37,11 +37,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/login', login);
 app.use('/register', register);
-app.use('/register-success', registerSuccess);
 app.use('/forgot', forgot);
 app.use('/admin', admin);
 app.use('/members', members);
 app.use('/orders', orders);
+app.use('/mypage', mypage);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

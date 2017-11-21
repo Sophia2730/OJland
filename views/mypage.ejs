@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <% include ./header.ejs %>
+  </head>
+  <body class="bg-dark sidenav-toggled">
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+         <% include ./nav.ejs%>
+     </nav>
+     <div class="container" style="position:relative; top:66px; left:55px">
+         <table class="table" style="margin: 30px; width: 95%">
+            <tbody>
+               <tr>
+                  <td style="width: 45%;">
+                     <div class="card">
+                        <div class="card-block" style="text-center: auto; padding: 30px;">
+                           <h1 class="card-title">회원정보</h1><br>
+                           <table class="table">
+                              <tr>
+                                 <th>이름</th>
+                                 <td>홍길동</td>
+                              </tr>
+                              <tr>
+                                 <th>생년월일</th>
+                                 <td>1994.01.01</td>
+                              </tr>
+                              <tr>
+                                 <th>전화번호</th>
+                                 <td>010-1234-5678</td>
+                              </tr>
+                              <tr>
+                                <th>&nbsp;</th>
+                                <td>&nbsp;</td>
+                              </tr>
+                           </table>
+                           <a href="changeinfo.html" style="margin-right: 40px;"><button class="btn btn-primary">개인정보 수정</button></a>
+                           <a href="changeinfo-pwd.html" style="margin-right: 40px;"><button class="btn btn-primary">비밀번호 변경</button></a>
+                        </div>
+                     </div>
+                  </td>
+                  <td style="width: 45%;">
+                     <div class="card">
+                        <div class="card-block" style="text-center: auto; padding: 30px;">
+                           <h1 class="card-title">외주 정보</h1><br>
+                           <table class="table">
+                              <tr>
+                                 <th>매칭대기</th>
+                                 <td>1개</td>
+                              </tr>
+                              <tr>
+                                 <th>매칭완료</th>
+                                 <td>1개</td>
+                              </tr>
+                              <tr>
+                                 <th>외주완료</th>
+                                 <td>2개</td>
+                              </tr>
+                              <tr>
+                                <th>&nbsp;</th>
+                                <td>&nbsp;</td>
+                              </tr>
+                           </table>
+                           <a href="order-ee.html" style="margin-right: 40px;"><button class="btn btn-primary">수주내역 확인</button></a>
+                        </div>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td style="width: 45%;">
+                     <div class="card">
+                        <div class="card-block" style="text-center: auto; padding: 30px;">
+                           <h1 class="card-title">알림</h1><br>
+                           <table class="table">
+                              <tr>
+                                 <th>No.</th>
+                                 <th>내용</th>
+                                 <th>날짜</th>
+                              </tr>
+                              <tr>
+                                 <td>2</td>
+                                 <td><a data-toggle="modal" data-target="#myModal" href="">매칭완료 알림 [간단...]</a><i class="fa fa-fw fa-bell" style="color: #fb0;"></i></td>
+                                 <td>2017.11.03 11:34pm</td>
+                              </tr>
+                              <tr>
+                                 <td>1</td>
+                                 <td><a data-toggle="modal" data-target="#myModal" href="" style="color: black;">회원가입을 축하합니다!</a></td>
+                                 <td>2017.11.02 4:34pm</td>
+                              </tr>
+                              <tr>
+                                <th>&nbsp;</th>
+                                <td>&nbsp;</td>
+                              </tr>
+                           </table>
+                           <div align="center">
+                             <a href="" style="margin-right: 10px;">prev</a>
+                             <a href="" style="margin-right: 10px; color: black; font-weight:bold;">1</a>
+                             <a href="" style="margin-right: 10px;">next</a>
+                           </div>
+                        </div>
+                     </div>
+                  </td>
+                  <td style="width: 45%;">
+                     <div class="card">
+                        <div class="card-block" style="text-center: auto; padding: 30px;">
+                           <h1 class="card-title">이력서</h1><br>
+                           <table class="table">
+                              <tr>
+                                 <th>대학구분</th>
+                                 <td>4년제</td>
+                              </tr>
+                              <tr>
+                                 <th>학부</th>
+                                 <td>IT대학</td>
+                              </tr>
+                              <tr>
+                                 <th>학과</th>
+                                 <td>컴퓨터공학과</td>
+                              </tr>
+                              <tr>
+                                 <th>자격증</th>
+                                 <td>컴퓨터 활용능력 1급, 정보처리기능사</td>
+                              </tr>
+                           </table>
+                           <a href="resume.html" style="margin-right: 40px;"><button class="btn btn-primary">이력서 수정</button></a>
+                        </div>
+                     </div>
+                  </td>
+               </tr>
+            </tbody>
+        </table>
+     </div>
+  </body>
+</html>
