@@ -1,14 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
-var methodOverride = require('method-override');
 var pool = require('../../config.js').pool;
 
-router.use(methodOverride('_method'));
-
 router.get('/', function(req, res, next) {
-    req.session.Email = "'abc@naver.com'";
-    var queryStr = "SELECT * FROM user WHERE Email=" + req.session.Email;
+    var queryStr = 'SELECT * FROM user';
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) {
@@ -23,22 +19,19 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.post('/', function(req, res, next) {
-});
-
 router.put('/', function (req, res, next) {
-    var body = req.body;
-    var queryStr = "UPDATE user SET Name=" + body.Name + ", Birth=" +
-            body.Birth + ", Tel=" + body.Tel + "Where Email="
-            + req.session.Email;
+    req.session.Email = "abc@naver.com";
+    var queryStr = "UPDATE user SET Name = '"+ req.body.Name + "', Birth = '" + req.body.Birth
+            + "', Tel = '" + req.body.Tel + "' WHERE Email=" + req.session.Email;
+    console.log(queryStr);
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) {
                 console.log("err: ", err);
             }
             connection.release();
-            res.redirect('/mypage');
-        });
+            res.redirect("/mypage");
+        })
     });
 });
 

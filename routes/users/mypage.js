@@ -9,7 +9,9 @@ router.get('/', function(req, res, next) {
         connection.query(queryStr, function(err, rows) {
             if(err) console.log("err: ", err);
             else {
-                res.render('mypage');
+                res.render('mypage', {
+                    data: rows[0]
+                });
             }
             connection.release();
         })
