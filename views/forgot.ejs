@@ -20,11 +20,11 @@
                     <form id="id">
                        <div class="form-group">
                           <span class="nav-link-text">이름</span>
-                          <input class="form-control" id="Name" type="email" aria-describedby="emailHelp" placeholder="이름을 입력해주세요."><br>
+                          <input class="form-control" name="Name" type="email" aria-describedby="emailHelp" placeholder="이름을 입력해주세요."><br>
                           <span class="nav-link-text">생년월일</span>
-                          <input class="form-control" id="Birth" type="date" aria-describedby="emailHelp" placeholder="ex)19940101"><br>
+                          <input class="form-control" name="Birth" type="date" aria-describedby="emailHelp" placeholder="ex)19940101"><br>
                           <span class="nav-link-text">전화번호</span>
-                          <input class="form-control" id="Tel" type="tel" aria-describedby="emailHelp" placeholder="ex)010-1234-5678">
+                          <input class="form-control" name="Tel" type="tel" aria-describedby="emailHelp" placeholder="ex)010-1234-5678">
                        </div>
                        <a id="getEmail" class="btn btn-primary btn-block" href="">이메일 찾기</a>
                     </form>
@@ -40,11 +40,11 @@
                      <form id="pwd">
                         <div class="form-group">
                           <span class="nav-link-text">이름</span>
-                          <input class="form-control" id="Name" type="text" aria-describedby="emailHelp" placeholder="이름을 입력해주세요."><br>
+                          <input class="form-control" name="Name" type="text" aria-describedby="emailHelp" placeholder="이름을 입력해주세요."><br>
                           <span class="nav-link-text">이메일(아이디)</span>
-                          <input class="form-control" id="Email" type="email" aria-describedby="emailHelp" placeholder="이메일을 입력해주세요."><br>
+                          <input class="form-control" name="Email" type="email" aria-describedby="emailHelp" placeholder="이메일을 입력해주세요."><br>
                           <span class="nav-link-text">전화번호</span>
-                          <input class="form-control" id="Tel" type="tel" aria-describedby="emailHelp" placeholder="ex)010-1234-5678">
+                          <input class="form-control" name="Tel" type="tel" aria-describedby="emailHelp" placeholder="ex)010-1234-5678">
                         </div>
                         <a id="getPassword" class="btn btn-primary btn-block" href="">비밀번호 찾기</a>
                      </form>
@@ -57,21 +57,21 @@
           $(document).ready(function() {
 
               $("#getEmail").on('click', function(e) {
-                  var input = [ $("#id #Name").val(), $("#id #Birth").val(), $("#id #Tel").val() ];
+                  var input = [ $("#id input[name=Name]").val(), $("#id input[name=Birth]").val(), $("#id input[name=Tel]").val() ];
                   e.preventDefault();
                   if(input[0] != '' && input[1] != '' && input[2] != '') {
-                    alert('찾으시는 아이디는 abc@naver.com 입니다.');
+                      alert('찾으시는 아이디는 abc@naver.com 입니다.');
                   } else {
-                    alert('잘못된 입력정보 입니다.');
+                      alert('잘못된 입력정보 입니다.');
                   }
               });
               $("#getPassword").on('click', function(e) {
-                  var input = [ $("#pwd #Name").val(), $("#pwd #Email").val(), $("#pwd #Tel").val() ];
+                  var input = [ $("#pwd input[name=Name]").val(), $("#pwd input[name=Email]").val(), $("#pwd input[name=Tel]").val() ];
                   e.preventDefault();
                   if(input[0] != '' && input[1] != '' && input[2] != '') {
-                    alert('등록된 이메일로 비밀번호를 보냈습니다.');
+                      alert('등록된 이메일로 비밀번호를 보냈습니다.');
                   } else {
-                    alert('잘못된 입력정보 입니다.');
+                      alert('잘못된 입력정보 입니다.');
                   }
               });
           });

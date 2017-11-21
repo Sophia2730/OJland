@@ -2,19 +2,6 @@
 <html>
   <head>
       <% include ./header.ejs %>
-      <style>
-          #header div:nth-child(n+2) {
-              border: solid 1px #bbb;
-              padding: 5px;
-          }
-          .container {
-              left: 55px;
-          }
-          .row {
-              margin: 0;
-          }
-
-      </style>
   </head>
   <body class="fixed-nav sidenav-toggled" id="page-top">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -24,17 +11,22 @@
           <div class="row">
               <div class="col-md-1"></div>
               <div class="col-md-2 mx-3">
-                  <h1><strong>회원관리</strong></h1>
+                  <h1><strong>발주관리</strong></h1>
               </div>
           </div>
           <div class="row">
               <div class="col-md-1"></div>
               <div class="col-md-1 mx-4">
-                  <label for="category">구분:</label>
+                  <label for="category">카테고리:</label>
                   <select class="" name="category">
                       <option value="ALL">전체</option>
-                      <option value="ER">발주자</option>
-                      <option value="EE">수주자</option>
+                      <option value="PLA">기획</option>
+                      <option value="DEV">개발</option>
+                      <option value="DES">디자인</option>
+                      <option value="TRA">번역</option>
+                      <option value="SOU">사운드</option>
+                      <option value="VIE">영상</option>
+                      <option value="ETC">기타</option>
                   </select>
               </div>
           </div>
@@ -44,50 +36,54 @@
                   <strong>No.</strong>
               </div>
               <div class="col-md-1">
-                  <strong>구분</strong>
+                  <strong>카테고리</strong>
               </div>
               <div class="col-md-1">
-                  <strong>이름</strong>
+                  <strong>상태</strong>
               </div>
               <div class="col-md-3">
-                  <strong>이메일</strong>
+                  <strong>제목</strong>
               </div>
               <div class="col-md-1">
-                  <strong>나이</strong>
+                  <strong>발주자</strong>
               </div>
               <div class="col-md-1">
-                  <strong>평점</strong>
+                  <strong>인원</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>게시일</strong>
               </div>
               <div class="col-md-1">
                   <strong>관리</strong>
               </div>
           </div>
-          <$ for (int i = 0; i < data.length; i++) { %>
             <div id="header" class="row  text-center mx-4">
                 <div class="col-md-1"></div>
                 <div class="col-md-1">
-                    <strong><%= i+1 %></strong>
+                    <p><%= 1 %></p>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= data.UserType %></strong>
+                    <p><%= data.Category %></p>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= data.Name %></strong>
+                    <p><%= data.Status %></p>
                 </div>
                 <div class="col-md-3">
-                    <strong><%= data.Email %></strong>
+                    <p><%= data.Title %></p>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= getAge(data.Birth) %></strong>
+                    <p><%= Name %></p>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= data.Score %></strong>
+                    <p><%= reqNum %>/<%= data.MaxNum %></p>
                 </div>
                 <div class="col-md-1">
-                    <strong><a class="btn btn-danger" href="">삭제</a></strong>
+                    <p><%= date %></p>
+                </div>
+                <div class="col-md-1">
+                    <p><a class="btn btn-danger" id="<%= data._OID %>" href="">삭제</a></p>
                 </div>
             </div>
-          <% } %>
       </div>
   </body>
 </html>
