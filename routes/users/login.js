@@ -3,7 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 
 var admin;
-fs.readFile('public/data/admin.json', 'utf-8', function(err, data) {
+fs.readFile('../public/data/admin.json', 'utf-8', function(err, data) {
     admin = JSON.parse(data);
 });
 
