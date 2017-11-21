@@ -4,7 +4,8 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 
 router.get('/', function(req, res, next) {
-    var queryStr = 'SELECT * FROM user';
+    req.session.Email = 'abc@naver.com';
+    var queryStr = "SELECT * FROM user WHERE Email='" + req.session.Email + "';";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) {
@@ -20,10 +21,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.put('/', function (req, res, next) {
-    req.session.Email = "abc@naver.com";
     var queryStr = "UPDATE user SET Name = '"+ req.body.Name + "', Birth = '" + req.body.Birth
-            + "', Tel = '" + req.body.Tel + "' WHERE Email=" + req.session.Email;
-    console.log(queryStr);
+            + "', Tel = '" + req.body.Tel + "' WHERE Email='" + req.session.Email + "';";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) {

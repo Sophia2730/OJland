@@ -4,7 +4,8 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 
 router.get('/', function(req, res, next) {
-    var queryStr = 'SELECT * FROM user';
+    req.session.Email = 'abc@naver.com';
+    var queryStr = "SELECT * FROM user WHERE Email='" + req.session.Email + "';";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) console.log("err: ", err);
