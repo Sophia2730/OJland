@@ -18,23 +18,23 @@
                            <table class="table">
                               <tr>
                                  <th>이름</th>
-                                 <td>홍길동</td>
+                                 <td><%= data.Name %></td>
                               </tr>
                               <tr>
                                  <th>생년월일</th>
-                                 <td>1994.01.01</td>
+                                 <td><%= data.Birth %></td>
                               </tr>
                               <tr>
                                  <th>전화번호</th>
-                                 <td>010-1234-5678</td>
+                                 <td><%= data.Tel %></td>
                               </tr>
                               <tr>
                                 <th>&nbsp;</th>
                                 <td>&nbsp;</td>
                               </tr>
                            </table>
-                           <a href="changeinfo.html" style="margin-right: 40px;"><button class="btn btn-primary">개인정보 수정</button></a>
-                           <a href="changeinfo-pwd.html" style="margin-right: 40px;"><button class="btn btn-primary">비밀번호 변경</button></a>
+                           <a class="btn btn-primary" href="/changeinfo" style="margin-right: 40px;">개인정보 수정</a>
+                           <a class="btn btn-primary" href="/changepwd" style="margin-right: 40px;">비밀번호 변경</a>
                         </div>
                      </div>
                   </td>

@@ -8,6 +8,9 @@
               top:65px;
               left:55px;
           }
+          .b {
+              font-weight: bold;
+          }
           #category {
               margin-bottom: 20px;
           }
@@ -86,7 +89,7 @@
             <div id="data" class="row text-center mx-4">
                 <div class="col-md-1"></div>
                 <div class="col-md-1">
-                    <p><%= i %></p>
+                    <p><%= i+1 %></p>
                 </div>
                 <div class="col-md-1">
                     <p><%= data[i].Category %></p>
@@ -98,7 +101,7 @@
                     </p>
                 </div>
                 <div class="col-md-3">
-                    <a id="<%= data._OID %>" href=""><%= data[i].Title %></a>
+                    <a href="/orders/<%= data[i]._OID %>"><%= data[i].Title %></a>
                 </div>
                 <div class="col-md-1">
                     <p><%= Name %></p>
@@ -110,17 +113,21 @@
                     <p><%= date[i] %></p>
                 </div>
                 <div class="col-md-1">
-                    <p><a class="btn btn-danger btn-sm" id="<%= data._OID %>" href="">삭제</a></p>
+                    <form action="/orders/<%= data[i]._OID %>?_method=DELETE" method="post">
+                        <input type="submit" class="btn btn-danger btn-md" style="margin-top:7px;" value="삭제" />
+                    </form>
                 </div>
             </div>
           <% } %>
-          <div class="row">
-              <div class="col-md-5"></div>
-              <div class="col-md-2">
-                  <a class="text-bold" href="">1</a>
-              </div>
-              <div class="col-md-5"></div>
-
+          <div class="row mt-5">
+              <div class="col-md-3 mx-auto">
+                  <a class="btn btn-primary btn-xs" href="">prev</a>
+                  <a class="btn btn-primary btn-xs b">1</a>
+                  <a class="btn btn-primary btn-xs">2</a>
+                  <a class="btn btn-primary btn-xs">3</a>
+                  <a class="btn btn-primary btn-xs">4</a>
+                  <a class="btn btn-primary btn-xs">5</a>
+                  <a class="btn btn-primary btn-xs" href="">next</a>
               </div>
           </div>
       </div>

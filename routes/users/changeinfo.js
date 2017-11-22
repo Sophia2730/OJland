@@ -8,23 +8,30 @@ router.get('/', function(req, res, next) {
     var queryStr = "SELECT * FROM user WHERE Email='" + req.session.Email + "';";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
-            if(err) console.log("err: ", err);
-            else {
-                res.render('mypage', {
+            if(err) {
+                console.log("err: ", err);
+            } else {
+                res.render('changeinfo', {
                     data: rows[0]
                 });
             }
             connection.release();
-        })
+        });
     });
 });
 
-router.post('/', function(req, res, next) {
-});
-
 router.put('/', function (req, res, next) {
-    var body = req.body;
-    console.log("body : " + body)
+    var queryStr = "UPDATE user SET Name = '"+ req.body.Name + "', Birth = '" + req.body.Birth
+            + "', Tel = '" + req.body.Tel + "' WHERE Email='" + req.session.Email + "';";
+    pool.getConnection(function(err, connection) {
+        connection.query(queryStr, function(err, rows) {
+            if(err) {
+                console.log("err: ", err);
+            }
+            connection.release();
+            res.redirect("/mypage");
+        })
+    });
 });
 
 module.exports = router;

@@ -3,15 +3,28 @@
   <head>
       <% include ./header.ejs %>
       <style>
-          #header div:nth-child(n+2) {
-              border: solid 1px #bbb;
-              padding: 5px;
-          }
           .container {
-              left: 55px;
+              position: relative;
+              top:65px;
+              left:55px;
           }
-          .row {
-              margin: 0;
+          #category {
+              margin-bottom: 20px;
+          }
+          #header div:nth-child(n+2) {
+              border: solid 1px #aaa;
+          }
+          #data {
+            padding: 10px auto;
+          }
+          #data div:nth-child(n+2) {
+            border: solid 1px #ccc;
+            padding: 10px auto !important;
+            vertical-align: middle;
+          }
+          #data p, #data a {
+              display: block;
+              margin-top: 1rem;
           }
       </style>
   </head>
@@ -26,7 +39,7 @@
                   <h1><strong>회원관리</strong></h1>
               </div>
           </div>
-          <div class="row">
+          <div class="row" id="category">
               <div class="col-md-1"></div>
               <div class="col-md-1 mx-4">
                   <label for="type">구분:</label>
@@ -55,38 +68,48 @@
                   <strong>나이</strong>
               </div>
               <div class="col-md-1">
-                  <strong>평점</strong>
-              </div>
-              <div class="col-md-1">
                   <strong>관리</strong>
               </div>
           </div>
-          <% for (int i = data.length - 1; i > -1; i++) { %>
-            <div id="header" class="row  text-center mx-4">
+          <% for (var i = data.length - 1; i > data.length - 6; i--) { %>
+            <div id="data" class="row  text-center mx-4">
                 <div class="col-md-1"></div>
                 <div class="col-md-1">
-                    <strong><%= i %></strong>
+                    <p><%= i+1 %></p>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= data[i].UserType %></strong>
+                    <p>
+                        <% if(data[i].UserType == 'EE') { %>수주자<% } %>
+                        <% if(data[i].UserType == 'ER') { %>발주자<% } %>
+                    </p>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= data[i].Name %></strong>
+                    <a id="<%= data._OID %>" href=""><%= data[i].Name %></a>
                 </div>
                 <div class="col-md-3">
-                    <strong><%= data[i].Email %></strong>
+                    <p><%= data[i].Email %></p>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= getAge(data.Birth) %></strong>
+                    <p><%= age[i] %></p>
                 </div>
                 <div class="col-md-1">
-                    <strong><%= data[i].Score %></strong>
-                </div>
-                <div class="col-md-1">
-                    <strong><a class="btn btn-danger" href="">삭제</a></strong>
+                    <form action="/members/<%= data[i]._UID %>?_method=delete" method="post">
+                        <input type="submit" class="btn btn-danger btn-lg" style="margin-top:4px" value="삭제">
+                    </form>
                 </div>
             </div>
           <% } %>
+          <div class="row mt-5">
+              <div class="col-md-3 mx-auto">
+                  <a class="btn btn-primary btn-xs" href="">prev</a>
+                  <a class="btn btn-primary btn-xs b">1</a>
+                  <a class="btn btn-primary btn-xs">2</a>
+                  <a class="btn btn-primary btn-xs">3</a>
+                  <a class="btn btn-primary btn-xs">4</a>
+                  <a class="btn btn-primary btn-xs">5</a>
+                  <a class="btn btn-primary btn-xs" href="">next</a>
+              </div>
+          </div>
       </div>
   </body>
 </html>

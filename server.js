@@ -5,6 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 
 
 var index = require('./routes/users/index');
@@ -12,6 +13,7 @@ var login = require('./routes/users/login');
 var register = require('./routes/users/register');
 var forgot = require('./routes/users/forgot');
 var mypage = require('./routes/users/mypage');
+var changeinfo = require('./routes/users/changeinfo');
 var admin = require('./routes/admin/index');
 var members = require('./routes/admin/members');
 var orders = require('./routes/admin/orders');
@@ -33,7 +35,9 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'));
 
 app.use('/', index);
 app.use('/login', login);
@@ -43,6 +47,7 @@ app.use('/admin', admin);
 app.use('/members', members);
 app.use('/orders', orders);
 app.use('/mypage', mypage);
+app.use('/changeinfo', changeinfo);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
