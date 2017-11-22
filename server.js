@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
-
+// Routers import
 var index = require('./routes/users/index');
 var login = require('./routes/users/login');
 var register = require('./routes/users/register');
@@ -37,7 +37,6 @@ app.use(session({
 }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(methodOverride('_method'));
 
 app.use('/', index);
 app.use('/login', login);
@@ -55,8 +54,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
-
 
 // error handler
 app.use(function(err, req, res, next) {

@@ -1,53 +1,40 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
-var bodyParser = require('body-parser');
-var app = express();
+var pool = require('../../config.js').pool;
 
-app.use(bodyParser.urlencoded({extended: false}));
-
-
-
-
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    port: 3306,
-    database: 'ojland'
-});
-
-
-
-
-
-
-
+var users;
 router.get('/', function(req, res, next) {
-    res.render('register');
-    connection.query('SELECT * FROM user', function(err, result){
-        console.log(result);
+    var queryStr = 'SELECT * FROM user';
+    pool.getConnection(function(err, connection) {
+        connection.query(queryStr, function(err, rows) {
+            if(err) console.log("err: ", err);
+            users = rows;
+            res.render('register');
+            connection.release();
+        });
     });
 });
 
 router.post('/', function(req, res, next) {
+  var body = req.body;
+  var queryStr = 'INSERT INTO user(_UID, Email, Password, Name, Birth, Tel, UserType) '
+                + 'VALUES(?,?,?,?,?,?,?);';
 
-if(req.body.Password == req.body.Password2){
-
-
-    //_UID 자동생성만들어야해 자동생성안됌!!!!
-    console.log('ddd');
-    var post = ['20170002',req.body.Email,req.body.Password,req.body.Name,'12345678',req.body.Tel,'0',req.body.inlineRadioOptions];
-    var query = connection.query('INSERT INTO user(_UID, ID, Password, Name,Birth, Tel, Status, UserType) VALUES(?,?,?,?,?,?,?,?)', post, function(err, result){
-       //console.query(result);
-       console.log(err);
-    });
-
-    res.end();
-}else{
-  //register-Failed 만들자. 정보다시 넘겨주기 생각중.
-};
-
+  var newID = Number(users[users.length-1]._UID) + 1;
+  var inputs = [newID, body.Email, body.Password, body.Name, body.Birth, body.Tel, body.UserType];
+  for(var i = 0; i < users.length; i++) {
+      if (body.Email == users[i].Email) {
+          // res.send('<script>alert("이미 존재하는 이메일 입니다!");</script>');
+          res.redirect('/register');
+      }
+  }
+  pool.getConnection(function(err, connection) {
+      connection.query(queryStr, inputs, function(err, rows) {
+          if(err) console.log("err: ", err);
+          res.redirect('/register/success');
+          connection.release();
+      });
+  });
 });
 
 router.get('/success', function(req, res, next) {

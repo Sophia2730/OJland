@@ -27,7 +27,7 @@ router.delete('/:id', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) console.log("err: ", err);
-            res.redirect('/orders');
+            res.redirect('/members');
             connection.release();
         });
     });

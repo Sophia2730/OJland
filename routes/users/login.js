@@ -1,73 +1,42 @@
 var express = require('express');
 var router = express.Router();
+var pool = require('../../config.js').pool;
 var fs = require('fs');
-var mysql = require('mysql');
-var bodyParser = require('body-parser');
+
 var admin;
-var app = express();
-var session = require('express-session');
-
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(session({
-  secret: '#@!qlalfzl!@#',
-  resave: false,
-  saveUninitialized: true
-}))
-
-
-
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    port: 3306,
-    database: 'ojland'
-});
-
-
-
-
-
-
-
-
-
 fs.readFile('public/data/admin.json', 'utf-8', function(err, data) {
     admin = JSON.parse(data);
 });
 
-router.use(function(req,res,next){
- next();
-});
-
 router.get('/', function(req, res, next) {
     res.render('login');
-
-
-  /*  connection.query('SELECT ID,Password FROM user WHERE ID ='+ req.body.Email+' && Password =='+req.body.password, function(err, result){
-        console.log(result[0].ID);
-        console.log(err);
-    }); */
-
-
 });
 
 router.post('/', function(req, res, next) {
-    var checkId;
-    var checkPw;
-    const sess = req.session;
+    var body = req.body;
 
-    connection.query('SELECT Name FROM user WHERE ID = ? AND Password = ?',[req.body.Email, req.body.Password], function(err, result){
-          console.log(result);
-          console.log(err);
-          req.session.name = result;
-          res.redirect('/');
-      });
-
-
-    if (req.body.Email == admin.id && req.body.Password == admin.password) {
+    // 관리자 로그인 처리
+    if (body.Email == admin.id && body.Password == admin.password) {
         res.redirect('/admin');
+        return;
     }
+
+    var queryStr = "SELECT * FROM user WHERE Email=? AND Password=?;";
+    pool.getConnection(function(err, connection) {
+        connection.query(queryStr, [body.Email, body.Password], function(err, rows) {
+            console.log('data is : ',rows);
+            if(err) console.log("err: ", err);
+            else if (rows[0]) {
+                console.log('rows exist');
+                req.session.Name = rows[0].Name;
+                req.session.UserType = rows[0].UserType;
+                res.redirect('/');
+            } else {
+                res.redirect('/login');
+            }
+            connection.release();
+        });
+    });
 });
 
 module.exports = router;
