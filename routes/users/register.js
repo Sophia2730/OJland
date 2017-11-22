@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var encrypt = require('../../config.js').encrypt;
 var pool = require('../../config.js').pool;
-var mail = require('../../config.js');
+var transporter = require('../../config.js').transporter;
 
 var users;
 router.get('/', function(req, res, next) {
@@ -34,22 +34,23 @@ router.post('/', function(req, res, next) {
   pool.getConnection(function(err, connection) {
       connection.query(queryStr, inputs, function(err, rows) {
           if(err) console.log("err: ", err);
-          console.log('before');
-          mail.transporter.sendMail(mail.mailOptions, (error, info) => {
+          var mailOptions = {
+              from: '외주랜드 <ojland17@gmail.com>',
+              to: body.Email,
+              subject: '[외주랜드]인증 메일',
+              html: '<h1>아래의 인증을 클릭해 주세요.</h1><br><button style="font-size:2em;" href="http://localhost:8081/confirm/' +
+                  encrypt(newID.toString()) + '">인증</a>'
+          };
+          transporter.sendMail(mailOptions, (error, info) => {
               if (error) {
                   return console.log(error);
               }
               console.log('Message %s sent: %s', info.messageId, info.response);
           });
-          console.log('sent an E-mail');
-          res.redirect('/register/success');
+          res.redirect('/login');
           connection.release();
       });
   });
-});
-
-router.get('/success', function(req, res, next) {
-    res.render('register-success');
 });
 
 module.exports = router;
