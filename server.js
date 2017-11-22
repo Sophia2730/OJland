@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
 var index = require('./routes/users/index');
 var login = require('./routes/users/login');
 var register = require('./routes/users/register');
@@ -49,6 +50,8 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
