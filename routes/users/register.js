@@ -25,10 +25,11 @@ router.post('/', function(req, res, next) {
   var newID = Number(users[users.length-1]._UID) + 1;
   var newPwd = encrypt(body.Password);
   var inputs = [newID, body.Email, newPwd, body.Name, body.Birth, body.Tel, body.UserType];
+
   for(var i = 0; i < users.length; i++) {
       if (body.Email == users[i].Email) {
-          // res.send('<script>alert("이미 존재하는 이메일 입니다!");</script>');
-          res.redirect('/register');
+          res.redirect('/register/exist');
+          return;
       }
   }
   pool.getConnection(function(err, connection) {
@@ -38,7 +39,7 @@ router.post('/', function(req, res, next) {
               from: '외주랜드 <ojland17@gmail.com>',
               to: body.Email,
               subject: '[외주랜드]인증 메일',
-              html: '<h1>아래의 인증을 클릭해 주세요.</h1><br><button style="font-size:2em;" href="http://localhost:8081/confirm/' +
+              html: '<h1>아래의 인증을 클릭해 주세요.</h1><br><a style="font-size:2em;" href="http://localhost:8081/confirm/' +
                   encrypt(newID.toString()) + '">인증</a>'
           };
           transporter.sendMail(mailOptions, (error, info) => {
@@ -47,10 +48,20 @@ router.post('/', function(req, res, next) {
               }
               console.log('Message %s sent: %s', info.messageId, info.response);
           });
-          res.redirect('/login');
+          res.redirect('/register/success');
           connection.release();
       });
   });
+});
+
+router.get('/success', function(req, res, next) {
+    res.send('<script>alert("가입성공! 가입하신 이메일을 확인해주세요.");' +
+            'window.location.replace("/login");</script>');
+});
+
+router.get('/exist', function(req, res, next) {
+    res.send('<script>alert("이미 존재하는 이메일입니다.");' +
+            'window.location.replace("/register");</script>');
 });
 
 module.exports = router;

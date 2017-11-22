@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <% include ./header.ejs %>
+      <style>
+          .container {
+              position: relative;
+              top:65px;
+              left:55px;
+          }
+          .b {
+              font-weight: bold;
+          }
+          #category {
+              margin-bottom: 20px;
+          }
+          #header div:nth-child(n+2) {
+              border: solid 1px #aaa;
+          }
+          #data {
+            padding: 10px auto;
+          }
+          #data div:nth-child(n+2) {
+            border: solid 1px #ccc;
+            padding: 10px auto !important;
+            vertical-align: middle;
+          }
+          #data p, #data a {
+              display: block;
+              margin-top: 1rem;
+          }
+      </style>
+  </head>
+  <body class="fixed-nav sidenav-toggled" id="page-top">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+          <% include ./admin-nav.ejs %>
+      </nav>
+      <div class="container">
+          <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-2 mx-3">
+                  <h1><strong>발주정보</strong></h1>
+              </div>
+          </div>
+          <div id="category" class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-1 mx-4">
+                  <label for="category">카테고리:</label>
+                  <select class="" name="category">
+                      <option value="ALL">전체</option>
+                      <option value="PLA">기획</option>
+                      <option value="DEV">개발</option>
+                      <option value="DES">디자인</option>
+                      <option value="TRA">번역</option>
+                      <option value="SOU">사운드</option>
+                      <option value="VIE">영상</option>
+                      <option value="ETC">기타</option>
+                  </select>
+              </div>
+          </div>
+          <div id="header" class="row text-center mx-4">
+              <div class="col-md-1"></div>
+              <div class="col-md-1">
+                  <strong>No.</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>카테고리</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>상태</strong>
+              </div>
+              <div class="col-md-3">
+                  <strong>제목</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>발주자</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>인원</strong>
+              </div>
+              <div class="col-md-1">
+                  <strong>게시일</strong>
+              </div>
+          </div>
+          <% for(var i = data.length - 1; i > -1; i--) { %>
+            <div id="data" class="row text-center mx-4">
+                <div class="col-md-1"></div>
+                <div class="col-md-1">
+                    <p><%= i+1 %></p>
+                </div>
+                <div class="col-md-1">
+                    <p><%= data[i].Category %></p>
+                </div>
+                <div class="col-md-1">
+                    <p>
+                      <%if(data[i].Status == 'A'){ %>모집중<% } %>
+                      <%if(data[i].Status != 'A'){ %>마감<% } %>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <a href="/orders/<%= data[i]._OID %>"><%= data[i].Title %></a>
+                </div>
+                <div class="col-md-1">
+                    <p><%= name[i] %></p>
+                </div>
+                <div class="col-md-1">
+                    <p><%= reqNum %>/<%= data[i].MaxNum %></p>
+                </div>
+                <div class="col-md-1">
+                    <p><%= date[i] %></p>
+                </div>
+            </div>
+          <% } %>
+          <div class="row mt-5">
+              <div class="col-md-3 mx-auto">
+                  <a class="btn btn-primary btn-xs" href="">prev</a>
+                  <a class="btn btn-primary btn-xs b">1</a>
+                  <a class="btn btn-primary btn-xs">2</a>
+                  <a class="btn btn-primary btn-xs">3</a>
+                  <a class="btn btn-primary btn-xs">4</a>
+                  <a class="btn btn-primary btn-xs">5</a>
+                  <a class="btn btn-primary btn-xs" href="">next</a>
+              </div>
+          </div>
+      </div>
+  </body>
+</html>
