@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pool = require('../../config.js').pool;
+var decrypt = require('../../config.js').decrypt;
 var fs = require('fs');
 
 var admin;
@@ -21,16 +22,17 @@ router.post('/', function(req, res, next) {
         return;
     }
 
-    var queryStr = "SELECT * FROM user WHERE Email=? AND Password=?;";
+    var queryStr = "SELECT * FROM user WHERE Email=?";
     pool.getConnection(function(err, connection) {
-        connection.query(queryStr, [body.Email, body.Password], function(err, rows) {
-            console.log('data is : ',rows);
+        connection.query(queryStr, body.Email, function(err, rows) {
             if(err) console.log("err: ", err);
             else if (rows[0]) {
-                console.log('rows exist');
-                req.session.Name = rows[0].Name;
-                req.session.UserType = rows[0].UserType;
-                res.redirect('/');
+                if (body.Password == decrypt(rows[0].Password)) {
+                  req.session.Name = rows[0].Name;
+                  req.session._UID = rows[0]._UID;
+                  req.session.UserType = rows[0].UserType;
+                  res.redirect('/');
+                }
             } else {
                 res.redirect('/login');
             }
