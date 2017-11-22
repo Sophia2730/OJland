@@ -4,15 +4,15 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 
 router.get('/', function(req, res, next) {
-    req.session.Email = 'abc@naver.com';
-    var queryStr = "SELECT * FROM user WHERE Email='" + req.session.Email + "';";
+    var queryStr = "SELECT * FROM user WHERE _UID='" + req.session._UID + "';";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) {
                 console.log("err: ", err);
             } else {
                 res.render('changeinfo', {
-                    data: rows[0]
+                    data: rows[0],
+                    name: req.session.Name
                 });
             }
             connection.release();
@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 
 router.put('/', function (req, res, next) {
     var queryStr = "UPDATE user SET Name = '"+ req.body.Name + "', Birth = '" + req.body.Birth
-            + "', Tel = '" + req.body.Tel + "' WHERE Email='" + req.session.Email + "';";
+            + "', Tel = '" + req.body.Tel + "' WHERE _UID='" + req.session._UID + "';";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) {

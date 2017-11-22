@@ -4,22 +4,19 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 
 router.get('/', function(req, res, next) {
-    req.session.Email = 'abc@naver.com';
-    var queryStr = "SELECT * FROM user WHERE Email='" + req.session.Email + "';";
+    var queryStr = "SELECT * FROM user WHERE _UID='" + req.session._UID + "';";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, function(err, rows) {
             if(err) console.log("err: ", err);
             else {
                 res.render('mypage', {
-                    data: rows[0]
+                    data: rows[0],
+                    name: req.session.Name
                 });
             }
             connection.release();
         })
     });
-});
-
-router.post('/', function(req, res, next) {
 });
 
 router.put('/', function (req, res, next) {

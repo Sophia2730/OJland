@@ -8,7 +8,8 @@ router.get('/:id', function(req, res, next) {
         var queryStr = "UPDATE user SET Status='1' WHERE _UID=?";
         connection.query(queryStr, decrypt(req.params.id), function(err, rows) {
             if(err) console.log("err: ", err);
-            res.redirect('/login');
+            res.send('<script>alert("인증이 완료되었습니다!");' +
+                    'window.location.replace("/login");</script>');
             connection.release();
         });
     });

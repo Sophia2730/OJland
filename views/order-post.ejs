@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <% include ./header.ejs %>
+      <style>
+          .container {
+              position: relative;
+              top:65px;
+              left:55px;
+          }
+          .b {
+              font-weight: bold;
+          }
+          #category {
+              margin-bottom: 20px;
+          }
+          #header div:nth-child(n+2) {
+              border: solid 1px #aaa;
+          }
+          #data {
+            padding: 10px auto;
+          }
+          #data div:nth-child(n+2) {
+            border: solid 1px #ccc;
+            padding: 10px auto !important;
+            vertical-align: middle;
+          }
+          #data p, #data a {
+              display: block;
+              margin-top: 1rem;
+          }
+      </style>
+  </head>
+  <body class="fixed-nav sidenav-toggled" id="page-top">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+          <% include ./nav-login.ejs %>
+      </nav>
+      <div class="content-wrapper">
+          <h1 style="margin: 10px;">&nbsp;<i class="fa fa-fw fa-eye"></i>발주등록</h1>
+          <form action="/post" method="POST">
+             <table style="margin-top:20px; width: 95%;" align="center" class="table table-bordered table-hover text-center">
+               <tr>
+                  <td style="width:10%;">카테고리</td>
+                  <td style="width:10%;">
+                      <select name="Category">
+                          <option value="">선택</option>
+                          <option value="기획">기획</option>
+                          <option value="개발">개발</option>
+                          <option value="디자인">디자인</option>
+                          <option value="번역">번역</option>
+                          <option value="사운드">사운드</option>
+                          <option value="영상">영상</option>
+                          <option value="기타">기타</option>
+                      </select>
+                  </td>
+                  <td style="width:10%;">제목</td>
+                  <td colspan="4"><input type="text" name="Title" style="width:100%;" placeholder="제목을 입력하세요." /></td>
+                  <td style="width:20%;"></td>
+               </tr>
+               <tr>
+                  <td>모집인원</td>
+                  <td><input type="number" name="MaxNum" value="1" min="1" max="5" style="width:50%" />명</td>
+                  <td>급여</td>
+                  <td><input type="number" name="Cost" value="0" step="10000" min="0" style="width:50%" />원</td>
+                  <td style="width:10%;">기간</td>
+                  <td>
+                    <select name="Period">
+                      <option value="1주 이내">1주 이내</option>
+                      <option value="1달 이내">1달 이내</option>
+                      <option value="3개월 이내">3개월 이내</option>
+                      <option value="6개월 이내">6개월 이내</option>
+                      <option value="6개월 이상">6개월 이상</option>
+                    </select>
+                  </td>
+                  <td style="width:10%;">학부제한</td>
+                  <td>
+                    <select name="Colleage" >
+                      <option value="">무관</option>
+                      <option value="경영대학">경영대학</option>
+                      <option value="사회과학대학">사회과학대학</option>
+                      <option value="인문대학">인문대학</option>
+                      <option value="법과대학">법과대학</option>
+                      <option value="공과대학">공과대학</option>
+                      <option value="IT대학">IT대학</option>
+                      <option value="예술대학">예술대학</option>
+                      <option value="의과대학">의과대학</option>
+                    </select>
+                  </td>
+               </tr>
+               <tr>
+                  <td>우대조건</td>
+                  <td colspan="3">
+                    <ul class="prefer" style="list-style:none;margin: 0 !important;padding:0 !important;">
+                      <li style="margin-bottom: 5px;">
+                        <input type="text" name="Preference" style="width: 90%;" placeholder="ex)정보처리기능사 자격증 보유" />
+                        <div class="pre-btn" style="margin:0;">+</div>
+                      </li>
+                    </ul>
+                  </td>
+                  <td colspan="4"></td>
+               </tr>
+               <tr>
+                  <td>내용</td>
+                  <td colspan="7"><textarea name="Content" style="width:100%;height:200px;" placeholder="내용을 입력하세요."></textarea></td>
+               </tr>
+             </table>
+             <div align="center">
+                <input type="submit" class="btn btn-success btn-lg" style="margin-right:30px" value="등록"></input>
+                <a class="btn btn-danger btn-lg" href="/list">취소</a>
+             </div>
+        </form>
+    </div>
+  </body>
+</html>

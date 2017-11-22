@@ -9,6 +9,7 @@ var methodOverride = require('method-override');
 
 // Routers import
 var index = require('./routes/users/index');
+var main = require('./routes/users/main');
 var login = require('./routes/users/login');
 var register = require('./routes/users/register');
 var confirm = require('./routes/users/confirm');
@@ -18,6 +19,9 @@ var changeinfo = require('./routes/users/changeinfo');
 var admin = require('./routes/admin/index');
 var members = require('./routes/admin/members');
 var orders = require('./routes/admin/orders');
+var post = require('./routes/orders/post');
+var list = require('./routes/orders/list');
+var info = require('./routes/orders/info');
 
 var app = express();
 
@@ -40,6 +44,7 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/main', main);
 app.use('/login', login);
 app.use('/register', register);
 app.use('/confirm', confirm);
@@ -49,6 +54,9 @@ app.use('/members', members);
 app.use('/orders', orders);
 app.use('/mypage', mypage);
 app.use('/changeinfo', changeinfo);
+app.use('/post', post);
+app.use('/list', list);
+app.use('/info', info);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

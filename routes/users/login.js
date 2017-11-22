@@ -18,6 +18,8 @@ router.post('/', function(req, res, next) {
 
     // 관리자 로그인 처리
     if (body.Email == admin.id && body.Password == admin.password) {
+        req.session.Name = '관리자';
+        req.session.UserType = 'AD';
         res.redirect('/admin');
         return;
     }
@@ -31,7 +33,7 @@ router.post('/', function(req, res, next) {
                     req.session.Name = rows[0].Name;
                     req.session._UID = rows[0]._UID;
                     req.session.UserType = rows[0].UserType;
-                    res.redirect('/');
+                    res.redirect('/main');
                 } else if (rows[0].Status == '0') {
                     res.redirect('/login/check');
                 } else {
