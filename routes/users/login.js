@@ -5,7 +5,7 @@ var decrypt = require('../../config.js').decrypt;
 var fs = require('fs');
 
 var admin;
-fs.readFile('public/data/admin.json', 'utf-8', function(err, data) {
+fs.readFile('../public/data/admin.json', 'utf-8', function(err, data) {
     admin = JSON.parse(data);
 });
 
@@ -27,6 +27,7 @@ router.post('/', function(req, res, next) {
     var queryStr = "SELECT * FROM user WHERE Email=?";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, body.Email, function(err, rows) {
+            // console.log(decrypt(rows[0].Password));
             if(err) console.log("err: ", err);
             else if (rows[0]) {
                 if (body.Password == decrypt(rows[0].Password) && rows[0].Status == '1'){
