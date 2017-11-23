@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
           res.redirect('/register/exist');
           return;
       }
-  }
+    }
   pool.getConnection(function(err, connection) {
       connection.query(queryStr, inputs, function(err, rows) {
           if(err) console.log("err: ", err);
