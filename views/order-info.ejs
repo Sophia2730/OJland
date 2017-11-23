@@ -70,7 +70,12 @@
             <td>우대조건</td>
             <td colspan="3">
               <ul class="prefer" style="list-style:none;margin: 0 !important;padding:0 !important;">
-                  <li style="margin-bottom: 5px;text-align:left;"><%= data.Preference %></li>
+                  <li style="margin-bottom: 5px;text-align:left;">
+                    <% var prefer = data.Preference.split('%&');
+                        for (var i = 0; i < prefer.length; i++) { if (prefer[i] != '') {%>
+                          <p>[<%= i+1 %>] <%= prefer[i] %></p>
+                    <% }} %>
+                  </li>
               </ul>
             </td>
             <td colspan="4">

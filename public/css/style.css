@@ -9,7 +9,7 @@ header {
   left: 55px;
   width: calc(100% - 55px);
   height: 100%;
-  background-image: url('../imgs/header.jpg');
+  background-image: url('../imgs/header.png');
   background-position: center center;
   background-size: cover;
 }
@@ -43,7 +43,9 @@ section {
   margin-top: 4px;
   padding: 4px !important;
 }
-
+.sidenav-toggled .navbar-sidenav , .sidenav-toggled .sidenav-toggler {
+    width: 60px !important;
+}
 @media (min-width: 768px) {
   .navbar-toggler-icon {
       display: inline-block;
@@ -77,89 +79,6 @@ section {
     height: 50px;
     margin-top: 6px;
   }
-}
-
-.oj-box {
-  display: inline-block;
-  width: 240px;
-  height: 250px;
-  border: solid 1px darkgray;
-  margin: 5px;
-}
-.oj-box:hover {
-  background-color: #aaa;
-}
-.oj-box a {
-  text-decoration: none;
-}
-.oj-box i {
-  color: black;
-  font-size: 12em;
-}
-.oj-box p {
-  color: black;
-  text-align: center;
-  font-size: 2em;
-}
-
-.oj-box-admin {
-   display: inline-block;
-   padding-top: 20px;
-   width: 400px;
-   height: 450px;
-   border: solid 1px darkgray;
-   margin: 10px;
-}
-.oj-box-admin:hover {
-    background-color: #aaa;
-}
-.oj-box-admin a {
-  text-decoration: none;
-}
-.oj-box-admin i {
-  color: black;
-  font-size: 19em;
-}
-.oj-box-admin p {
-  color: black;
-  text-align: center;
-  font-size: 4em;
-}
-
-.oj-nav {
-  color: #fff !important;
-}
-
-.oj-box2 {
-  text-align: center;
-  display: inline-block;
-  padding: 30px;
-  width: 400px;
-  height: 700px;
-  border: solid 2px #111;
-}
-
-.oj-box2 h1 {
-  margin: 10px 10px;
-}
-
-.pre-btn {
-  display: inline-block;
-  margin-left: 3px;
-  width: 25px;
-  height: 25px;
-  background: #bbb;
-  color: white;
-  border: solid 1px #999;
-}
-
-.btns button {
-  margin-right: 50px;
-  margin-bottom: 30px;
-  width: 100px;
-  height: 50px;
-  color: white;
-  background: #22f;
 }
 
 #contact {

@@ -3,6 +3,7 @@ var router = express.Router();
 var pool = require('../../config.js').pool;
 var decrypt = require('../../config.js').decrypt;
 var encrypt = require('../../config.js').encrypt;
+var transporter = require('../../config.js').transporter;
 
 var users;
 router.get('/', function(req, res, next) {

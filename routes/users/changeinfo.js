@@ -4,34 +4,34 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 
 router.get('/', function(req, res, next) {
-    var queryStr = "SELECT * FROM user WHERE _UID='" + req.session._UID + "';";
+    var queryStr = "SELECT * FROM user WHERE _UID=?";
     pool.getConnection(function(err, connection) {
-        connection.query(queryStr, function(err, rows) {
+        connection.query(queryStr, req.session._UID, function(err, rows) {
             if(err) {
                 console.log("err: ", err);
-            } else {
-                res.render('changeinfo', {
-                    data: rows[0],
-                    name: req.session.Name
-                });
             }
+            res.render('changeinfo', {
+                name: req.session.Name,
+                data: rows[0]
+            });
             connection.release();
         });
     });
 });
 
 router.put('/', function (req, res, next) {
-    var queryStr = "UPDATE user SET Name = '"+ req.body.Name + "', Birth = '" + req.body.Birth
-            + "', Tel = '" + req.body.Tel + "' WHERE _UID='" + req.session._UID + "';";
-    pool.getConnection(function(err, connection) {
-        connection.query(queryStr, function(err, rows) {
-            if(err) {
-                console.log("err: ", err);
-            }
-            connection.release();
-            res.redirect("/mypage");
-        })
-    });
+      var body = req.body;
+      var queryStr = "UPDATE user SET Name=?, Birth=?, Tel=? WHERE _UID=?";
+      pool.getConnection(function(err, connection) {
+          connection.query(queryStr, [body.Name, body.Birth, body.Tel, req.session._UID], function(err, rows) {
+              if(err) {
+                  console.log("err: ", err);
+              }
+              req.session.Name = body.Name;
+              res.redirect("/mypage");
+              connection.release();
+          });
+      });
 });
 
 module.exports = router;

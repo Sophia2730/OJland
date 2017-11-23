@@ -4,9 +4,9 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 
 router.get('/', function(req, res, next) {
-    var queryStr = "SELECT * FROM user WHERE _UID='" + req.session._UID + "';";
+    var queryStr = "SELECT * FROM user WHERE _UID=?";
     pool.getConnection(function(err, connection) {
-        connection.query(queryStr, function(err, rows) {
+        connection.query(queryStr, req.session._UID, function(err, rows) {
             if(err) console.log("err: ", err);
             else {
                 res.render('mypage', {
@@ -17,11 +17,6 @@ router.get('/', function(req, res, next) {
             connection.release();
         })
     });
-});
-
-router.put('/', function (req, res, next) {
-    var body = req.body;
-    console.log("body : " + body)
 });
 
 module.exports = router;

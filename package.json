@@ -1,9 +1,9 @@
 {
-  "name": "untitled",
-  "version": "0.0.0",
+  "name": "OJLand",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
-    "start": "start http://localhost:8081 && node ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.18.2",

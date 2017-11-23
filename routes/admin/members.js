@@ -23,9 +23,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-    var queryStr = "DELETE FROM user WHERE _UID='" + req.params.id + "';";
+    var queryStr = "DELETE FROM user WHERE _UID=?";
     pool.getConnection(function(err, connection) {
-        connection.query(queryStr, function(err, rows) {
+        connection.query(queryStr, req.params.id, function(err, rows) {
             if(err) console.log("err: ", err);
             res.redirect('/members');
             connection.release();
