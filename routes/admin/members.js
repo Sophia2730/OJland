@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
                 var d2 = new Date().toISOString().substring(0,4);
                 ages[i] = d2 - d1 + 1;
             }
-            res.render('members', {
+            res.render('admin/members', {
                 data: rows,
                 age: ages
             });

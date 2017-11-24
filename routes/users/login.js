@@ -10,7 +10,7 @@ fs.readFile('public/data/admin.json', 'utf-8', function(err, data) {
 });
 
 router.get('/', function(req, res, next) {
-    res.render('login');
+    res.render('user/login');
 });
 
 router.post('/', function(req, res, next) {

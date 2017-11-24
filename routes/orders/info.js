@@ -4,22 +4,15 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 
 var id;
-var order;
 router.get('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         connection.query('SELECT * FROM orders WHERE _OID=?', id, function(err, orders) {
             if(err) console.log("err: ", err);
-            order = orders[0];
-            for (var i = 0; i < order.Preference.length; i++) {
-                console.log(i);
-                if (order.Preference[i] == '%')
-                    order.Preference[i] = ' ';
-            }
             pool.getConnection(function(err, connection) {
                 connection.query('SELECT * FROM user WHERE _UID=?', orders[0]._UID, function(err, users) {
                     if(err) console.log("err: ", err);
-                    res.render('order-info', {
-                        data: order,
+                    res.render('order/order-info', {
+                        data: orders[0],
                         reqNum: '0',
                         date: moment(orders[0].Time).format('YYYY/MM/DD'),
                         user: users[0],
@@ -36,7 +29,18 @@ router.get('/', function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
     id = req.params.id;
-    res.redirect("/info");
+    res.redirect('/info');
+});
+
+router.delete('/:id', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        connection.query('DELETE FROM orders WHERE _OID=?', req.params.id, function(err, users) {
+            if (err)
+                console.log('error: ', err);
+            res.redirect('/list');
+            connection.release();
+        });
+    });
 });
 
 module.exports = router;

@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
     req.session.destroy();
-    res.render('index');
+    res.render('user/index');
 });
 
 router.get('/logout', function(req, res, next) {

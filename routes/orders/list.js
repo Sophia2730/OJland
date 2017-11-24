@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
                   for (var i = 0; i < rows.length; i++) {
                       dates[i] = moment(rows[i].Time).format('YYYY/MM/DD');
                   }
-                  res.render('order-list', {
+                  res.render('order/order-list', {
                       category: '전체',
                       data: rows,
                       reqNum: '0',

@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
                             }
                         }
                     }
-                    res.render('orders', {
+                    res.render('admin/orders', {
                         data: rows,
                         reqNum: '0',
                         date: dates,

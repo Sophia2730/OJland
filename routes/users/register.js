@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
         connection.query(queryStr, function(err, rows) {
             if(err) console.log("err: ", err);
             users = rows;
-            res.render('register');
+            res.render('user/register');
             connection.release();
         });
     });

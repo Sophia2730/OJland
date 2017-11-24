@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
         connection.query('SELECT * FROM orders', function(err, rows) {
             if(err) console.log("err: ", err);
             orders = rows;
-            res.render('order-post', {
+            res.render('order/order-post', {
                 name: req.session.Name
             });
             connection.release();

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <% include ./header.ejs %>
+      <% include ../nav/header.ejs %>
       <style>
           .container {
               position: relative;
@@ -33,7 +33,7 @@
   </head>
   <body class="fixed-nav sidenav-toggled" id="page-top">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-          <% include ./nav-login.ejs %>
+          <% include ../nav/nav-login.ejs %>
       </nav>
       <div class="content-wrapper">
     <h1 style="margin: 10px;">&nbsp;<i class="fa fa-fw fa-eye"></i>발주정보</h1>
@@ -87,7 +87,15 @@
            </tr>
          </table>
          <div class="btns" style="margin-bottom: 20px" align="center">
-            <a class="btn btn-success" data-toggle="modal" data-target="#myModal" href="">수주요청</a>
+            <% if (data._UID == user._UID) { %>
+                <a class="btn btn-success" style="margin-right:20px;" href="/list/deadline/<%= data._OID %>">마감</a>
+                <a class="btn btn-primary" style="margin-right:20px;" href="/update/<%= data._OID %>">수정</a>
+                <form method="POST" action="/info/<%= data._OID %>?_method=DELETE">
+                    <input type="submit" class="btn btn-danger" style="margin-right:20px;" value="삭제" />
+                </form>
+            <% } else { %>
+                <a class="btn btn-success" href="/info/req">수주요청</a>
+            <% } %>
          </div>
        </form>
      </div>

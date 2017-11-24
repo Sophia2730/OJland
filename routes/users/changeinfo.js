@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
             if(err) {
                 console.log("err: ", err);
             }
-            res.render('changeinfo', {
+            res.render('user/changeinfo', {
                 name: req.session.Name,
                 data: rows[0]
             });
