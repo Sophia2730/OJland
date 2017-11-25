@@ -1,0 +1,44 @@
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:350px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">수주요청</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="/req/<%= data._OID %>">
+             <div class="text-left">
+               <div class="row">
+                   <div class="col-md-12">
+                       제목: <b><%= data.Title %></b>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-md-4">
+                       카테고리:<br><b><%= data.Category %></b>
+                   </div>
+                   <div class="col-md-4">
+                       급여:<br><b><%= data.Cost %>원</b>
+                   </div>
+                   <div class="col-md-4">
+                       기간:<br><b><%= data.Period %></b>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-md-12">
+                       해당사항을 체크해주세요:<br>
+                       <% for (var i = 0; i < preference.length; i++) { %>
+                          <input type="checkbox" value="i"/><b><%= preference[i] %></b><br>
+                       <% } %>
+                   </div>
+               </div>
+             </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">요청</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+        </div>
+      </div>
+    </div>
+  </div>

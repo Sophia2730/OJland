@@ -23,6 +23,7 @@ var orders = require('./routes/admin/orders');
 var post = require('./routes/orders/post');
 var list = require('./routes/orders/list');
 var info = require('./routes/orders/info');
+var put = require('./routes/orders/put');
 
 var app = express();
 
@@ -59,6 +60,7 @@ app.use('/changepwd', changepwd);
 app.use('/post', post);
 app.use('/list', list);
 app.use('/info', info);
+app.use('/put', put);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
