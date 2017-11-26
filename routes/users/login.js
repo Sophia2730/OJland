@@ -5,19 +5,17 @@ var decrypt = require('../../config.js').decrypt;
 var fs = require('fs');
 
 var admin;
-fs.readFile('public/data/admin.json', 'utf-8', function(err, data) {
-    admin = JSON.parse(data);
-});
-
 router.get('/', function(req, res, next) {
+    fs.readFile('public/data/admin.json', 'utf-8', function(err, data) {
+        admin = JSON.parse(data);
+    });
     res.render('user/login');
 });
 
 router.post('/', function(req, res, next) {
     var body = req.body;
-
     // 관리자 로그인 처리
-    if (body.Email == admin.id && body.Password == admin.password) {
+    if (body.Email == admin.id && body.Password == decrypt(admin.password)) {
         req.session.Name = '관리자';
         req.session.UserType = 'AD';
         res.redirect('/admin');
