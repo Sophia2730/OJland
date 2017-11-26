@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
             if(err) console.log("err: ", err);
             orders = rows;
             res.render('order/order-post', {
-                name: req.session.Name
+                session: req.session
             });
             connection.release();
         });
@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var body = req.body;
-    var newId = Number(orders[orders.length - 1]._OID) + 1;
+    var newId = (orders[0] == null) ? 2017000001 : Number(orders[orders.length - 1]._OID) + 1;
     var preferStr = '';
     for (var i = 0; i < body.Preference.length; i++) {
         preferStr += body.Preference[i] + '%&';

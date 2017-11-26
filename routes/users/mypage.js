@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
         if(err) console.log("err: ", err);
         res.render('user/mypage', {
             data: rows[0],
-            name: req.session.Name
+            session: req.session
         });
         connection.release();
         });

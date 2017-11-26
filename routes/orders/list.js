@@ -19,8 +19,7 @@ router.get('/', function(req, res, next) {
                       data: rows,
                       reqNum: '0',
                       date: dates,
-                      usertype: req.session.UserType,
-                      name: req.session.Name
+                      session: req.session
                   });
                   connection.release();
               });

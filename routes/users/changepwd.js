@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
             }
             user = rows[0];
             res.render('user/changepwd', {
-                name: req.session.Name,
+                session: req.session,
                 data: user
             });
             connection.release();

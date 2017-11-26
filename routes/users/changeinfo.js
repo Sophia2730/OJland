@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
                 console.log("err: ", err);
             }
             res.render('user/changeinfo', {
-                name: req.session.Name,
+                session: req.session,
                 data: rows[0]
             });
             connection.release();

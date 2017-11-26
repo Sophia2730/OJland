@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
               prefer = rows[0].Preference.split('%&');
             }
             res.render('order/order-put', {
-                name: req.session.Name,
+                session: req.session,
                 data: rows[0],
                 preference: prefer
             });

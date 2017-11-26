@@ -24,6 +24,7 @@ var post = require('./routes/orders/post');
 var list = require('./routes/orders/list');
 var info = require('./routes/orders/info');
 var put = require('./routes/orders/put');
+var req = require('./routes/orders/req');
 
 var app = express();
 
@@ -61,6 +62,7 @@ app.use('/post', post);
 app.use('/list', list);
 app.use('/info', info);
 app.use('/put', put);
+app.use('/req', req);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

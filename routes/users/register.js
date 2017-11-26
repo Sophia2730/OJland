@@ -22,17 +22,16 @@ router.post('/', function(req, res, next) {
   var body = req.body;
   var queryStr = 'INSERT INTO user(_UID, Email, Password, Name, Birth, Tel, UserType) '
                 + 'VALUES(?,?,?,?,?,?,?);';
-
-  var newID = Number(users[users.length-1]._UID) + 1;
+  var newId = (users[0] == null) ? 2017000001 : Number(users[users.length-1]._UID) + 1;
   var newPwd = encrypt(body.Password);
-  var inputs = [newID, body.Email, newPwd, body.Name, body.Birth, body.Tel, body.UserType];
+  var inputs = [newId, body.Email, newPwd, body.Name, body.Birth, body.Tel, body.UserType];
 
   for(var i = 0; i < users.length; i++) {
       if (body.Email == users[i].Email) {
           res.redirect('/register/exist');
           return;
       }
-    }
+  }
   pool.getConnection(function(err, connection) {
       connection.query(queryStr, inputs, function(err, rows) {
           if(err) console.log("err: ", err);
