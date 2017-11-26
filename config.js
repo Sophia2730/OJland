@@ -9,7 +9,7 @@ exports.pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    prot: 3306,
+    port: 3306,
     database: 'ojland'
 });
 
