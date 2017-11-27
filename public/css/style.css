@@ -23,6 +23,7 @@ header a {
 }
 .container {
     padding-top: 25px;
+    max-width: 100%;
 }
 .fixed-nav {
     padding-top: 66px !important;
