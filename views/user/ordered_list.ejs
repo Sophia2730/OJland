@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../nav/header.ejs %>
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      <% include ../nav/nav-login.ejs %>
+  </nav>
+
+  <div class="content-wrapper" style="padding: 20px;">
+    <% if(session.UserType == 'EE') { %>
+        <h1 style="margin: 10px;">발주내역 조회</h1>
+            <table style="margin-top:20px;"class="table table-bordered table-hover text-center">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>카테고리</th>
+                    <th>제목</th>
+                    <th>급여</th>
+                    <th>등록날짜</th>
+                    <th>상태</th>
+                    <th>수주자</th>
+                </tr>
+                </thead>
+                <% for(var i = data.length - 1; i > -1; i--) { %>
+                    <% data[i] %>
+                    <tbody>
+                    <tr>
+                        <td><%=i+1%></td>
+                        <td><%= data[i].Category %></td>
+                        <td>
+                            <a href="orderinfo-ee.html"><%= data[i].Title%></a>
+                        </td>
+                        <td><%= data[i].Cost %></td>
+                        <td><%= date[i] %></td>
+                        <% if(data[i].Status == 'A' ) { %>
+                            <td>모집 중</td>
+                        <% } else if(data[i].Status == 'B'){ %>
+                            <td>매칭 중</td>
+                        <% } else if(data[i].Status == 'C'){ %>
+                            <td>매칭완료</td>
+                        <% } else if(data[i].Status == 'D'){ %>
+                            <td>외주완료</td>
+                        <% } %>
+                        <td><a class="btn btn-info" href="/">수주자 조회</a></td>
+                    </tr>
+                    </tbody>
+                <% } %>
+            </table>
+        <div align="center">
+            <a href="" style="margin-right: 10px">prev</a>
+            <a href="" style="margin-right: 10px; color: black;">1</a>
+            <a href="" style="margin-right: 10px">next</a>
+        </div>
+    <% } %>
+  </div>
+</body>
+</html>
