@@ -5,34 +5,36 @@ var pool = require('../../config.js').pool;
 
 router.post('/:id', function(req, res, next) {
     var body = req.body;
-    var total = 0;
-    var prefer = '';
-    for (var i = 0; i < body.Preference.length; i++) {
-        if (body.Preference[i] == '')
+    var total = 0;  // 총 점수을 저장할 변수
+    var prefer = '';  // 우대조건을 저장할 변수
+    var leng = body.Preference.length;
+    for (var i = 0; i < leng; i++) {
+        if (body.Preference[i] == '') // i 번째 우대조건이 체크되지 않으면
+            continue; // 다음 우대조건 체크
+        total += body.Preference.length; // 우대조건의 수 만큼 점수 추가
+        prefer += i;  // 우대조건에 인덱스 추가
+        if (i + 1 == leng)  // 마지막 우대조건이면
             break;
-        total += body.Preference.length;
-        if (i == body.Preference.length - 1)
-            prefer += i;
-        else
-            prefer += i + '%&';
+        else if (body.Preference[i+1] == '')  // 다음 우대 조건이 ''이면
+            break;
+        prefer += '%&'; // 위 두 가지 경우가 아니면 구분자 '%&' 추가
     }
     pool.getConnection(function(err, connection) {
         var queryStr = 'SELECT * FROM resume WHERE _UID=?'
         connection.query(queryStr, req.session._UID, function(err, resume) {
             if(err) console.log("err: ", err);
-            console.log('resume: ', resume);
-            total += resume[0].Score;
-            queryStr = 'SELECT * FROM application;';
-            connection.query(queryStr, function(err, applications) {
+            total += resume[0].Score; // 총 점수에 평점 추가
+            queryStr = 'SELECT _AID FROM application ORDER BY _AID DESC limit 1;';
+            connection.query(queryStr, function(err, application) {
                 if(err) console.log("err: ", err);
                 // 데이터베이스의 application 테이블에 저장된 데이터가 없으면 2017000001 부터 시작
-                var newId = (applications[0] == null) ? 2017000001 : Number(applications[applications.length - 1]._AID) + 1;
+                var newId = (application[0] == null) ? 2017000001 : Number(application[0]._AID) + 1;  // 최근 _AID에 1한 값 저장
                 var inputs = [newId, req.params.id, req.session._UID, prefer, total];
                 queryStr = 'INSERT INTO application(_AID, _OID, _UID, CheckPre, TotalScore)'
-                              + ' VALUES(?,?,?,?,?)';
+                              + ' VALUES(?,?,?,?,?)'; // application Table에 지원 정보를 추가
                 connection.query(queryStr, inputs, function(err, orders) {
                     if(err) console.log("err: ", err);
-                    res.redirect('/info/' + req.params.id);
+                    res.redirect('/info/' + req.params.id); // 해당 발주 페이지로 이동
                     connection.release();
                 });
             });

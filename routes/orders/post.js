@@ -2,38 +2,48 @@ var express = require('express');
 var router = express.Router();
 var pool = require('../../config.js').pool;
 
-var orders;
 router.get('/', function(req, res, next) {
-    pool.getConnection(function(err, connection) {
-        connection.query('SELECT * FROM orders', function(err, rows) {
-            if(err) console.log("err: ", err);
-            orders = rows;
-            res.render('order/order-post', {
-                session: req.session
-            });
-            connection.release();
-        });
+    if (!req.session.Name) {  // 로그인 여부 체크
+        res.redirect('/');  // 세션이 없으면 메인 페이지로 이동
+        return;
+    }
+    res.render('order/order-post', {
+        session: req.session
     });
 });
 
 router.post('/', function(req, res, next) {
     var body = req.body;
-    var newId = (orders[0] == null) ? 2017000001 : Number(orders[orders.length - 1]._OID) + 1;
-    var preferStr = '';
-    for (var i = 0; i < body.Preference.length; i++) {
-        preferStr += body.Preference[i] + '%&';
+    var prefer = '';  // 우대조건을 저장할 변수
+    var leng = body.Preference.length;  // 우대조건의 갯수
+    for (var i = 0; i < leng; i++) {
+        prefer += body.Preference[i]; // i 번째 우대조건을 prefer에 저장
+        if (i + 1 == leng)  // 마지막 우대조건이면
+            break;
+        else if (body.Preference[i+1] != '')  // 다음 우선조건이 ''이면
+            break;
+        prefer += '%&'; // 위 두 가지 경우가 아니면 구분자 '%&' 추가
+
     }
-    var queryStr = 'INSERT INTO orders(_OID,_UID,Category,Title,Colleage,Cost,Content,Preference,Period,MaxNum)'
-                  + ' VALUES(?,?,?,?,?,?,?,?,?,?)';
-    var inputs = [newId, req.session._UID, body.Category, body.Title, body.Colleage, body.Cost,
-                body.Content, preferStr, body.Period, body.MaxNum];
     pool.getConnection(function(err, connection) {
-        connection.query(queryStr, inputs, function(err, rows) {
+        var queryStr = 'SELECT _OID FROM orders ORDER BY _OID DESC limit 1';  // orders Table 마지막 _OID 조회
+        connection.query(queryStr, function(err, orders) {
             if(err) console.log("err: ", err);
-            res.redirect('/list');
-            connection.release();
+            var newId = (orders[0]._OID == null) ? 2017000001 : Number(orders[0]._OID) + 1; // 최근 _OID 값 + 1 저장
+            var inputs = [newId, req.session._UID, body.Category, body.Title, body.Colleage, body.Cost,
+                        body.Content, prefer, body.Period, body.MaxNum];  // orders Table에 저장할 값들
+            queryStr = 'INSERT INTO orders(_OID,_UID,Category,Title,Colleage,Cost,Content,Preference,Period,MaxNum)'
+                          + ' VALUES(?,?,?,?,?,?,?,?,?,?)'; // orders Table에 데이터를 삽입
+            pool.getConnection(function(err, connection) {
+                connection.query(queryStr, inputs, function(err, rows) {
+                    if(err) console.log("err: ", err);
+                    res.redirect('/list');  // 발주 목록 페이지로 이동
+                    connection.release();
+                });
+            });
         });
     });
+
 });
 
 module.exports = router;
