@@ -231,7 +231,7 @@ body.sidenav-toggled .navbar-sidenav {
     display: none; }
   body.sidenav-toggled .navbar-sidenav .nav-item,
   body.sidenav-toggled .navbar-sidenav .nav-link {
-    width: 55px !important; }
+    width: 55px ; } /* <= important 뺌 */
     body.sidenav-toggled .navbar-sidenav .nav-item:after,
     body.sidenav-toggled .navbar-sidenav .nav-link:after {
       display: none; }

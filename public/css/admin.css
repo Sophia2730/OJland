@@ -1,0 +1,23 @@
+.container {
+    position: relative;
+    top:65px;
+    left:55px;
+}
+#category {
+    margin-bottom: 20px;
+}
+#header div:nth-child(n+2) {
+    border: solid 1px #aaa;
+}
+#data {
+  padding: 10px auto;
+}
+#data div:nth-child(n+2) {
+  border: solid 1px #ccc;
+  padding: 10px auto !important;
+  vertical-align: middle;
+}
+#data p, #data a {
+    display: block;
+    margin-top: 1rem;
+}

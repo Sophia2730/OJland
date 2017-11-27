@@ -4,6 +4,10 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 
 router.get('/', function(req, res, next) {
+    if (!req.session.Name) {
+        res.redirect('/');
+        return;
+    }
     var queryStr = "SELECT * FROM user WHERE _UID=?";
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, req.session._UID, function(err, rows) {

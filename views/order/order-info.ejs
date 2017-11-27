@@ -98,7 +98,11 @@
                   <input type="submit" class="btn btn-danger" style="margin-right:20px;" value="요청취소" />
               </form>
             <% } }%>
+            <% if (session.UserType == 'AD') { %>
+            <a class="btn btn-info" href="/orders">목록</a>
+            <% } else { %>
             <a class="btn btn-info" href="/list">목록</a>
+            <% } %>
          </div>
      </div>
      <% include ./request.ejs %>

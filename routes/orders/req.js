@@ -16,8 +16,6 @@ router.post('/:id', function(req, res, next) {
         else
             prefer += i + '%&';
     }
-    console.log('length: ', body.Preference.length);
-    console.log('prefer: ', body.Preference);
     pool.getConnection(function(err, connection) {
         var queryStr = 'SELECT * FROM resume WHERE _UID=?'
         connection.query(queryStr, req.session._UID, function(err, resume) {
@@ -35,8 +33,8 @@ router.post('/:id', function(req, res, next) {
                 connection.query(queryStr, inputs, function(err, orders) {
                     if(err) console.log("err: ", err);
                     res.redirect('/info/' + req.params.id);
+                    connection.release();
                 });
-                connection.release();
             });
         });
     });

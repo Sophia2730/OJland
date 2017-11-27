@@ -2,6 +2,7 @@ var mysql = require('mysql');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var multer = require('multer');
 
 // mysql pool
 exports.pool = mysql.createPool({
@@ -37,3 +38,15 @@ exports.transporter = nodemailer.createTransport(smtpTransport({
           pass: 'dhlwnskfk'
         }
 }));
+
+// multer 파일 업로드
+exports.upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+      cb(null, new Date().valueOf() + path.extname(file.originalname));
+    }
+  })
+});

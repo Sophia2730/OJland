@@ -2,7 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    req.session.destroy();
+    if (req.session.UserType == 'AD')
+        res.redirect('/admin');
+    else if (req.session.Name)
+        res.redirect('/main');
+
     res.render('user/index');
 });
 

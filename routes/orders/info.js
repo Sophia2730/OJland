@@ -9,25 +9,22 @@ router.get('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         connection.query('SELECT * FROM orders WHERE _OID=?', id, function(err, orders) {
             if(err) console.log("err: ", err);
-            pool.getConnection(function(err, connection) {
-                connection.query('SELECT * FROM user WHERE _UID=?', orders[0]._UID, function(err, users) {
-                    if(err) console.log("err: ", err);
-                    var prefer = [];
-                    if (orders[0].Preference != null)
-                        prefer = orders[0].Preference.split('%&');
-                    res.render('order/order-info', {
-                        data: orders[0],
-                        preference: prefer,
-                        reqNum: '0',
-                        date: moment(orders[0].Time).format('YYYY/MM/DD'),
-                        user: users[0],
-                        session: req.session,
-                        app: app
-                    });
-                    connection.release();
+            connection.query('SELECT * FROM user WHERE _UID=?', orders[0]._UID, function(err, users) {
+                if(err) console.log("err: ", err);
+                var prefer = [];
+                if (orders[0].Preference != null)
+                    prefer = orders[0].Preference.split('%&');
+                res.render('order/order-info', {
+                    data: orders[0],
+                    preference: prefer,
+                    reqNum: '0',
+                    date: moment(orders[0].Time).format('YYYY/MM/DD'),
+                    user: users[0],
+                    session: req.session,
+                    app: app
                 });
+                connection.release();
             });
-            connection.release();
         });
     });
 });
