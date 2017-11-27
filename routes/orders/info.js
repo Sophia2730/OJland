@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         connection.query('SELECT * FROM orders WHERE _OID=?', id, function(err, orders) {
             if(err) console.log("err: ", err);
+            console.log(orders);
             connection.query('SELECT * FROM user WHERE _UID=?', orders[0]._UID, function(err, users) {
                 if(err) console.log("err: ", err);
                 var prefer = [];

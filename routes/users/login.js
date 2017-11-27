@@ -6,7 +6,7 @@ var fs = require('fs');
 
 var admin;
 router.get('/', function(req, res, next) {
-    fs.readFile('public/data/admin.json', 'utf-8', function(err, data) {
+    fs.readFile('../public/data/admin.json', 'utf-8', function(err, data) {
         admin = JSON.parse(data);
     });
     res.render('user/login');
