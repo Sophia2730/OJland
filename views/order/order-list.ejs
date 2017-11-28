@@ -33,85 +33,44 @@
           <% include ../nav/nav-login.ejs %>
       </nav>
       <div class="container-fluid">
-          <div class="row">
-              <div class="col-md-1"></div>
-              <div class="col-md-2 mx-3">
-                  <h1><strong><%= category %></strong></h1>
-              </div>
-          </div>
-          <div id="header" class="row text-center mx-4">
-              <div class="col-md-1"></div>
-              <div class="col-md-1">
-                  <strong>No.</strong>
-              </div>
-              <div class="col-md-1">
-                  <strong>카테고리</strong>
-              </div>
-              <div class="col-md-3">
-                  <strong>제목</strong>
-              </div>
-              <div class="col-md-1">
-                  <strong>급여</strong>
-              </div>
-              <div class="col-md-1">
-                  <strong>게시일</strong>
-              </div>
-              <div class="col-md-1">
-                  <strong>인원</strong>
-              </div>
-              <div class="col-md-1">
-                  <strong>상태</strong>
-              </div>
-
-          </div>
-          <% for(var i = data.length - 1; i > -1; i--) { %>
-            <div id="data" class="row text-center mx-4">
-                <div class="col-md-1"></div>
-                <div class="col-md-1">
-                    <p><%= i+1 %></p>
+          <div class="card mb-3">
+              <div class="card-header">
+                <i class="fa fa-table"></i><%= category %></div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th>카테고리</th>
+                        <th>제목</th>
+                        <th>급여</th>
+                        <th>게시일</th>
+                        <th>인원</th>
+                        <th>상태</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% for(var i = data.length - 1; i > -1; i--) { %>
+                      <tr>
+                        <td><%= i+1 %></td>
+                        <td><%= data[i].Category %></td>
+                        <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
+                        <td><%= data[i].Cost %></td>
+                        <td><%= date[i] %></td>
+                        <td><%= reqNum %>/<%= data[i].MaxNum %></td>
+                        <td>
+                          <%if(data[i].Status == 'A'){ %>모집중  <% } %>
+                          <%if(data[i].Status != 'A'){ %>마감    <% } %>
+                        </td>
+                      </tr>
+                      <% } %>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="col-md-1">
-                    <p><%= data[i].Category %></p>
-                </div>
-                <div class="col-md-3">
-                    <a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a>
-                </div>
-                <div class="col-md-1">
-                    <p><%= data[i].Cost %></p>
-                </div>
-                <div class="col-md-1">
-                    <p><%= date[i] %></p>
-                </div>
-                <div class="col-md-1">
-                    <p><%= reqNum %>/<%= data[i].MaxNum %></p>
-                </div>
-                <div class="col-md-1">
-                    <p>
-                      <%if(data[i].Status == 'A'){ %>모집중<% } %>
-                      <%if(data[i].Status != 'A'){ %>마감<% } %>
-                    </p>
-                </div>
-            </div>
-          <% } %>
-          <div class="row mt-3 mr-3">
-              <div class="col-md-9"></div>
-              <div class="col-md-1">
-          <% if (session.UserType == 'ER') { %>
-              <a class="btn btn-primary btn-md" style="" href="/post">발주등록</a>
-          <% } %>
-              </div>
-          </div>
-          <div class="row mt-5">
-              <div class="col-md-4 mx-auto mb-5">
-                  <a class="btn btn-primary btn-xs" href="">prev</a>
-                  <a class="btn btn-xs" href="">1</a>
-                  <a class="btn btn-xs" href="">2</a>
-                  <a class="btn btn-xs" href="">3</a>
-                  <a class="btn btn-xs" href="">4</a>
-                  <a class="btn btn-xs" href="">5</a>
-                  <a class="btn btn-primary btn-xs" href="">next</a>
               </div>
           </div>
       </div>
+
   </body>
 </html>

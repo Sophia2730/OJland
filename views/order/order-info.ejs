@@ -8,9 +8,6 @@
               top:65px;
               left:55px;
           }
-          .b {
-              font-weight: bold;
-          }
           #category {
               margin-bottom: 20px;
           }
@@ -96,6 +93,7 @@
             <% } else { %>
               <form method="POST" action="/req/<%= data._OID %>?_method=DELETE" style="display:inline-block">
                   <input type="submit" class="btn btn-danger" style="margin-right:20px;" value="요청취소" />
+                  <a class="btn btn-danger" style="margin-right:20px;" data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
               </form>
             <% } }%>
             <% if (session.UserType == 'AD') { %>
@@ -105,6 +103,9 @@
             <% } %>
          </div>
      </div>
-     <% include ./request.ejs %>
+     <% if (session.UserType == 'EE') { %>
+       <% include ./request.ejs %>
+       <% include ../progress/post.ejs %>
+     <% } %>
   </body>
 </html>

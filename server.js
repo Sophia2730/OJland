@@ -61,7 +61,7 @@ app.use('/mypage', mypage);
 app.use('/changeinfo', changeinfo);
 app.use('/changepwd', changepwd);
 app.use('/changepwd-admin', changepwdAdmin);
-app.use('/post', post({ src: __dirname + '/public' }));
+app.use('/post', post);
 app.use('/list', list);
 app.use('/info', info);
 app.use('/put', put);

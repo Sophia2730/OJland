@@ -25,6 +25,14 @@ header a {
     padding-top: 25px;
     max-width: 100%;
 }
+.container-fluid {
+    margin-left: 130px !important;
+    width: calc(100% - 130px) !important;
+}
+.sidenav-toggled .container-fluid {
+    margin-left: 55px !important;
+    width: calc(100% - 55px) !important;
+}
 .fixed-nav {
     padding-top: 66px !important;
 }
