@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
         res.redirect('/');  // 세션이 없으면 메인 페이지로 이동
         return;
     }
-    res.render('admin/admin');  // 관리자 메인 페이지 렌딩
+    res.render('admin/index');  // 관리자 메인 페이지 렌딩
 });
 
 module.exports = router;

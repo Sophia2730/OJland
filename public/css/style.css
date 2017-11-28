@@ -29,6 +29,9 @@ header a {
     margin-left: 130px !important;
     width: calc(100% - 130px) !important;
 }
+.navbar-brand {
+    padding: 0 !important;
+}
 .sidenav-toggled .container-fluid {
     margin-left: 55px !important;
     width: calc(100% - 55px) !important;
@@ -71,13 +74,8 @@ header a {
 }
 @media (min-width: 992px) {
   header {
-    position: relative;
     left: 55px;
     width: calc(100% - 55px);
-    height: 100%;
-    background-image: url('../imgs/header.png');
-    background-position: center center;
-    background-size: cover;
   }
   header h1 {
     font-size: 2.5em !important;
@@ -91,9 +89,6 @@ header a {
   }
   .navbar {
       padding: 3px 1rem;
-  }
-  .navbar-brand {
-      padding: 0 !important;
   }
   .fixed-nav {
       padding-top: 66px !important;

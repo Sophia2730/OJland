@@ -27,6 +27,8 @@ var info = require('./routes/orders/info');
 var put = require('./routes/orders/put');
 var req = require('./routes/orders/req');
 var ordered_list = require('./routes/users/ordered_list');
+var category = require('./routes/orders/category');
+var resume = require('./routes/users/resume');
 
 var app = express();
 
@@ -67,6 +69,8 @@ app.use('/info', info);
 app.use('/put', put);
 app.use('/req', req);
 app.use('/ordered_list', ordered_list);
+app.use('/category', category);
+app.use('/resume', resume);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

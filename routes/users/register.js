@@ -5,53 +5,53 @@ var decrypt = require('../../config.js').decrypt;
 var encrypt = require('../../config.js').encrypt;
 var transporter = require('../../config.js').transporter;
 
-var users;
 router.get('/', function(req, res, next) {
-    var queryStr = 'SELECT * FROM user';
-    pool.getConnection(function(err, connection) {
-        connection.query(queryStr, function(err, rows) {
-            if(err) console.log("err: ", err);
-            users = rows;
-            res.render('user/register');
-            connection.release();
-        });
-    });
+      res.render('user/register');
+      connection.release();
 });
 
 router.post('/', function(req, res, next) {
-  var body = req.body;
-  var queryStr = 'INSERT INTO user(_UID, Email, Password, Name, Birth, Tel, UserType) '
-                + 'VALUES(?,?,?,?,?,?,?);';
-  var newId = (users[0] == null) ? 2017000001 : Number(users[users.length-1]._UID) + 1;
-  var newPwd = encrypt(body.Password);
-  var inputs = [newId, body.Email, newPwd, body.Name, body.Birth, body.Tel, body.UserType];
+    var body = req.body;
+    var newPwd = encrypt(body.Password);
 
-  for(var i = 0; i < users.length; i++) {
-      if (body.Email == users[i].Email) {
-          res.redirect('/register/exist');
-          return;
-      }
-  }
-  pool.getConnection(function(err, connection) {
-      connection.query(queryStr, inputs, function(err, rows) {
-          if(err) console.log("err: ", err);
-          var mailOptions = {
-              from: '외주랜드 <ojland17@gmail.com>',
-              to: body.Email,
-              subject: '[외주랜드]인증 메일',
-              html: '<h1>아래의 인증을 클릭해 주세요.</h1><br><a style="font-size:2em;" href="' + req.get('host')
-              + '/confirm/' + encrypt(newId.toString()) + '">인증</a>'
-          };
-          transporter.sendMail(mailOptions, function (error, info) {
-              if (error) {
-                  return console.log(error);
-              }
-              console.log('Message %s sent: %s', info.messageId, info.response);
-          });
-          res.redirect('/register/success');
-          connection.release();
-      });
-  });
+    pool.getConnection(function(err, connection) {
+        var queryStr = 'SELECT * FROM user';
+        connection.query(queryStr, inputs, function(err, users) {
+            if(err) console.log("err: ", err);
+            var newId = (users[0] == null) ? 2017000001 : Number(users[users.length-1]._UID) + 1;
+            for(var i = 0; i < users.length; i++) {
+                if (body.Email == users[i].Email) {
+                    res.redirect('/register/exist');
+                    return;
+                }
+            }
+            var inputs = [newId, body.Email, newPwd, body.Name, body.Birth, body.Tel, body.UserType];
+            queryStr = 'INSERT INTO user(_UID, Email, Password, Name, Birth, Tel, UserType) '
+                          + 'VALUES(?,?,?,?,?,?,?);';
+            connection.query(queryStr, inputs, function(err, rows) {
+                if(err) {
+                    console.log("err: ", err);
+                    res.send('<script>alert("가입실패! 인터넷 상태를 확인해주세요!");' +
+                            'window.location.replace("/register");</script>');
+                }
+                else {
+                    var mailOptions = {
+                        from: '외주랜드 <ojland17@gmail.com>',
+                        to: body.Email,
+                        subject: '[외주랜드]인증 메일',
+                        html: '<h1>아래의 인증을 클릭해 주세요.</h1><br><a style="font-size:2em;" href="' + req.get('host')
+                        + '/confirm/' + encrypt(newId.toString()) + '">인증</a>'
+                    };
+                    transporter.sendMail(mailOptions, function (error, info) {
+                        if (error) return console.log(error);
+                        console.log('Message %s sent: %s', info.messageId, info.response);
+                    });
+                    res.redirect('/register/success');
+                }
+                connection.release();
+            });
+        });
+    });
 });
 
 router.get('/success', function(req, res, next) {

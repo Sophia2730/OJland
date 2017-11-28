@@ -9913,7 +9913,7 @@
 		 * should contain an array for each column to be sorted initially containing
 		 * the column's index and a direction string ('asc' or 'desc').
 		 *  @type array
-		 *  @default [[0,'asc']]
+		 *  @default [[0,'desc']]	// 우상 asc -> desc
 		 *
 		 *  @dtopt Option
 		 *  @name DataTable.defaults.order
@@ -9933,7 +9933,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"aaSorting": [[0,'asc']],
+		"aaSorting": [[0,'desc']],	// 우상 asc -> desc
 
 
 		/**
@@ -10127,7 +10127,7 @@
 		 * Note that the `pageLength` property will be automatically set to the
 		 * first value given in this array, unless `pageLength` is also provided.
 		 *  @type array
-		 *  @default [ 10, 25, 50, 100 ]
+		 *  @default [ 5, 10, 25, 50 ]	// 우상 [ 10, 25, 50, 100 ]
 		 *
 		 *  @dtopt Option
 		 *  @name DataTable.defaults.lengthMenu
@@ -11132,7 +11132,7 @@
 		 * feature enabled (`lengthChange`) then the end user will be able to override
 		 * this to a custom setting using a pop-up menu.
 		 *  @type int
-		 *  @default 10
+		 *  @default 5	// 우상 10 -> 5
 		 *
 		 *  @dtopt Options
 		 *  @name DataTable.defaults.pageLength
@@ -11144,7 +11144,7 @@
 		 *      } );
 		 *    } )
 		 */
-		"iDisplayLength": 10,
+		"iDisplayLength": 5,	// 우상 10 -> 5
 
 
 		/**
@@ -11370,7 +11370,7 @@
 			 * parameter - if it is not given, the value of `zeroRecords` will be used
 			 * instead (either the default or given value).
 			 *  @type string
-			 *  @default No data available in table
+			 *  @default 데이터가 없습니다		// 우상 No data available in table ->
 			 *
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.emptyTable
@@ -11379,12 +11379,12 @@
 			 *    $(document).ready( function() {
 			 *      $('#example').dataTable( {
 			 *        "language": {
-			 *          "emptyTable": "No data available in table"
+			 *          "emptyTable": "데이터가 없습니다"	// 우상 No data available in table ->
 			 *        }
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "데이터가 없습니다",	// 우상 No data available in table ->
 
 
 			/**
@@ -11416,14 +11416,14 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "_TOTAL_ 개 중 _START_ 부터 _END_ 까지",
+			"sInfo": "_START_ to _END_ of _TOTAL_",
 			// 우상 "sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
 
 			/**
 			 * Display information string for when the table is empty. Typically the
 			 * format of this string should match `info`.
 			 *  @type string
-			 *  @default Showing 0 to 0 of 0 entries
+			 *  @default Showing 	// 우상 Showing 0 to 0 of 0 entries
 			 *
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.infoEmpty
@@ -11437,7 +11437,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+			"sInfoEmpty": "",	// 우상 Showing 0 to 0 of 0 entries
 
 
 			/**
@@ -11445,7 +11445,7 @@
 			 * to the information (`info`) to give an idea of how strong the filtering
 			 * is. The variable _MAX_ is dynamically updated.
 			 *  @type string
-			 *  @default (filtered from _MAX_ total entries)
+			 *  @default (총 _MAX_ 개 중에서 검색)		// 우상 (filtered from _MAX_ total entries)
 			 *
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.infoFiltered
@@ -11459,7 +11459,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(filtered from _MAX_ total entries)",
+			"sInfoFiltered": "(총 _MAX_ 개 중에서 검색)",		// 우상 (filtered from _MAX_ total entries)
 
 
 			/**
@@ -11703,7 +11703,7 @@
 			 * displayed after filtering. `emptyTable` is shown when there is simply no
 			 * information in the table at all (regardless of filtering).
 			 *  @type string
-			 *  @default No matching records found
+			 *  @default 찾으시는 발주가 없습니다.		// 우상 No matching records found
 			 *
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.zeroRecords
@@ -11717,7 +11717,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
+			"sZeroRecords": "찾으시는 발주가 없습니다."		// 우상 No matching records found
 		},
 
 

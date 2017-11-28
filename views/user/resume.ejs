@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <% include ../nav/header.ejs %>
+      <style>
+          .prefer a {
+              width: 30px;
+              height: 30px;
+              margin-left: 5px;
+              padding: 0;
+          }
+      </style>
+  </head>
+  <body class="fixed-nav sidenav-toggled" id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <% include ../nav/nav-login.ejs %>
+    </nav>
+    <div class="container-fluid">
+      <div class="card card-register mx-auto mt-3 mb-3">
+        <div class="card-header">이력서 작성</div>
+        <div class="card-body">
+           <form action="resume" enctype="multipart/form-data" method="post">
+              <div class="text-center mb-3">
+                 <label class="radio-inline mr-3">
+                   <input type="radio" name="Course" value="2/3년제" checked="checked">2/3년제
+                 </label>
+                 <label class="radio-inline ml-3">
+                   <input type="radio" name="Course" value="4년제">4년제
+                 </label>
+              </div>
+              <div class="form-group">
+                  <div class="form-row">
+                      <div class="col-md-6">
+                       <label for="Colleage">학부</label>
+                       <select class="form-control" name="Colleage">
+                         <option>IT계열</option>
+                         <option>공과계열</option>
+                         <option>디자인계열</option>
+                       </select>
+                      </div>
+                      <div class="col-md-6">
+                         <label for="Major">학과</label>
+                         <select class="form-control" name="Major">
+                           <option>컴퓨터공학과</option>
+                           <option>디자인계열</option>
+                         </select>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-group">
+                <label for="License">보유 자격증</label>
+                <ul class="prefer" style="list-style:none;margin: 0 !important;padding:0 !important;">
+                    <li class="mb-3">
+                      <input type="text" name="License" style="width: 90%;" placeholder="ex) 정보처리기능사 자격증 보유" />
+                      <a class="btn btn-primary text-white">+</a>
+                    </li>
+                </ul>
+              </div>
+              <div class="form-group">
+                 <label for="Content">자기소개:</label>
+                 <textarea name="Content" rows="4" style="width:100%" placeholder="자기소개를 입력하세요."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="userfile">사진첨부</label><br>
+                <input type='file' name='userfile' class="mb-2">
+                <input type='file' name='userfile' class="mb-2">
+                <input type='file' name='userfile' class="mb-2">
+              </div>
+              <input type="submit" class="btn btn-primary btn-block mt-5" value="수정하기">
+           </form>
+        </div>
+      </div>
+    </div>
+    <script>
+       var mHtml = '<li class="mb-3"><input type="text" name="License" style="width: 90%;"/>'
+                            + ' <a class="btn btn-primary text-white">+</a></li>';
+       $('.prefer').on('click', 'li a', function(e) {  // 클릭 리스너 등록
+           e.preventDefault();
+           if ($(this).text() == '+') {  // +버튼이고 input에 값이 있으면
+               if ($(this).prev().val() != '') {
+                   $(this).text('-');  // 버튼 텍스트를 -로 변경
+                   $(this).prev().attr('readonly', true);
+                   $('.prefer').append(mHtml);
+               } else {
+                   alert('내용이 없습니다!');
+               }
+           } else if ($(this).text() == '-'){
+               $(this).parent().prev().eq(1).attr('readonly', false);  // 이전 li의 input을 수정가능으로 변경
+               $(this).parent().prev().eq(2).text('+');  // 이전 li의 버튼 텍스트를 +로 변경
+               $(this).parent().remove();  // 버튼이 속해있는 li 제거
+           }
+       });
+    </script>
+  </body>
+</html>

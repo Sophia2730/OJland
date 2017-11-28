@@ -2,156 +2,181 @@
 <html>
 <head>
     <% include ../nav/header.ejs %>
+    <style>
+      .card .table img {
+          margin: 5px 10px;
+          display: inline-block;
+          width: 120px;
+          height: 80px;
+          border: solid 1px black;
+      }
+      .card .card-block {
+          padding: 30px;
+      }
+      .card {
+          height: 400px;
+      }
+      #dataTable_wrapper {
+          margin: 0 !important;
+      }
+    </style>
 </head>
-<body class="bg-dark sidenav-toggled">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <% include ../nav/nav-login.ejs%>
-</nav>
-<div class="container" style="position:relative; top:66px; left:55px">
-   <table class="table" style="margin: 30px; width: 95%">
-      <tbody>
-      <tr>
-         <td style="width: 45%;">
-            <div class="card">
-               <div class="card-block" style="text-center: auto; padding: 30px;">
-                  <h1 class="card-title">회원정보</h1><br>
-                  <table class="table">
-                     <tr>
-                        <th>이름</th>
-                        <td><%= data.Name %></td>
-                     </tr>
-                     <tr>
-                        <th>생년월일</th>
-                        <td><%= data.Birth %></td>
-                     </tr>
-                     <tr>
-                        <th>전화번호</th>
-                        <td><%= data.Tel %></td>
-                     </tr>
-                     <tr>
-                        <th>&nbsp;</th>
-                        <td>&nbsp;</td>
-                     </tr>
-                  </table>
-                  <a class="btn btn-primary" href="/changeinfo" style="margin-right: 40px;">개인정보 수정</a>
-                  <a class="btn btn-primary" href="/changepwd" style="margin-right: 40px;">비밀번호 변경</a>
-               </div>
-            </div>
-         </td>
-         <td style="width: 45%;">
-            <div class="card">
-               <div class="card-block" style="text-center: auto; padding: 30px;">
-                  <h1 class="card-title">외주 정보</h1><br>
-                   <% if(data.UserType == 'EE') { %>
-                  <table class="table">
-                     <tr>
-                        <th>매칭대기</th>
-                        <td>1개</td>
-                     </tr>
-                     <tr>
-                        <th>매칭완료</th>
-                        <td>1개</td>
-                     </tr>
-                     <tr>
-                        <th>외주완료</th>
-                        <td>2개</td>
-                     </tr>
-                     <tr>
-                        <th>&nbsp;</th>
-                        <td>&nbsp;</td>
-                     </tr>
-                  </table>
-                  <a class="btn btn-primary" href="/ordered_list" style="margin-right: 40px;">수주내역 확인</a>
-                   <% } else { %>
-                  <table class="table">
-                     <tr>
-                        <th>모집 중</th>
-                        <td>1개</td>
-                     </tr>
-                     <tr>
-                        <th>매칭 중</th>
-                        <td>1개</td>
-                     </tr>
-                     <tr>
-                        <th>매칭완료</th>
-                        <td>2개</td>
-                     </tr>
-                     <tr>
-                        <th>외주완료</th>
-                        <td>2개</td>
-                     </tr>
-                  </table>
-                  <a class="btn btn-primary" href="/ordered_list" style="margin-right: 40px;">발주내역 확인</a>
-                   <% }%>
-               </div>
-            </div>
-         </td>
-      </tr>
-      <tr>
-         <td style="width: 45%;">
-            <div class="card">
-               <div class="card-block" style="text-center: auto; padding: 30px;">
-                  <h1 class="card-title">알림</h1><br>
-                  <table class="table">
-                     <tr>
-                        <th>No.</th>
-                        <th>내용</th>
-                        <th>날짜</th>
-                     </tr>
-                     <tr>
-                        <td>2</td>
-                        <td><a data-toggle="modal" data-target="#myModal" href="">매칭완료 알림 [간단...]</a><i class="fa fa-fw fa-bell" style="color: #fb0;"></i></td>
-                        <td>2017.11.03 11:34pm</td>
-                     </tr>
-                     <tr>
-                        <td>1</td>
-                        <td><a data-toggle="modal" data-target="#myModal" href="" style="color: black;">회원가입을 축하합니다!</a></td>
-                        <td>2017.11.02 4:34pm</td>
-                     </tr>
-                     <tr>
-                        <th>&nbsp;</th>
-                        <td>&nbsp;</td>
-                     </tr>
-                  </table>
-                  <div align="center">
-                     <a href="" style="margin-right: 10px;">prev</a>
-                     <a href="" style="margin-right: 10px; color: black; font-weight:bold;">1</a>
-                     <a href="" style="margin-right: 10px;">next</a>
-                  </div>
-               </div>
-            </div>
-         </td>
-          <% if(data.UserType == 'EE') { %>
-         <td style="width: 45%;">
-            <div class="card">
-               <div class="card-block" style="text-center: auto; padding: 30px;">
-                  <h1 class="card-title">이력서</h1><br>
-                  <table class="table">
-                     <tr>
-                        <th>대학구분</th>
-                        <td>4년제</td>
-                     </tr>
-                     <tr>
-                        <th>학부</th>
-                        <td>IT대학</td>
-                     </tr>
-                     <tr>
-                        <th>학과</th>
-                        <td>컴퓨터공학과</td>
-                     </tr>
-                     <tr>
-                        <th>자격증</th>
-                        <td>컴퓨터 활용능력 1급, 정보처리기능사</td>
-                     </tr>
-                  </table>
-                  <a href="/resume" style="margin-right: 40px;"><button class="btn btn-primary">이력서 수정</button></a>
-               </div>
-            </div>
-         </td>
-          <% } %>
-      </tr>
-      </tbody>
-   </table>
-</div>
+<body class="fixed-nav sidenav-toggled" id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <% include ../nav/nav-login.ejs%>
+    </nav>
+    <div class="container-fluid mt-6">
+       <table class="table">
+          <tbody>
+              <tr>
+                 <td style="width: 45%;">
+                    <div class="card">
+                       <div class="card-block">
+                          <h1 class="card-title mb-5">회원정보</h1>
+                          <table class="table mb-5">
+                             <tr>
+                                <th>이름</th>
+                                <td><%= data.Name %></td>
+                             </tr>
+                             <tr>
+                                <th>생년월일</th>
+                                <td><%= data.Birth %></td>
+                             </tr>
+                             <tr>
+                                <th>전화번호</th>
+                                <td><%= data.Tel %></td>
+                             </tr>
+                          </table>
+                          <div align="center">
+                              <a class="btn btn-primary mr-5" href="/changeinfo">개인정보 수정</a>
+                              <a class="btn btn-primary ml-5" href="/changepwd">비밀번호 변경</a>
+                          </div>
+                       </div>
+                    </div>
+                 </td>
+                 <td style="width: 45%;">
+                    <div class="card">
+                       <div class="card-block">
+                          <h1 class="card-title mb-5">외주 정보</h1>
+                           <% if(data.UserType == 'EE') { %>
+                          <table class="table mb-5">
+                             <tr>
+                                <th>매칭대기</th>
+                                <td>3개</td>
+                             </tr>
+                             <tr>
+                                <th>매칭완료</th>
+                                <td>0개</td>
+                             </tr>
+                             <tr>
+                                <th>외주완료</th>
+                                <td>0개</td>
+                             </tr>
+                          </table>
+                          <div align="center">
+                              <a class="btn btn-primary" href="/ordered_list" style="margin-right:40px;">수주내역 확인</a>
+                          </div>
+                           <% } else { %>
+                          <table class="table">
+                             <tr>
+                                <th>모집 중</th>
+                                <td>1개</td>
+                             </tr>
+                             <tr>
+                                <th>매칭 중</th>
+                                <td>1개</td>
+                             </tr>
+                             <tr>
+                                <th>매칭완료</th>
+                                <td>2개</td>
+                             </tr>
+                             <tr>
+                                <th>외주완료</th>
+                                <td>2개</td>
+                             </tr>
+                          </table>
+                          <div align="center">
+                              <a class="btn btn-primary" href="/ordered_list">발주내역 확인</a>
+                          </div>
+                           <% }%>
+                       </div>
+                    </div>
+                 </td>
+              </tr>
+              <tr>
+                 <td style="width: 45%;">
+                    <div class="card" style="height:100%">
+                       <div class="card-block">
+                          <h1 class="card-title">알림</h1><br>
+                          <table class="table" id="dataTable" width="100%" cellspacing="0">
+                              <thead>
+                                  <tr>
+                                     <th>No.</th>
+                                     <th>내용</th>
+                                     <th>날짜</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                   <td>1</td>
+                                   <td><a data-toggle="modal" data-target="#myModal" href="" style="color: black;">회원가입을 축하합니다!</a></td>
+                                   <td>2017.11.02 4:34pm</td>
+                                </tr>
+                                <tr>
+                                   <td>2</td>
+                                   <td><a data-toggle="modal" data-target="#myModal" href="">매칭완료 알림 [간단...]</a><i class="fa fa-fw fa-bell" style="color: #fb0;"></i></td>
+                                   <td>2017.11.03 11:34pm</td>
+                                </tr>
+                              </tbody>
+                          </table>
+                       </div>
+                    </div>
+                 </td>
+                <% if(data.UserType == 'EE') { %>
+                 <td style="width: 45%;">
+                    <div class="card" style="height:100%">
+                       <div class="card-block">
+                          <h1 class="mb-5">이력서</h1>
+                          <table class="table mb-5">
+                             <tr>
+                                <th>대학구분</th>
+                                <td><%= resume.Course %></td>
+                             </tr>
+                             <tr>
+                                <th>학부</th>
+                                <td><%= resume.Colleage %></td>
+                             </tr>
+                             <tr>
+                                <th>학과</th>
+                                <td><%= resume.Major %></td>
+                             </tr>
+                             <tr>
+                                <th>자격증</th>
+                                <td><%= resume.License %></td>
+                             </tr>
+                             <tr>
+                                <th>자기소개</th>
+                                <td><%= resume.Content %></td>
+                             </tr>
+                             <tr>
+                                <th>사진</th>
+                                <td>
+                                  <img src="" alt="">
+                                  <img src="" alt="">
+                                  <img src="" alt="">
+                                </td>
+                             </tr>
+                          </table>
+                          <div align="center">
+                              <a class="btn btn-primary" href="/resume">이력서 수정</a>
+                          </div>
+                       </div>
+                    </div>
+                 </td>
+                <% } %>
+              </tr>
+          </tbody>
+       </table>
+    </div>
 </body>
 </html>
