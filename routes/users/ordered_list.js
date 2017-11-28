@@ -27,7 +27,6 @@ router.get('/', function(req, res, next) {
                 }
             });
         } else if(req.session.UserType == 'EE'){
-            queryStr = "SELECT * FROM application as A RIGHT JOIN orders as O ON A._OID = O._OID RIGHT JOIN user as U ON O._UID = U._UID WHERE A._UID = " + req.session._UID;
             queryStr = "SELECT * FROM user as U RIGHT JOIN orders as O ON U._UID = O._UID RIGHT JOIN application as A ON O._OID = A._OID WHERE A._UID = " + req.session._UID;
             connection.query(queryStr, function (err, rows) {
                 if(err) console.log("err: ", err);
@@ -41,10 +40,6 @@ router.get('/', function(req, res, next) {
                 }
             });
         }
-        connection.query(queryStr, function(err, rows) {
-
-        });
-
     });
 });
 
