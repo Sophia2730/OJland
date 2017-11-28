@@ -11,7 +11,7 @@
   </nav>
 
   <div class="content-wrapper" style="padding: 20px;">
-    <% if(session.UserType == 'EE') { %>
+    <% if(session.UserType == 'ER') { %>
         <h1 style="margin: 10px;">발주내역 조회</h1>
             <table style="margin-top:20px;"class="table table-bordered table-hover text-center">
                 <thead>
@@ -55,7 +55,88 @@
             <a href="" style="margin-right: 10px; color: black;">1</a>
             <a href="" style="margin-right: 10px">next</a>
         </div>
+    <% } else if(session.UserType == 'EE') { %>
+      <h1 style="margin: 10px;">수주내역 조회</h1>
+      <table style="margin-top:20px;"class="table table-bordered table-hover text-center">
+          <thead>
+          <tr>
+              <th>No.</th>
+              <th>카테고리</th>
+              <th>제목</th>
+              <th>급여</th>
+              <th>발주자</th>
+              <th>상태</th>
+          </tr>
+          </thead>
+          <% for(var i = data.length - 1; i > -1; i--) { %>
+          <tbody>
+          <tr>
+              <td><%=i+1%></td>
+              <td><%= data[i].Category %></td>
+              <td>
+                  <a href="orderinfo-ee.html"><%= data[i].Title%></a>
+              </td>
+              <td><%= data[i].Cost %></td>
+              <td><a class="btn btn-info" href="/"><%= data[i].Name %></a></td>
+              <% if(data[i].Status == 'A' ) { %>
+              <td>매칭대기</td>
+              <% } else if(data[i].Status == 'B'){ %>
+              <td>매칭대기</td>
+              <% } else if(data[i].Status == 'C'){ %>
+              <td>매칭완료</td>
+              <% } else if(data[i].Status == 'D'){ %>
+              <td>외주완료</td>
+              <% } %>
+          </tr>
+          </tbody>
+          <% } %>
+      </table>
+      <div align="center">
+          <a href="" style="margin-right: 10px">prev</a>
+          <a href="" style="margin-right: 10px; color: black;">1</a>
+          <a href="" style="margin-right: 10px">next</a>
+      </div>
     <% } %>
   </div>
+
+  <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog modal-lg" style="width:350px">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title">발주자 정보</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                  <form>
+                      <div class="text-left">
+                          <div class="row">
+                              <div class="col-md-12">
+                                  이름:
+                                  <b>홍길동</b>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-12">
+                                  이메일:
+                                  <b>gildong@gc.gachon.ac.kr</b>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-12">
+                                  전화번호:
+                                  <b>010-1234-5678</b>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">돌아가기</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
 </body>
 </html>
