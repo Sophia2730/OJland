@@ -4,6 +4,7 @@ var multer = require('multer');
 var router = express.Router();
 var upload = require('../../config.js').upload;
 var path = require('path');
+var fs = require('fs');
 
 var resume;
 router.get('/', function(req, res, next) {
@@ -11,10 +12,22 @@ router.get('/', function(req, res, next) {
       connection.query('SELECT * FROM resume ORDER BY _RID DESC limit 1', function(err, rows) {
           if(err) console.log("err: ", err);
           resume = rows[0];
-          res.render('user/resume', {
-              session: req.session
+          fs.readFile('public/data/major.json', 'utf-8', function(err, data) {
+              if(err) console.log('err:', err);
+              var major = JSON.parse(data);
+              console.log('major: ', major);
+              console.log('leng: ', major.length);
+              for (var key in major) {
+                console.log('key: ', key);
+                console.log('values: ', major[key]);
+              }
+
+              res.render('user/resume', {
+                  session: req.session,
+                  major: major
+              });
+              connection.release();
           });
-          connection.release();
       });
   });
 });

@@ -33,16 +33,16 @@
                       <div class="col-md-6">
                        <label for="Colleage">학부</label>
                        <select class="form-control" name="Colleage">
-                         <option>IT계열</option>
-                         <option>공과계열</option>
-                         <option>디자인계열</option>
+                         <option></option>
+                         <% for (var key in major) { %>
+                            <option value="<%= key %>"><%= key %></option>
+                         <% } %>
                        </select>
                       </div>
                       <div class="col-md-6">
                          <label for="Major">학과</label>
                          <select class="form-control" name="Major">
-                           <option>컴퓨터공학과</option>
-                           <option>디자인계열</option>
+                           <option></option>
                          </select>
                       </div>
                   </div>
@@ -64,12 +64,33 @@
                 <label for="userfile">사진첨부</label><br>
                 <input type='file' name='File' class="mb-2"><a class="btn btn-primary text-white">+</a>
               </div>
-              <input type="submit" class="btn btn-primary btn-block mt-5" value="수정하기">
+              <div align="center">
+                  <input type="submit" class="btn btn-primary mr-3" value="완료">
+                  <a class="btn btn-danger"href="/mypage">취소</a>
+              </div>
            </form>
         </div>
       </div>
     </div>
     <script>
+       var colleage = $("select[name=Colleage]");
+       var major = $("select[name=Major]");
+       $("input[type=submit]").on('click', function(e) {
+           if (colleage.val() == '' || major.val() == '') {
+              e.preventDefault();
+              alert('학부와 학과를 입력해 주십시오!');
+           }
+       });
+       colleage.change(function() {
+           var col = colleage.val();
+           major.html('<option></option>');
+           <% for (var key in major) { %>
+             <% for (var i = 0; i < major[key].length; i++) { %>
+                 if (col == "<%= key %>")
+                      major.append("<option value='<%= major[key][i] %>'><%= major[key][i] %></option>");
+             <% } %>
+           <% } %>
+       });
        var mHtml = '<li class="mb-3"><input type="text" name="License" style="width: 90%;"/>'
                             + ' <a class="btn btn-primary text-white">+</a></li>';
        $('.prefer').on('click', 'li a', function(e) {  // 클릭 리스너 등록

@@ -8,19 +8,26 @@ router.get('/', function(req, res, next) {
         res.redirect('/');
         return;
     }
-    var queryStr = "SELECT * FROM user WHERE _UID=?";
+    var queryStr = "SELECT U.Email, U.Name, U.Birth, U.Tel, U.UserType, A.Status"
+                  + " FROM user AS U JOIN application AS A WHERE U._UID=?";
     pool.getConnection(function(err, connection) {
-        connection.query(queryStr, req.session._UID, function(err, user) {
+        connection.query(queryStr, req.session._UID, function(err, rows) {
             if(err) console.log("err: ", err);
+            console.log("rows: ", rows);
             queryStr = "SELECT * FROM resume WHERE _UID=?";
             connection.query(queryStr, req.session._UID, function(err, resume) {
                 if(err) console.log("err: ", err);
-                res.render('user/mypage', {
-                    data: user[0],
-                    resume: resume[0],
-                    session: req.session
+                queryStr = "SELECT * FROM orders WHERE _UID=?";
+                connection.query(queryStr, req.session._UID, function(err, orders) {
+                    if(err) console.log("err: ", err);
+                    res.render('user/mypage', {
+                        data: rows,
+                        order: orders,
+                        resume: resume[0],
+                        session: req.session
+                    });
+                    connection.release();
                 });
-                connection.release();
             });
         });
     });

@@ -36,15 +36,15 @@
                           <table class="table mb-5">
                              <tr>
                                 <th>이름</th>
-                                <td><%= data.Name %></td>
+                                <td><%= data[0].Name %></td>
                              </tr>
                              <tr>
                                 <th>생년월일</th>
-                                <td><%= data.Birth %></td>
+                                <td><%= data[0].Birth %></td>
                              </tr>
                              <tr>
                                 <th>전화번호</th>
-                                <td><%= data.Tel %></td>
+                                <td><%= data[0].Tel %></td>
                              </tr>
                           </table>
                           <div align="center">
@@ -58,19 +58,30 @@
                     <div class="card">
                        <div class="card-block">
                           <h1 class="card-title mb-5">외주 정보</h1>
-                           <% if(data.UserType == 'EE') { %>
+                           <% if(data[0].UserType == 'EE') { %>
                           <table class="table mb-5">
+                            <% var A = 0,
+                                   B= 0,
+                                   C = 0;
+                               for (var i = 0; i < data.length; i++) {
+                                  if (data[i].Status == 'A' || data[i].Status == 'B')
+                                      A++;
+                                  else if (data[i].Status == 'C')
+                                      B++;
+                                  else if (data[i].Status == 'D')
+                                      C++;
+                               } %>
                              <tr>
                                 <th>매칭대기</th>
-                                <td>3개</td>
+                                <td><%= A %></td>
                              </tr>
                              <tr>
                                 <th>매칭완료</th>
-                                <td>0개</td>
+                                <td><%= B %></td>
                              </tr>
                              <tr>
                                 <th>외주완료</th>
-                                <td>0개</td>
+                                <td><%= C %></td>
                              </tr>
                           </table>
                           <div align="center">
@@ -78,21 +89,35 @@
                           </div>
                            <% } else { %>
                           <table class="table">
+                            <% var A = 0,
+                                   B = 0,
+                                   C = 0,
+                                   D = 0;
+                               for (var i = 0; i < order.length; i++) {
+                                  if (order[i].Status == 'A')
+                                      A++;
+                                  else if (order[i].Status == 'B')
+                                      B++;
+                                  else if (order[i].Status == 'C')
+                                      C++;
+                                  else if (order[i].Status == 'D')
+                                      D++;
+                               } %>
                              <tr>
                                 <th>모집 중</th>
-                                <td>1개</td>
+                                <td><%= A %></td>
                              </tr>
                              <tr>
                                 <th>매칭 중</th>
-                                <td>1개</td>
+                                <td><%= B %></td>
                              </tr>
                              <tr>
                                 <th>매칭완료</th>
-                                <td>2개</td>
+                                <td><%= C %></td>
                              </tr>
                              <tr>
                                 <th>외주완료</th>
-                                <td>2개</td>
+                                <td><%= D %></td>
                              </tr>
                           </table>
                           <div align="center">
@@ -132,7 +157,7 @@
                        </div>
                     </div>
                  </td>
-                <% if(data.UserType == 'EE') { %>
+                <% if(data[0].UserType == 'EE') { %>
                  <td style="width: 45%;">
                     <div class="card" style="height:100%">
                        <div class="card-block">
