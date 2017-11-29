@@ -16,7 +16,7 @@ router.post('/', function(req, res, next) {
 
     pool.getConnection(function(err, connection) {
         var queryStr = 'SELECT * FROM user';
-        connection.query(queryStr, inputs, function(err, users) {
+        connection.query(queryStr, function(err, users) {
             if(err) console.log("err: ", err);
             var newId = (users[0] == null) ? 2017000001 : Number(users[users.length-1]._UID) + 1;
             for(var i = 0; i < users.length; i++) {
