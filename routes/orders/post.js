@@ -14,17 +14,20 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var body = req.body;
+    
     var prefer = '';  // 우대조건을 저장할 변수
-    var leng = body.Preference.length;  // 우대조건의 갯수
-    for (var i = 0; i < leng; i++) {
-        prefer += body.Preference[i]; // i 번째 우대조건을 prefer에 저장
-        if (i + 1 == leng)  // 마지막 우대조건이면
-            break;
-        else if (body.Preference[i+1] != '')  // 다음 우선조건이 ''이면
-            break;
-        prefer += '%&'; // 위 두 가지 경우가 아니면 구분자 '%&' 추가
-
+    if (Array.isArray(body.Preference)) {
+        var leng = body.Preference.length;  // 우대조건의 갯수
+        for (var i = 0; i < leng; i++) {
+            prefer += body.Preference[i]; // i 번째 우대조건을 prefer에 저장
+            if (i + 1 == leng)  // 마지막 우대조건이면
+                break;
+            prefer += '%&'; // 위 두 가지 경우가 아니면 구분자 '%&' 추가
+        }
+    } else if (body.Preference) {
+        prefer = body.Preference;
     }
+
     pool.getConnection(function(err, connection) {
         var queryStr = 'SELECT _OID FROM orders ORDER BY _OID DESC limit 1';  // orders Table 마지막 _OID 조회
         connection.query(queryStr, function(err, orders) {

@@ -15,7 +15,6 @@ router.get('/', function(req, res, next) {
             queryStr = "SELECT * FROM resume WHERE _UID=?";
             connection.query(queryStr, req.session._UID, function(err, resume) {
                 if(err) console.log("err: ", err);
-                console.log('resume: ', resume);
                 res.render('user/mypage', {
                     data: user[0],
                     resume: resume[0],

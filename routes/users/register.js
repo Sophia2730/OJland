@@ -39,8 +39,8 @@ router.post('/', function(req, res, next) {
                         from: '외주랜드 <ojland17@gmail.com>',
                         to: body.Email,
                         subject: '[외주랜드]인증 메일',
-                        html: '<h1>아래의 인증을 클릭해 주세요.</h1><br><a style="font-size:2em;" href="' + req.get('host')
-                        + '/confirm/' + encrypt(newId.toString()) + '">인증</a>'
+                        html: '<h1>아래의 주소를 클릭해 주세요.</h1><br><a style="font-size:2em;" href="http://' + req.get('host')
+                        + '/confirm/' + encrypt(newId.toString()) + '">http://' + req.get('host') + '/confirm/' + encrypt(newId.toString()) + '</a>'
                     };
                     transporter.sendMail(mailOptions, function (error, info) {
                         if (error) return console.log(error);

@@ -6,23 +6,30 @@ var pool = require('../../config.js').pool;
 router.post('/:id', function(req, res, next) {
     var body = req.body;
     var total = 0;  // 총 점수을 저장할 변수
+
     var prefer = '';  // 우대조건을 저장할 변수
-    var leng = body.Preference.length;
-    for (var i = 0; i < leng; i++) {
-        if (body.Preference[i] == '') // i 번째 우대조건이 체크되지 않으면
-            continue; // 다음 우대조건 체크
-        total += body.Preference.length; // 우대조건의 수 만큼 점수 추가
-        prefer += i;  // 우대조건에 인덱스 추가
-        if (i + 1 == leng)  // 마지막 우대조건이면
-            break;
-        else if (body.Preference[i+1] == '')  // 다음 우대 조건이 ''이면
-            break;
-        prefer += '%&'; // 위 두 가지 경우가 아니면 구분자 '%&' 추가
+    if(Array.isArray(body.Preference)) {
+        var leng = body.Preference.length;
+        for (var i = 0; i < leng; i++) {
+            total += body.Preference.length; // 우대조건의 수 만큼 점수 추가
+            prefer += body.Preference[i];  // 우대조건 추가
+            if (i + 1 == leng)  // 마지막 우대조건이면
+                break;
+            prefer += '%&'; // 위 두 가지 경우가 아니면 구분자 '%&' 추가
+        }
+    } else if (body.Preference){ // 우대조건이 1개이면
+        prefer = body.Preference;
     }
+
     pool.getConnection(function(err, connection) {
         var queryStr = 'SELECT * FROM resume WHERE _UID=?'
         connection.query(queryStr, req.session._UID, function(err, resume) {
             if(err) console.log("err: ", err);
+            if (!resume[0]) {
+                res.send('<script>alert("이력서를 작성해 주세요!");'
+                          + 'window.location.replace("/resume");</script>');
+                return;
+            }
             total += resume[0].Score; // 총 점수에 평점 추가
             queryStr = 'SELECT _AID FROM application ORDER BY _AID DESC limit 1;';
             connection.query(queryStr, function(err, application) {

@@ -5,12 +5,12 @@ var router = express.Router();
 var upload = require('../../config.js').upload;
 var path = require('path');
 
-var resumes;
+var resume;
 router.get('/', function(req, res, next) {
   pool.getConnection(function(err, connection) {
-      connection.query('SELECT * FROM resume', function(err, rows) {
+      connection.query('SELECT * FROM resume ORDER BY _RID DESC limit 1', function(err, rows) {
           if(err) console.log("err: ", err);
-          resumes = rows;
+          resume = rows[0];
           res.render('user/resume', {
               session: req.session
           });
@@ -19,31 +19,36 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.post('/', upload.array('userfile'), function(req, res){
+router.post('/', upload.array('File'), function(req, res){
     var body = req.body;
-    var licenses = '';
-    var imgUrl = '';
-    var newId = (resumes[0] == null) ? 2017000001 : Number(resumes[resumes.length-1]._RID) + 1;
+    var newId = (resume == null) ? 2017000001 : Number(resume._RID) + 1;
 
-    var leng = body.License.length;
-    if(!Array.isArray(body.License)) {
-        licenses = body.License;
-    } else {
+    var licenses = '';
+    if(Array.isArray(body.License)) {
+        var leng = body.License.length;
         for (var i =0; i < leng; i++) {
             licenses += body.License[i];
             if (i + 1 == leng)
                 break;
             licenses += '%&';
         }
+    } else if (body.License){
+        licenses = body.License;
     }
 
-    leng = req.files.length;
-    for (var i = 0; i < leng; i++) {
-        imgUrl += req.files[i].filename;
-        if (i + 1 == leng)
-            break;
-        imgUrl += '%&';
+    var imgUrl = '';
+    if(Array.isArray(req.files)) {
+        leng = req.files.length;
+        for (var i = 0; i < leng; i++) {
+            imgUrl += req.files[i].filename;
+            if (i + 1 == leng)
+                break;
+            imgUrl += '%&';
+        }
+    } else if (req.files){
+        imgUrl = req.files.filename;
     }
+
 
     var inputs = [newId, req.session._UID, body.Course, body.Colleage, body.Major, licenses, body.Content, imgUrl]
     console.log(inputs);

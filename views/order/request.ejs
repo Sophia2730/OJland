@@ -27,11 +27,11 @@
                <div class="row">
                    <div class="col-md-12">
                        해당사항을 체크해주세요:<br>
-                       <% for (var i = 0; i < 3; i++) { if (preference[i] != null) { %>
+                       <% for (var i = 0; i < preference.length; i++) { %>
+                         <% if (preference[i] != '') { %>
                           <input type="checkbox" name="Preference" value="<%= preference[i] %>"/><b><%= preference[i] %></b><br>
-                        <% } else { %>
-                            <input type="checkbox" name="Preference" style="display:none" value="" checked />
-                       <% } } %>
+                         <% } %>
+                       <% } %>
                    </div>
                </div>
              </div>

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var pool = require('../../config.js').pool;
 
 router.get('/', function(req, res, next) {
     if (!req.session.Name) {
@@ -7,7 +8,7 @@ router.get('/', function(req, res, next) {
         return;
     }
     res.render('user/main', {
-        session: req.session
+            session: req.session
     });
 });
 

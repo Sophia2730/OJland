@@ -3,7 +3,7 @@
   <head>
       <% include ../nav/header.ejs %>
       <style>
-          .prefer a {
+          .prefer a, #file a {
               width: 30px;
               height: 30px;
               margin-left: 5px;
@@ -60,11 +60,9 @@
                  <label for="Content">자기소개:</label>
                  <textarea name="Content" rows="4" style="width:100%" placeholder="자기소개를 입력하세요."></textarea>
               </div>
-              <div class="form-group">
+              <div id="file" class="form-group">
                 <label for="userfile">사진첨부</label><br>
-                <input type='file' name='userfile' class="mb-2">
-                <input type='file' name='userfile' class="mb-2">
-                <input type='file' name='userfile' class="mb-2">
+                <input type='file' name='File' class="mb-2"><a class="btn btn-primary text-white">+</a>
               </div>
               <input type="submit" class="btn btn-primary btn-block mt-5" value="수정하기">
            </form>
@@ -89,6 +87,27 @@
                $(this).parent().prev().eq(2).text('+');  // 이전 li의 버튼 텍스트를 +로 변경
                $(this).parent().remove();  // 버튼이 속해있는 li 제거
            }
+       });
+       var count = 1;
+       var fHtml = '<input type="file" name="File" class="mb-2"><a class="btn btn-primary text-white">+</a>';
+       $('#file').on('click', 'a', function(e) {
+            if ($(this).text() == '+' && count < 3) {
+                if ($(this).prev().val() != '') {
+                    count++;
+                    $(this).text('-');  // 버튼 텍스트를 -로 변경
+                    $(this).prev().attr('disabled', true);
+                    $('#file').append(fHtml);
+                } else {
+                    alert('내용이 없습니다!');
+                }
+            } else if ($(this).text() == '-' && count > 1) {
+                count--;
+                $(this).prev().prev().prev().attr('disabled', false);  // 이전  input을 수정가능으로 변경
+                if ($(this).next().next().text() != '+')  // 다음 버튼이 '+'이 아니면
+                    $(this).prev().prev().text('+');  // 이전 버튼 텍스트를 +로 변경
+                $(this).prev().remove();
+                $(this).remove();
+            }
        });
     </script>
   </body>

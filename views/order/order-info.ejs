@@ -67,9 +67,11 @@
             <td colspan="3">
               <ul class="prefer" style="list-style:none;margin: 0 !important;padding:0 !important;">
                   <li style="margin-bottom: 5px;text-align:left;">
-                    <% for (var i = 0; i < preference.length; i++) { if (preference[i] != '') { %>
+                    <% for (var i = 0; i < preference.length; i++) { %>
+                      <% if (preference[i] != '') { %>
                           <p>[<%= i+1 %>] <%= preference[i] %></p>
-                    <% }} %>
+                      <% } %>
+                    <% } %>
                   </li>
               </ul>
             </td>
@@ -88,19 +90,18 @@
                 <form method="POST" action="/info/<%= data._OID %>?_method=DELETE" style="margin:0 !important;display:inline-block;">
                     <input type="submit" class="btn btn-danger" style="margin-right:30px;" value="삭제" />
                 </form>
-            <% } else if (session.UserType == 'EE') { if (!app) { %>
+            <% } else if (session.UserType == 'EE') { %>
+              <% if (!app) { %>
                 <a class="btn btn-success" style="margin-right:20px;" data-toggle="modal" data-target="#myModal" href="">수주요청</a>
-            <% } else { %>
-              <form method="POST" action="/req/<%= data._OID %>?_method=DELETE" style="display:inline-block">
-                  <input type="submit" class="btn btn-danger" style="margin-right:20px;" value="요청취소" />
-                  <a class="btn btn-danger" style="margin-right:20px;" data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
-              </form>
-            <% } }%>
-            <% if (session.UserType == 'AD') { %>
-            <a class="btn btn-info" href="/orders">목록</a>
-            <% } else { %>
-            <a class="btn btn-info" href="/list">목록</a>
+              <% } else if (data.Status != 'A') { %>
+                    <a class="btn btn-danger" style="margin-right:20px;" data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
+              <% } else { %>
+                <form method="POST" action="/req/<%= data._OID %>?_method=DELETE" style="display:inline-block">
+                    <input type="submit" class="btn btn-danger" style="margin-right:20px;" value="요청취소" />
+                </form>
+              <% } %>
             <% } %>
+            <a class="btn btn-info" href="/<%= (session.UserType == 'AD') ? 'admin' : 'list' %>">목록</a>
          </div>
      </div>
      <% if (session.UserType == 'EE') { %>

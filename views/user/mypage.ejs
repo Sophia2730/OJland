@@ -137,6 +137,7 @@
                     <div class="card" style="height:100%">
                        <div class="card-block">
                           <h1 class="mb-5">이력서</h1>
+                          <% if (resume) { %>
                           <table class="table mb-5">
                              <tr>
                                 <th>대학구분</th>
@@ -167,8 +168,12 @@
                                 </td>
                              </tr>
                           </table>
+                          <% } %>
                           <div align="center">
-                              <a class="btn btn-primary" href="/resume">이력서 수정</a>
+                              <a class="btn btn-primary" href="/resume">
+                                <% if (resume) { %>이력서 수정<% } %>
+                                <% if (!resume) { %>이력서 작성<% } %>
+                              </a>
                           </div>
                        </div>
                     </div>

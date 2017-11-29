@@ -27,7 +27,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for(var i = 0; i < data.length; i++) { %>
+                    <% for(var i = 0; i < data.length; i++) { if (data[i] != null) { %>
                         <tr>
                             <td><%= i+1 %></td>
                             <td><%= data[i].Category %></td>
@@ -47,7 +47,7 @@
                             <% } %>
                             <td><a class="btn btn-info" href="">수주자 조회</a></td>
                         </tr>
-                    <% } %>
+                    <% } } %>
                     </tbody>
                 </table>
               </div>
