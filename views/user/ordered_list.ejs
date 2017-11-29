@@ -27,7 +27,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for(var i = 0; i < data.length; i++) { if (data[i] != null) { %>
+                    <% for(var i = 0; i < data.length; i++) { if (data[i].title) { %>
                         <tr>
                             <td><%= i+1 %></td>
                             <td><%= data[i].Category %></td>
@@ -68,7 +68,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    <% for(var i = 0; i < data.length; i++) { %>
+                    <% for(var i = 0; i < data.length; i++) {  if (data[i].Title) { %>
                       <tr>
                           <td><%= i+1 %></td>
                           <td><%= data[i].Category %></td>
@@ -87,7 +87,7 @@
                           <td>외주완료</td>
                           <% } %>
                       </tr>
-                    <% } %>
+                    <% } } %>
                     </tbody>
                 </table>
               </div>
