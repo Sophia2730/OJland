@@ -3,11 +3,20 @@
   <head>
       <% include ../nav/header.ejs %>
       <style>
-          .prefer a, #file a {
+          ul {
+              list-style: none;
+              margin: 0;
+              padding: 0;
+          }
+          .license a, .file a {
               width: 30px;
               height: 30px;
               margin-left: 5px;
               padding: 0;
+          }
+          .hidden {
+              width: 0;
+              visibility: hidden;
           }
       </style>
   </head>
@@ -21,11 +30,19 @@
         <div class="card-body">
            <form action="resume" enctype="multipart/form-data" method="post">
               <div class="text-center mb-3">
-                 <label class="radio-inline mr-3">
-                   <input type="radio" name="Course" value="2/3년제" checked="checked">2/3년제
-                 </label>
-                 <label class="radio-inline ml-3">
-                   <input type="radio" name="Course" value="4년제">4년제
+                 <label class="radio-inline mx-auto">
+                   <% if(resume) { %>
+                      <% if(resume.Course == '2/3년제') { %>
+                          <input type="radio" name="Course" value="2/3년제" checked>2/3년제
+                          <input type="radio" name="Course" value="4년제" class="ml-4">4년제
+                      <% } else { %>
+                          <input type="radio" name="Course" value="2/3년제">2/3년제
+                          <input type="radio" name="Course" value="4년제" class="ml-4" checked>4년제
+                      <% } %>
+                   <% } else { %>
+                       <input type="radio" name="Course" value="2/3년제" checked=>2/3년제
+                       <input type="radio" name="Course" value="4년제" class="ml-4">4년제
+                   <% } %>
                  </label>
               </div>
               <div class="form-group">
@@ -33,6 +50,9 @@
                       <div class="col-md-6">
                        <label for="Colleage">학부</label>
                        <select class="form-control" name="Colleage">
+                         <% if(resume) { %>
+                           <option value="<%= resume.Colleage %>"><%= resume.Colleage %></option>
+                         <% } %>
                          <option></option>
                          <% for (var key in major) { %>
                             <option value="<%= key %>"><%= key %></option>
@@ -42,6 +62,9 @@
                       <div class="col-md-6">
                          <label for="Major">학과</label>
                          <select class="form-control" name="Major">
+                           <% if(resume) { %>
+                             <option value="<%= resume.Major %>"><%= resume.Major %></option>
+                           <% } %>
                            <option></option>
                          </select>
                       </div>
@@ -49,20 +72,57 @@
               </div>
               <div class="form-group">
                 <label for="License">보유 자격증</label>
-                <ul class="prefer" style="list-style:none;margin: 0 !important;padding:0 !important;">
+                <ul class="license">
+                  <% if (resume && resume.License[0]) { %>
+                    <% var licenses = resume.License.split('%&'); %>
+                    <% for (var i = 0; i < licenses.length; i++) { %>
+                      <li class="mb-3">
+                        <input type="text" name="License" style="width: 90%;" value="<%= licenses[i] %>" />
+                        <a class="btn btn-primary text-white">-</a>
+                      </li>
+                    <% } %>
+                  <% } %>
                     <li class="mb-3">
-                      <input type="text" name="License" style="width: 90%;" placeholder="ex) 정보처리기능사 자격증 보유" />
+                      <input type="text" name="License" style="width: 90%;" maxlength="30" placeholder="ex) 정보처리기능사 자격증 보유" />
                       <a class="btn btn-primary text-white">+</a>
                     </li>
                 </ul>
               </div>
               <div class="form-group">
                  <label for="Content">자기소개:</label>
-                 <textarea name="Content" rows="4" style="width:100%" placeholder="자기소개를 입력하세요."></textarea>
+                 <% if (resume) { %>
+                   <textarea name="Content" rows="4" style="width:100%"><%= resume.Content %></textarea>
+                 <% } else { %>
+                   <textarea name="Content" rows="4" style="width:100%" placeholder="자기소개를 입력하세요."></textarea>
+                 <% } %>
               </div>
-              <div id="file" class="form-group">
-                <label for="userfile">사진첨부</label><br>
-                <input type='file' name='File' class="mb-2"><a class="btn btn-primary text-white">+</a>
+              <div class="form-group">
+                <label for="File">사진첨부</label><br>
+                <ul class="file">
+                  <% if (resume && resume.imageUrl[0]) { %>
+                    <% var imageUrls = resume.imageUrl.split('%&'); %>
+                    <% for (var i = 0; i < imageUrls.length; i++) { %>
+                        <% if (i == imageUrls.length - 1) { %>
+                          <li class="mb-3">
+                            <input type="text" name="curFile" value="<%= imageUrls[i] %>" readonly>
+                            <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
+                            <a class="btn btn-primary text-white">+</a>
+                          </li>
+                        <% } else { %>
+                          <li class="mb-3">
+                            <input type="text" name="curFile" value="<%= imageUrls[i] %>" readonly>
+                            <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
+                            <a class="btn btn-primary text-white">-</a>
+                          </li>
+                        <% } %>
+                    <% } %>
+                  <% } else { %>
+                        <li class="mb-3">
+                            <input type='file' name='File' class="mb-2">
+                            <a class="btn btn-primary text-white">+</a>
+                        </li>
+                  <% } %>
+                </ul>
               </div>
               <div align="center">
                   <input type="submit" class="btn btn-primary mr-3" value="완료">
@@ -91,15 +151,15 @@
              <% } %>
            <% } %>
        });
-       var mHtml = '<li class="mb-3"><input type="text" name="License" style="width: 90%;"/>'
+       var mHtml = '<li class="mb-3"><input type="text" name="License" style="width: 90%;" maxlength="30" />'
                             + ' <a class="btn btn-primary text-white">+</a></li>';
-       $('.prefer').on('click', 'li a', function(e) {  // 클릭 리스너 등록
+       $('.license').on('click', 'li a', function(e) {  // 클릭 리스너 등록
            e.preventDefault();
            if ($(this).text() == '+') {  // +버튼이고 input에 값이 있으면
                if ($(this).prev().val() != '') {
                    $(this).text('-');  // 버튼 텍스트를 -로 변경
                    $(this).prev().attr('readonly', true);
-                   $('.prefer').append(mHtml);
+                   $('.license').append(mHtml);
                } else {
                    alert('내용이 없습니다!');
                }
@@ -109,25 +169,24 @@
                $(this).parent().remove();  // 버튼이 속해있는 li 제거
            }
        });
-       var count = 1;
-       var fHtml = '<input type="file" name="File" class="mb-2"><a class="btn btn-primary text-white">+</a>';
-       $('#file').on('click', 'a', function(e) {
+       var count = <%= (imageUrls) ? imageUrls.length : 1 %>;
+       var fHtml = '<li class="mb-3"><input type="file" name="File" class="mb-2"> <a class="btn btn-primary text-white">+</a></li>';
+       $('.file').on('click', 'a', function(e) {
             if ($(this).text() == '+' && count < 3) {
-                if ($(this).prev().val() != '') {
+                if ($(this).siblings().val() != '') {
                     count++;
                     $(this).text('-');  // 버튼 텍스트를 -로 변경
-                    $(this).prev().attr('disabled', true);
-                    $('#file').append(fHtml);
+                    $(this).prev().attr('readonly', true);
+                    $('.file').append(fHtml);
                 } else {
                     alert('내용이 없습니다!');
                 }
             } else if ($(this).text() == '-' && count > 1) {
                 count--;
-                $(this).prev().prev().prev().attr('disabled', false);  // 이전  input을 수정가능으로 변경
-                if ($(this).next().next().text() != '+')  // 다음 버튼이 '+'이 아니면
-                    $(this).prev().prev().text('+');  // 이전 버튼 텍스트를 +로 변경
-                $(this).prev().remove();
-                $(this).remove();
+                $(this).parent().prev().children("input").last().attr('readonly', false);  // 이전  input을 수정가능으로 변경
+                if ($(this).parent().next().children("a").text() != '+')  // 다음 버튼이 '+'이 아니면
+                    $(this).parent().prev().children("a").text('+');  // 이전 버튼 텍스트를 +로 변경
+                $(this).parent().remove();
             }
        });
     </script>

@@ -32,6 +32,7 @@ exports.decrypt = function (text) {
     return decipheredPlaintext;
 }
 
+// nodemailer 메일 세팅
 exports.transporter = nodemailer.createTransport(smtpTransport({
         service: 'gmail',
         auth: {
@@ -42,25 +43,24 @@ exports.transporter = nodemailer.createTransport(smtpTransport({
 
 // multer 파일 업로드
 // exports.upload = multer({
-//   storage: multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, 'uploads/');
-//     },
-//     filename: function (req, file, cb) {
-//       cb(null, new Date().valueOf() + path.extname(file.originalname));
-//     }
-//   })
+//     storage:  multer.diskStorage({
+//         destination: function (req, file, callback) {
+//           callback(null, 'public/uploads/');
+//         },
+//         filename: function (req, file, callback) {
+//            var ext = path.extname(file.originalname);
+//            var filename = path.basename(file.originalname, ext);
+//            callback(null, new Date().valueOf() + filename + ext);
+//        }
+//    })
 // });
-
 exports.upload = multer({
-    storage:  multer.diskStorage({
-      destination: function (req, file, callback) {
-       callback(null, 'uploads/');
-     },
-     filename: function (req, file, callback) {
-       var ext = path.extname(file.originalname);
-       var filename = path.basename(file.originalname, ext);
-       callback(null, new Date().valueOf() + filename + ext);
-     }
-   })
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads/');
+    },
+    filename: function (req, file, cb) {
+      cb(null, new Date().valueOf() + path.extname(file.originalname));
+    }
+  }),
 });

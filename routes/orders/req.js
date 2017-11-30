@@ -11,7 +11,7 @@ router.post('/:id', function(req, res, next) {
     if(Array.isArray(body.Preference)) {
         var leng = body.Preference.length;
         for (var i = 0; i < leng; i++) {
-            total += body.Preference.length; // 우대조건의 수 만큼 점수 추가
+            total += 2; // 우대조건의 수 만큼 점수 추가
             prefer += body.Preference[i];  // 우대조건 추가
             if (i + 1 == leng)  // 마지막 우대조건이면
                 break;

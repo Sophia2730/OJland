@@ -89,7 +89,7 @@
                 <% if (!apps[0]) { %>
                 <a class="btn btn-primary mr-3"href="/put/<%= data._OID %>">수정</a>
                 <form method="POST" action="/info/<%= data._OID %>?_method=DELETE" style="margin:0 !important;display:inline-block;">
-                    <input type="submit" class="btn btn-danger mr-3"value="삭제" />
+                    <input type="submit" class="btn btn-danger mr-3" value="삭제" />
                 </form>
                 <% } %>
             <% } else if (session.UserType == 'EE') { %>
@@ -99,16 +99,34 @@
                     <a class="btn btn-danger mr-3"data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
               <% } else { %>
                 <form method="POST" action="/req/<%= data._OID %>?_method=DELETE" style="display:inline-block">
-                    <input type="submit" class="btn btn-danger mr-3"value="요청취소" />
+                    <input type="submit" class="btn btn-danger mr-3" value="요청취소" />
                 </form>
               <% } %>
             <% } %>
-            <a class="btn btn-info" href="/<%= (session.UserType == 'AD') ? 'admin' : 'list' %>">목록</a>
+            <!-- <a class="btn btn-info" href="/<%= (session.UserType == 'AD') ? 'admin' : 'list' %>">목록</a> -->
+            <button type="button" class="btn btn-info" onClick="back();">목록</button>
          </div>
      </div>
      <% if (session.UserType == 'EE') { %>
        <% include ./request.ejs %>
        <% include ../progress/post.ejs %>
      <% } %>
+     <script>
+        function back() {
+            history.go(-1);
+        }
+
+        $("input[type=submit]").on('click', function(e) {
+            if($(this).val() == "삭제") {
+                var answer = confirm('정말로 삭제하시겠습니까?');
+                if (!answer)
+                  e.preventDefault();
+            } else if ($(this).val() == "요청취소") {
+                var answer = confirm('정말로 취소하시겠습니까?');
+                if (!answer)
+                  e.preventDefault();
+            }
+        });
+     </script>
   </body>
 </html>

@@ -55,22 +55,20 @@
       </div>
 
       <script>
-          $(document).ready(function() {
-              $("#getEmail").on('click', function(e) {
-                  var input = [ $("input[name=IName]").val(), $("input[name=IBirth]").val(), $("input[name=ITel]").val() ];
-                  if (input[0] == '' || input[1] == '' || input[2] == '') {
-                      alert('입력하지 않은 정보가 있습니다!');
-                      e.preventDefault();
-                  }
-              });
+          $("#getEmail").on('click', function(e) {
+              var input = [ $("input[name=IName]").val(), $("input[name=IBirth]").val(), $("input[name=ITel]").val() ];
+              if (input[0] == '' || input[1] == '' || input[2] == '') {
+                  alert('입력하지 않은 정보가 있습니다!');
+                  e.preventDefault();
+              }
+          });
 
-              $("#getPassword").on('click', function(e) {
-                  var input = [ $("#input[name=PName]").val(), $("#input[name=PEmail]").val(), $("#input[name=PTel]").val() ];
-                  if(input[0] == '' || input[1] == '' || input[2] == '') {
-                      alert('입력하지 않은 정보가 있습니다!');
-                      e.preventDefault();
-                  }
-              });
+          $("#getPassword").on('click', function(e) {
+              var input = [ $("#input[name=PName]").val(), $("#input[name=PEmail]").val(), $("#input[name=PTel]").val() ];
+              if(input[0] == '' || input[1] == '' || input[2] == '') {
+                  alert('입력하지 않은 정보가 있습니다!');
+                  e.preventDefault();
+              }
           });
       </script>
   </body>

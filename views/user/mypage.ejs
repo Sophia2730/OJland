@@ -178,7 +178,14 @@
                              </tr>
                              <tr>
                                 <th>자격증</th>
-                                <td><%= resume.License %></td>
+                                <td>
+                                    <% var license = resume.License.split('%&');
+                                        for (var i = 0; i < license.length; i++) { %>
+                                          <% if (license[i]) { %>
+                                          <button class="btn mr-2 mb-2"><%= license[i] %></button><br>
+                                          <% } %>
+                                    <% } %>
+                                </td>
                              </tr>
                              <tr>
                                 <th>자기소개</th>
@@ -187,9 +194,12 @@
                              <tr>
                                 <th>사진</th>
                                 <td>
-                                  <img src="" alt="">
-                                  <img src="" alt="">
-                                  <img src="" alt="">
+                                    <% var imgUrls = resume.imageUrl.split('%&');
+                                    if(imgUrls[0]) {
+                                       for (var i = 0; i < imgUrls.length; i++) { %>
+                                         <img src="uploads/<%= imgUrls[i] %>" alt="">
+                                    <% }
+                                    } %>
                                 </td>
                              </tr>
                           </table>

@@ -15,16 +15,16 @@
         <div class="card-body">
             <form method="POST" action="/changepwd?_method=PUT">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">기존 비밀번호</label>
-                    <input class="form-control" type="password" name="pwd_current" placeholder="기존 비밀번호를 입력해주세요.">
+                    <label for="curPwd">현재 비밀번호</label>
+                    <input class="form-control" type="password" name="curPwd" placeholder="현재 비밀번호를 입력해주세요.">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">새 비밀번호</label>
-                    <input class="form-control" type="password" name="pwd_change1" placeholder="새 비밀번호를 입력해주세요.">
+                    <label for="pwd1">새 비밀번호</label>
+                    <input class="form-control" type="password" name="pwd1" placeholder="새 비밀번호를 입력해주세요.">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">새 비밀번호 확인</label>
-                    <input class="form-control" type="password" name="pwd_change2" placeholder="새 비밀번호를 확인해주세요.">
+                    <label for="pwd2">새 비밀번호 확인</label>
+                    <input class="form-control" type="password" name="pwd2" placeholder="새 비밀번호를 확인해주세요.">
                 </div>
                 <div align="center">
                     <input type="submit" class="btn btn-primary mr-3" value="수정" />
@@ -34,5 +34,30 @@
         </div>
     </div>
   </div>
+  <script>
+      var curPwd = $("input[name=curPwd]");
+      var pwd1 = $("input[name=pwd1]");
+      var pwd2 = $("input[name=pwd2]");
+
+      $("input[type=submit]").on('click', function(e) {
+          if(!curPwd.val()) {
+              e.preventDefault();
+              alert('현재 비밀번호를 입력해주세요!');
+              curPwd.focus();
+          } else if(!pwd1.val()) {
+              e.preventDefault();
+              alert('새 비밀번호를 입력해주세요!');
+              pwd1.focus();
+          } else if(pwd1.val() != pwd2.val()) {
+              e.preventDefault();
+              alert('새 비밀번호가 서로 다릅니다!');
+              pwd1.focus();
+          } else if(pwd1.val().length < 8 || pwd1.val().length > 16) {
+              e.preventDefault();
+              alert('비밀번호는 8~16자리 입니다.');
+              pwd1.focus();
+          }
+      });
+  </script>
 </body>
 </html>

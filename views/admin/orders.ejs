@@ -54,5 +54,12 @@
               </div>
           </div>
       </div>
+      <script>
+          $("input[type=submit]").on('click', function(e) {
+              var answer = confirm('정말로 삭제하시겠습니까?');
+              if (!answer)
+                e.preventDefault();
+          });
+      </script>
   </body>
 </html>
