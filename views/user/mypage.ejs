@@ -36,15 +36,15 @@
                           <table class="table mb-5">
                              <tr>
                                 <th>이름</th>
-                                <td><%= data[0].Name %></td>
+                                <td><%= user.Name %></td>
                              </tr>
                              <tr>
                                 <th>생년월일</th>
-                                <td><%= data[0].Birth %></td>
+                                <td><%= user.Birth %></td>
                              </tr>
                              <tr>
                                 <th>전화번호</th>
-                                <td><%= data[0].Tel %></td>
+                                <td><%= user.Tel %></td>
                              </tr>
                           </table>
                           <div align="center">
@@ -58,17 +58,17 @@
                     <div class="card">
                        <div class="card-block">
                           <h1 class="card-title mb-5">외주 정보</h1>
-                           <% if(data[0].UserType == 'EE') { %>
+                           <% if(user.UserType == 'EE') { %>
                           <table class="table mb-5">
                             <% var A = 0,
                                    B= 0,
                                    C = 0;
-                               for (var i = 0; i < data.length; i++) {
-                                  if (data[i].Status == 'A' || data[i].Status == 'B')
+                               for (var i = 0; i < app.length; i++) {
+                                  if (app[i].Status == 'A' || app[i].Status == 'B')
                                       A++;
-                                  else if (data[i].Status == 'C')
+                                  else if (app[i].Status == 'C')
                                       B++;
-                                  else if (data[i].Status == 'D')
+                                  else if (app[i].Status == 'D')
                                       C++;
                                } %>
                              <tr>
@@ -157,7 +157,7 @@
                        </div>
                     </div>
                  </td>
-                <% if(data[0].UserType == 'EE') { %>
+                <% if(user.UserType == 'EE') { %>
                  <td style="width: 45%;">
                     <div class="card" style="height:100%">
                        <div class="card-block">

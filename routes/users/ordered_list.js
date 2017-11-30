@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
             connection.query(queryStr, function (err, rows) {
                 if(err) console.log("err: ", err);
                 else {
+                    console.log(rows);
                     var dates = [];
                     for (var i = 0; i < rows.length; i++) {
                         dates[i] = moment(rows[i].Time).format('YYYY/MM/DD');
