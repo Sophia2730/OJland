@@ -19,17 +19,22 @@ router.get('/', function(req, res, next) {
 
 router.post('/id', function(req, res, next) {
     var body = req.body;
-    console.log(users[1].Name);
+    var emails = '';
+    var check = false;
     for(var i = 0; i < users.length; i++) {
           if (body.IName == users[i].Name && body.IBirth == users[i].Birth && body.ITel == users[i].Tel) {
-              res.send('<script>alert("찾으시는 이메일은 ' + users[i].Email + ' 입니다.");' +
-                    'window.location.replace("/forgot");</script>');
-          }
-          else{
-            res.send('<script>alert("일치하는 정보가없습니다.");' + 'window.location.replace("/forgot");</script>');
+              emails += "'" + users[i].Email + "' ";
+              check = true;
           }
     }
+    if (check) {
+          res.send('<script>alert("찾으시는 이메일은 ' + emails + ' 입니다.");' +
+          'window.location.replace("/forgot");</script>');
+          return;
+    }
+    res.send('<script>alert("일치하는 정보가없습니다.");' + 'window.location.replace("/forgot");</script>');
 });
+
 router.post('/pwd', function(req, res, next) {
     var body = req.body;
     for(var i = 0; i < users.length; i++) {
@@ -49,9 +54,6 @@ router.post('/pwd', function(req, res, next) {
             res.send('<script>alert("등록된 이메일 주소로 비밀번호가 전송되었습니다!");' +
                     'window.location.replace("/login");</script>');
             return;
-        }
-        else{
-          res.send('<script>alert("일치하는 정보가 없습니다.");' + 'window.location.replace("/forgot");</script>');
         }
     }
     res.send('<script>alert("일치하는 정보가 없습니다!");' +

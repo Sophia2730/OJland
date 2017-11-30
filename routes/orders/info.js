@@ -17,19 +17,23 @@ router.get('/', function(req, res, next) {
             queryStr = 'SELECT * FROM user WHERE _UID=?'; // user Table에서 해당 발주의 발주자 조회
             connection.query(queryStr, orders[0]._UID, function(err, users) {
                 if(err) console.log("err: ", err);
-                var prefer = [];  // 우대조건을 저장할 배열
-                if (orders[0].Preference != null) // 해당 발주의 우대조건이 존재하면
-                    prefer = orders[0].Preference.split('%&');  // '%&'을 구분자로하여 분할
-                res.render('order/order-info', {  // 발주 조회 페이지 렌딩
-                    data: orders[0],  // 해당 발주 정보
-                    preference: prefer, // 우대조건
-                    reqNum: '0',  // 지원자 수
-                    date: moment(orders[0].Time).format('YYYY/MM/DD'),  // 해당 발주날짜
-                    user: users[0], // 발주자 정보
-                    session: req.session, // 접속자 정보
-                    app: app  // 해당 발주에 대한 지원 여부
+                queryStr = 'SELECT * FROM application WHERE _OID=?'; // user Table에서 해당 발주의 발주자 조회
+                connection.query(queryStr, orders[0]._OID, function(err, apps) {
+                    var prefer = [];  // 우대조건을 저장할 배열
+                    if (orders[0].Preference != null) // 해당 발주의 우대조건이 존재하면
+                        prefer = orders[0].Preference.split('%&');  // '%&'을 구분자로하여 분할
+                    res.render('order/order-info', {  // 발주 조회 페이지 렌딩
+                        data: orders[0],  // 해당 발주 정보
+                        preference: prefer, // 우대조건
+                        reqNum: apps.length,  // 지원자 수
+                        date: moment(orders[0].Time).format('YYYY/MM/DD'),  // 해당 발주날짜
+                        user: users[0], // 발주자 정보
+                        session: req.session, // 접속자 정보
+                        app: app,  // 해당 발주에 대한 지원 여부
+                        apps: apps
+                    });
+                    connection.release();
                 });
-                connection.release();
             });
         });
     });

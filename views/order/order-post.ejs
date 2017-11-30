@@ -8,6 +8,13 @@
               top:65px;
               left:55px;
           }
+          .prefer a {
+              width: 30px;
+              height: 30px;
+              padding: 0;
+              margin: 0;
+              vertical-align: middle;
+          }
           .b {
               font-weight: bold;
           }
@@ -78,12 +85,16 @@
                       <option value="무관">무관</option>
                       <option value="경영대학">경영대학</option>
                       <option value="사회과학대학">사회과학대학</option>
+                      <option value="바이오나노대학">바이오나노대학</option>
+                      <option value="보건과학대학">보건과학대학</option>
                       <option value="인문대학">인문대학</option>
                       <option value="법과대학">법과대학</option>
                       <option value="공과대학">공과대학</option>
                       <option value="IT대학">IT대학</option>
                       <option value="예술대학">예술대학</option>
                       <option value="의과대학">의과대학</option>
+                      <option value="한의과대학">한의과대학</option>
+                      <option value="약학대학">약학대학</option>
                     </select>
                   </td>
                </tr>
@@ -94,15 +105,6 @@
                       <li style="margin-bottom:5px;">
                         <input type="text" name="Preference" style="width: 90%;" placeholder="ex) 정보처리기능사 자격증 보유" />
                         <a id="add" class="btn btn-primary btn-sm">+</a>
-                      </li>
-                      <li style="margin-bottom:5px;display:none">
-                        <input type="text" name="Preference" style="width: 90%;" />
-                        <a id="add" class="btn btn-primary btn-sm">+</a>
-                      </li>
-                      <li style="margin-bottom:5px;display:none">
-                        <input type="text" name="Preference" style="width: 90%;" />
-                        <a id="add" class="btn btn-primary btn-sm">+</a>
-                      </li>
                     </ul>
                   </td>
                   <td colspan="4"></td>
@@ -120,18 +122,21 @@
     </div>
     <script>
       var count = 1;
+      var liHtml = '<li style="margin-bottom:5px;">'
+                + '<input type="text" name="Preference" style="width: 90%;" placeholder="ex) 정보처리기능사 자격증 보유" />'
+                + ' <a class="btn btn-primary btn-sm">+</a></li>'
+
       $(".prefer").on('click', 'li a', function() {
           if ($(this).text() == '+' && $(this).prev().val() != '' && count < 3) {
               $(this).prev().attr('readonly',true);
               $(this).text('-');
-              $(this).parent().next().css('display', 'block');
+              $(".prefer").append(liHtml);
               count++;
-          } else if ($(this).text() == '-') {
+          } else if ($(this).text() == '-' && count > 1) {
               $(this).siblings().val('');
               $(this).siblings().attr('readonly',false);
               $(this).text('+');
-              $(this).parent().insertAfter(".prefer li:last-child");
-              $(this).parent().css('display', 'none');
+              $(this).parent().remove();
               count--;
           }
       });

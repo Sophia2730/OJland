@@ -17,14 +17,25 @@ router.get('/', function(req, res, next) {
               for (var i = 0; i < orders.length; i++) { // 발주 날짜의 형식 변환
                   dates[i] = moment(orders[i].Time).format('YYYY/MM/DD');
               }
-              res.render('order/order-category', {  // 발주 목록 페이지 렌딩
-                  category: category, // 카테고리
-                  data: orders, // orders Table 정보
-                  reqNum: '0',  // 지원 요청자
-                  date: dates,  // 발주 날짜
-                  session: req.session  // 접속자 정보
+              queryStr = 'SELECT * FROM application';  // orders Table 조회
+              connection.query(queryStr, function(err, apps) {
+                var reqNums = [];
+                for (var i = 0; i < orders.length; i++) {
+                    reqNums[i] = 0;
+                    for (var j = 0; j < apps.length; j++) {
+                        if (orders[i]._OID == apps[j]._OID)
+                            reqNums[i]++;
+                    }
+                }
+                res.render('order/order-category', {  // 발주 목록 페이지 렌딩
+                    category: category, // 카테고리
+                    data: orders, // orders Table 정보
+                    reqNum: reqNums,  // 지원 요청자
+                    date: dates,  // 발주 날짜
+                    session: req.session  // 접속자 정보
+                });
+                connection.release();
               });
-              connection.release();
           });
     });
 });

@@ -14,15 +14,16 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var body = req.body;
-    
+
     var prefer = '';  // 우대조건을 저장할 변수
     if (Array.isArray(body.Preference)) {
         var leng = body.Preference.length;  // 우대조건의 갯수
         for (var i = 0; i < leng; i++) {
             prefer += body.Preference[i]; // i 번째 우대조건을 prefer에 저장
-            if (i + 1 == leng)  // 마지막 우대조건이면
+            if (i + 1  == leng) // 마지막 우선조건이면
                 break;
-            prefer += '%&'; // 위 두 가지 경우가 아니면 구분자 '%&' 추가
+            else if(body.Preference[i+1] != '') // 다음 조건이 존재하면
+                prefer += '%&'; // 구분자 '%&' 추가
         }
     } else if (body.Preference) {
         prefer = body.Preference;

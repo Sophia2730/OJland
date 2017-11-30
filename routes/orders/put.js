@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
             order = rows[0];  // 해당 발주 정보를 저장
             var prefer = [];  // 우대조건을 저장할 배열
             if (rows[0].Preference != null) { // 우선조건이 존재하면
-              prefer = rows[0].Preference.split('%&');  // '%&'을 구분자로하여 분할
+                prefer = rows[0].Preference.split('%&');  // '%&'을 구분자로하여 분할
             }
             res.render('order/order-put', { // 발주 수정 페이지 렌딩
                 session: req.session, // 접속자 정보
@@ -31,16 +31,21 @@ router.get('/:id', function(req, res, next) {
 
 router.put('/', function(req, res, next) {
     var body = req.body;
+
     var prefer = '';  // 우대조건을 저장할 변수
-    var leng = body.Preference.length;
-    for (var i = 0; i < leng; i++) {
-        prefer += body.Preference[i]; // i 번째 우대조건을 prefer에 저장
-        if (i + 1  == leng) // 마지막 우선조건이면
-            break;
-        else if (body.Preference[i+1] != '')  // 다음 우선 조건이 ''이면
-            break;
-        prefer += '%&'; // 위 두 가지 경우가 아니면 구분자 '%&' 추가
+    if (Array.isArray(body.Preference)) {
+        var leng = body.Preference.length;
+        for (var i = 0; i < leng; i++) {
+            prefer += body.Preference[i]; // i 번째 우대조건을 prefer에 저장
+            if (i + 1  == leng) // 마지막 우선조건이면
+                break;
+            else if(body.Preference[i+1] != '') // 다음 조건이 존재하면
+                prefer += '%&'; // 구분자 '%&' 추가
+        }
+    } else if (body.Preference) {
+        prefer += body.Preference;
     }
+
     var queryStr = 'UPDATE orders SET Category=? ,Title=?, Colleage=? ,Cost=? ,Content=? ,Preference=? ,Period=? ,MaxNum=?'
                   + ' WHERE _OID=?';  // orders Table의 해당 발주 정보 수정
     var inputs = [body.Category, body.Title, body.Colleage, body.Cost,

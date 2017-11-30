@@ -85,19 +85,21 @@
          </table>
          <div class="btns" style="margin-bottom: 20px" align="center">
             <% if (data._UID == session._UID) { %>
-                <a class="btn btn-success" style="margin-right:30px;" href="/list/deadline/<%= data._OID %>">마감</a>
-                <a class="btn btn-primary" style="margin-right:30px;" href="/put/<%= data._OID %>">수정</a>
+                <a class="btn btn-success mr-3"href="">마감</a>
+                <% if (!apps[0]) { %>
+                <a class="btn btn-primary mr-3"href="/put/<%= data._OID %>">수정</a>
                 <form method="POST" action="/info/<%= data._OID %>?_method=DELETE" style="margin:0 !important;display:inline-block;">
-                    <input type="submit" class="btn btn-danger" style="margin-right:30px;" value="삭제" />
+                    <input type="submit" class="btn btn-danger mr-3"value="삭제" />
                 </form>
+                <% } %>
             <% } else if (session.UserType == 'EE') { %>
               <% if (!app) { %>
-                <a class="btn btn-success" style="margin-right:20px;" data-toggle="modal" data-target="#myModal" href="">수주요청</a>
+                <a class="btn btn-success mr-3"data-toggle="modal" data-target="#myModal" href="">수주요청</a>
               <% } else if (data.Status != 'A') { %>
-                    <a class="btn btn-danger" style="margin-right:20px;" data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
+                    <a class="btn btn-danger mr-3"data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
               <% } else { %>
                 <form method="POST" action="/req/<%= data._OID %>?_method=DELETE" style="display:inline-block">
-                    <input type="submit" class="btn btn-danger" style="margin-right:20px;" value="요청취소" />
+                    <input type="submit" class="btn btn-danger mr-3"value="요청취소" />
                 </form>
               <% } %>
             <% } %>
