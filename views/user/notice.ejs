@@ -1,0 +1,53 @@
+<<div class="modal fade" id="notice" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">알림 정보</h4>
+                <form action="/mypage" method="get">
+                    <button type="submit" class="close">&times;</button>
+                </form>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="text-left">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>제목</b><p></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>날짜</b><p></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>내용</b><textarea class="form-control" readonly="readonly" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <form action="/mypage" method="get">
+                    <button type="submit" class="btn btn-danger">삭제하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $("a[data-target]").on('click', function() {
+//            var nid = 1;
+            <% for (var i = 0; i < noti.length; i++) { %>
+                if ($(this).attr('id') == <%= noti[i]._NID %>) {
+                    $('.modal-body form p').eq(0).text("<%= noti[i].Title %>");
+                    $('.modal-body form p').eq(1).text("<%= dates[i] %>");
+                    $('.modal-body form textarea').eq(0).text("<%= noti[i].Content %>");
+                }
+            <% } %>
+//            $("#put_nid").on("action", "/mypage/"+ nid +"?_method=PUT");
+        });
+    });
+</script>
