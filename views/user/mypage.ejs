@@ -26,7 +26,6 @@
         <% include ../nav/nav-login.ejs%>
     </nav>
     <div class="container-fluid mt-6">
-       <% include ./notice.ejs %>
        <table class="table">
           <tbody>
               <tr>
@@ -143,14 +142,16 @@
                                   </tr>
                               </thead>
                               <tbody>
-                                <% for(var i=0; i<noti.length; i++) { %>
-                                   <tr>
-                                      <td><%= i+1 %></td>
-                                      <td><a id="<%= noti[i]._NID %>" data-toggle="modal" data-target="#notice" href=""><%= noti[i].Title%></a>
-                                          <%if(noti[i].Status == '0') {%><i class="fa fa-fw  fa-bell" style="color: #fb0;"></i> <%} %></td>
-                                      <td><%=dates[i]%></td>
-                                   </tr>
-                                <% } %>
+                                <tr>
+                                   <td>1</td>
+                                   <td><a data-toggle="modal" data-target="#myModal" href="" style="color: black;">회원가입을 축하합니다!</a></td>
+                                   <td>2017.11.02 4:34pm</td>
+                                </tr>
+                                <tr>
+                                   <td>2</td>
+                                   <td><a data-toggle="modal" data-target="#myModal" href="">매칭완료 알림 [간단...]</a><i class="fa fa-fw fa-bell" style="color: #fb0;"></i></td>
+                                   <td>2017.11.03 11:34pm</td>
+                                </tr>
                               </tbody>
                           </table>
                        </div>
