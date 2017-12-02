@@ -114,7 +114,7 @@ router.post('/', upload.array('File', 3), function(req, res){
             }
         ], function(err, result) {
             if(err) console.log('err: ', err);
-            res.send("<script>history.go(-2);</script>");
+            res.redirect('/mypage');
             connection.release();
         });
     });

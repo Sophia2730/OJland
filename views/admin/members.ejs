@@ -3,6 +3,9 @@
   <head>
       <% include ../nav/header.ejs %>
       <style>
+          tr {
+            text-align: center;
+          }
           td {
               vertical-align: middle !important;
           }
@@ -32,7 +35,7 @@
                     </thead>
                     <tbody>
                       <% for(var i = 0; i < data.length; i++) { %>
-                      <tr class="text-center">
+                      <tr>
                         <td><%= i + 1 %></td>
                         <td><%= (data[i].UserType == 'ER') ? '발주자' : '수주자' %></td>
                         <td><%= data[i].Name %></td>

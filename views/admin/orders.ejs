@@ -4,6 +4,9 @@
       <% include ../nav/header.ejs %>
   </head>
   <style>
+      tr {
+        text-align: center;
+      }
       td {
           vertical-align: middle !important;
       }
@@ -32,7 +35,7 @@
                     </thead>
                     <tbody>
                       <% for(var i = 0; i < data.length; i++) { %>
-                      <tr class="text-center">
+                      <tr>
                         <td><%= i + 1 %></td>
                         <td><%= data[i].Category %></td>
                         <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>

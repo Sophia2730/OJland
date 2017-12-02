@@ -30,6 +30,8 @@ var ordered_list = require('./routes/users/ordered_list');
 var category = require('./routes/orders/category');
 var resume = require('./routes/users/resume');
 var progress = require('./routes/progress/progress');
+var close = require('./routes/match/close');
+var match = require('./routes/match/match');
 
 var app = express();
 
@@ -71,6 +73,8 @@ app.use('/ordered_list', ordered_list);
 app.use('/category', category);
 app.use('/resume', resume);
 app.use('/progress', progress);
+app.use('/close', close);
+app.use('/match', match);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

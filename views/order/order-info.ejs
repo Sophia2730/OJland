@@ -8,6 +8,12 @@
               top:65px;
               left:55px;
           }
+          #img img {
+              width: 200px;
+              height: 150px;
+              margin: 10px;
+              border: solid 1px black;
+          }
       </style>
   </head>
   <body class="fixed-nav sidenav-toggled" id="page-top">
@@ -69,21 +75,26 @@
          </table>
          <div class="btns" style="margin-bottom: 20px" align="center">
             <% if (data._UID == session._UID) { %>
-                <form method="POST" action="/info/<%= data._OID %>" style="margin:0 !important;display:inline-block;">
-                <a id="close" class="btn btn-success mr-3" href="">마감</a>
-                </form>
-                <% if (!apps[0]) { %>
-                <a class="btn btn-primary mr-3" href="/put/<%= data._OID %>">수정</a>
-                <form method="POST" action="/info/<%= data._OID %>?_method=DELETE" style="margin:0 !important;display:inline-block;">
-                    <input type="submit" class="btn btn-danger mr-3" value="삭제" />
-                </form>
+                <% if (data.Status == 'A') { %>
+                    <form method="POST" action="/info/<%= data._OID %>" style="margin:0 !important;display:inline-block;">
+                        <a id="close" class="btn btn-success text-white mr-3" href="">마감</a>
+                    </form>
+                    <% if (!apps[0]) { %>
+                      <a class="btn btn-primary mr-3" href="/put/<%= data._OID %>">수정</a>
+                      <form method="POST" action="/info/<%= data._OID %>?_method=DELETE" style="margin:0 !important;display:inline-block;">
+                          <input type="submit" class="btn btn-danger mr-3" value="삭제" />
+                      </form>
+                    <% } %>
+                <% } else if (data.Status == 'B') { %>
+                    <a id="match" class="btn btn-primary text-white mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>
+                <% } else { %>
                 <% } %>
             <% } else if (session.UserType == 'EE') { %>
-              <% if (!isReq) { %>
+              <% if (!isReq && data.Status == 'A') { %>
                 <a class="btn btn-success mr-3"data-toggle="modal" data-target="#myModal" href="">수주요청</a>
-              <% } else if (data.Status != 'A') { %>
+              <% } else if (data.Status != 'C') { %>
                     <a class="btn btn-danger mr-3"data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
-              <% } else { %>
+              <% } else if (isReq && data.Status == 'A'){ %>
                 <form method="POST" action="/req/<%= data._OID %>?_method=DELETE" style="display:inline-block">
                     <input type="submit" class="btn btn-danger mr-3" value="요청취소" />
                 </form>
@@ -96,16 +107,21 @@
      <% if (session.UserType == 'EE') { %>
        <% include ./request.ejs %>
        <% include ../progress/post.ejs %>
+     <% } else { %>
+       <% include ../match/match.ejs %>
      <% } %>
      <script>
         function back() {
             history.go(-1);
         }
 
-        $("#cloth").on('click', function(e) {
+        $("#close").on('click', function(e) {
             var answer = confirm('정말로 마감하시겠습니까?');
             if (!answer)
-              e.preventDefault();
+                e.preventDefault();
+            else {
+                $.post('/close/' + <%= data._OID %> + '?_method=PUT');
+            }
         });
 
         $("input[type=submit]").on('click', function(e) {
