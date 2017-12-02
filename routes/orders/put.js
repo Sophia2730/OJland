@@ -11,9 +11,8 @@ router.get('/', function(req, res, next) {
             if(err) console.log("err: ", err);
             order = rows[0];  // 해당 발주 정보를 저장
             var prefer = [];  // 우대조건을 저장할 배열
-            if (rows[0].Preference != null) { // 우선조건이 존재하면
+            if (rows[0].Preference) // 우선조건이 존재하면
                 prefer = rows[0].Preference.split('%&');  // '%&'을 구분자로하여 분할
-            }
             res.render('order/order-put', { // 발주 수정 페이지 렌딩
                 session: req.session, // 접속자 정보
                 data: rows[0],  // 해당 발주 정보
@@ -53,7 +52,7 @@ router.put('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         connection.query(queryStr, inputs, function(err, rows) {
             if(err) console.log("err: ", err);
-            res.redirect('/list');  // 발주 목록 페이지로 이동
+            res.redirect('/info/' + order._OID);
             connection.release();
         });
     });

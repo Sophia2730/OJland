@@ -24,6 +24,7 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <% if(data) { %>
                       <% for(var i = 0; i < data.length; i++) { %>
                       <tr>
                         <td><%= data.length - i %></td>
@@ -37,8 +38,12 @@
                         </td>
                       </tr>
                       <% } %>
+                      <% } %>
                     </tbody>
                   </table>
+                  <% if (session.UserType == "ER") { %>
+                  <a class="btn btn-primary mt-3 mr-3" style="float:right" href="/post">발주 등록</a>
+                  <% } %>
                 </div>
               </div>
           </div>

@@ -2,7 +2,11 @@
 <html>
   <head>
       <% include ../nav/header.ejs %>
-      <link href="css/admin.css" rel="stylesheet">
+      <style>
+          td {
+              vertical-align: middle !important;
+          }
+      </style>
   </head>
   <body class="fixed-nav sidenav-toggled" id="page-top">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -28,7 +32,7 @@
                     </thead>
                     <tbody>
                       <% for(var i = 0; i < data.length; i++) { %>
-                      <tr>
+                      <tr class="text-center">
                         <td><%= i + 1 %></td>
                         <td><%= (data[i].UserType == 'ER') ? '발주자' : '수주자' %></td>
                         <td><%= data[i].Name %></td>
@@ -36,7 +40,7 @@
                         <td><%= data[i].Tel %></td>
                         <td><%= age[i] %></td>
                         <td><%= (data[i].Status == '0') ? '가입대기' : '가입승인' %></td>
-                        <td align="center">
+                        <td class="p-0">
                           <form action="/members/<%= data[i]._UID %>?_method=delete" method="post">
                             <input type="submit" class="btn btn-danger" value="삭제">
                           </form>

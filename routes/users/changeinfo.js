@@ -11,9 +11,8 @@ router.get('/', function(req, res, next) {
     }
     pool.getConnection(function(err, connection) {
         connection.query("SELECT * FROM user WHERE _UID=?", req.session._UID, function(err, rows) {
-            if(err) {
+            if(err)
                 console.log("err: ", err);
-            }
             res.render('user/changeinfo', {
                 session: req.session,
                 data: rows[0]

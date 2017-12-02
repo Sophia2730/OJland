@@ -15,27 +15,6 @@
               margin: 0;
               vertical-align: middle;
           }
-          .b {
-              font-weight: bold;
-          }
-          #category {
-              margin-bottom: 20px;
-          }
-          #header div:nth-child(n+2) {
-              border: solid 1px #aaa;
-          }
-          #data {
-            padding: 10px auto;
-          }
-          #data div:nth-child(n+2) {
-            border: solid 1px #ccc;
-            padding: 10px auto !important;
-            vertical-align: middle;
-          }
-          #data p, #data a {
-              display: block;
-              margin-top: 1rem;
-          }
       </style>
   </head>
   <body class="fixed-nav sidenav-toggled" id="page-top">
@@ -146,7 +125,7 @@
       $("input[type=submit]").on('click', function(e) {
           if (Category.val() == '' || Title.val() == '') {
               e.preventDefault();
-              alert('입력하지 않은 양식이 있습니다!');
+              alert('입력하지 않은 정보가 있습니다!');
           }
       });
 

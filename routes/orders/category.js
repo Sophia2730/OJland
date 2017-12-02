@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var pool = require('../../config.js').pool;
 var moment = require('moment');
+var async = require('async');
 
 var category; //카테고리를 저장할 변수
 router.get('/', function(req, res, next) {
@@ -10,38 +11,45 @@ router.get('/', function(req, res, next) {
         return;
     }
     pool.getConnection(function(err, connection) {
-          queryStr = 'SELECT * FROM orders WHERE Category=?';  // orders Table 조회
-          connection.query(queryStr, category, function(err, orders) {
-              if(err) console.log("err: ", err);
-              var dates = []; // 발주 날짜를 저장할 배열
-              for (var i = 0; i < orders.length; i++) { // 발주 날짜의 형식 변환
-                  dates[i] = moment(orders[i].Time).format('YYYY/MM/DD');
-              }
-              queryStr = 'SELECT * FROM application';  // orders Table 조회
-              connection.query(queryStr, function(err, apps) {
-                var reqNums = [];
-                for (var i = 0; i < orders.length; i++) {
-                    reqNums[i] = 0;
-                    for (var j = 0; j < apps.length; j++) {
-                        if (orders[i]._OID == apps[j]._OID)
-                            reqNums[i]++;
+          async.waterfall([
+              function(callback) {
+                connection.query('SELECT * FROM orders WHERE Category=?', category, function(err, orders) {
+                    if(err) callback(err);
+                    var dates = []; // 발주 날짜를 저장할 배열
+                    for (var i = 0; i < orders.length; i++) { // 발주 날짜의 형식 변환
+                        dates[i] = moment(orders[i].Time).format('YYYY/MM/DD');
                     }
-                }
-                res.render('order/order-category', {  // 발주 목록 페이지 렌딩
-                    category: category, // 카테고리
-                    data: orders, // orders Table 정보
-                    reqNum: reqNums,  // 지원 요청자
-                    date: dates,  // 발주 날짜
-                    session: req.session  // 접속자 정보
+                    callback(null, orders, dates);
                 });
-                connection.release();
+              },
+              function(orders, dates, callback) {
+                  connection.query('SELECT * FROM application', function(err, apps) {
+                      var reqNums = [];
+                      for (var i = 0; i < orders.length; i++) {
+                          reqNums[i] = 0;
+                          for (var j = 0; j < apps.length; j++) {
+                              if (orders[i]._OID == apps[j]._OID)
+                                  reqNums[i]++;
+                          }
+                      }
+                      callback(null, [orders, dates, reqNums]);
+                  });
+              }
+          ], function(err, results) {
+              if(err) console.log(err);
+              res.render('order/order-category', {  // 발주 목록 페이지 렌딩
+                  category: category, // 카테고리
+                  data: results[0], // orders Table 정보
+                  date: results[1],  // 발주 날짜
+                  reqNum: results[2],  // 지원 요청자
+                  session: req.session  // 접속자 정보
               });
+              connection.release();
           });
     });
 });
 
 router.get('/:id', function(req, res, next) {
-    console.log('hi');
     switch (req.params.id) {
         case 'plan':
             category = '기획';
@@ -65,7 +73,6 @@ router.get('/:id', function(req, res, next) {
             category = '기타';
             break;
     }
-    console.log('category: ', category);
     res.redirect('/category');
 });
 
