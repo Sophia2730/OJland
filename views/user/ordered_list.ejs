@@ -6,6 +6,12 @@
         td {
             vertical-align: middle !important;
         }
+        #Img img {
+            width: 200px;
+            height: 150px;
+            margin: 10px;
+            border: solid 1px black;
+        }
     </style>
 </head>
 <body class="fixed-nav sidenav-toggled" id="page-top">
@@ -49,7 +55,7 @@
                             <% } else if(data[i].Status == 'D'){ %>
                                 <td>외주완료</td>
                             <% } %>
-                            <td><a class="btn btn-info" href="">수주자 조회</a></td>
+                            <td><a id="<%= data[i]._OID %>" data-toggle="modal" data-target="#info_EE" href="">수주자 조회</a></td>
                         </tr>
                     <% } } %>
                     </tbody>
@@ -101,5 +107,8 @@
     </div>
   </div>
   <% include ./modal_ER.ejs %>
+  <% include ../match/info_EE.ejs %>
+  <% include ../match/evaluate.ejs %>
+  <% include ../progress/modal_list.ejs %>
   </body>
 </html>

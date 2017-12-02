@@ -42,7 +42,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 m-img">
-                            <b>사진:</b><br><div id="img"></div>
+                            <b>사진:</b><br><div id="Img"></div>
                         </div>
                     </div>
                     <div class="row">
@@ -70,10 +70,10 @@
         var major = $("#Major");
         var license = $("#License");
         var content = $("#Content");
-        var img = $("#img");
-        var prefer = $("#prefer");
+        var img = $("#Img");
+        var prefer = $("#Prefer");
 
-        var apps, users, licenses, imgs, prefers;
+        var apps, users, licenses, imgs, checkPres;
         var needNum = <%= data.MaxNum %>; // 필요 인원 수에 모집 인원 저장
         $.get('/match/' + <%= data._OID %>, function(data) {
               console.log(data);
@@ -94,6 +94,7 @@
                               content.text(users[j].Content);
 
                               licenses = users[j].License.split('%&');
+                              license.html('');
                               if (Array.isArray(licenses)) {
                                   for (var k = 0; k < licenses.length; k++) {
                                       license.append("<a class='btn btn-primary text-white m-2'>" + licenses[k] +"</a>");
@@ -102,6 +103,7 @@
                                   license.append("<a class='btn btn-primary text-white m-2'>" + licenses + "</a>");
 
                               imgs = users[j].imageUrl.split('%&');
+                              img.html('');
                               if (Array.isArray(imgs)) {
                                   for (var k = 0; k < imgs.length; k++) {
                                       img.append("<img src='uploads/" + imgs[k] + "' class='mr-3'></img>");
@@ -109,13 +111,14 @@
                               } else if (imgs)
                                   img.append("<img src='uploads/" + imgs + "' class='mr-3'></img>");
 
-                              prefers = users[j].Preference.split('%&');
-                              if (Array.isArray(prefers)) {
-                                  for (var k = 0; k < prefers.length; k++) {
-                                      img.append("<input type='checkbox' value='" + prefers[k] + "' class='mb-2' checked disabled></input>");
+                              checkPres = apps[i].CheckPre.split('%&');
+                              prefer.html('');
+                              if (Array.isArray(checkPres)) {
+                                  for (var k = 0; k < checkPres.length; k++) {
+                                      prefer.append("<input type='checkbox' class='my-2' checked disabled />"+ checkPres[k] + "<br>");
                                   }
-                              } else if (prefers)
-                                  img.append("<input type='checkbox' value='" + prefers + "' class='mb-2' checked disabled></input>");
+                              } else if (checkPres)
+                                  prefer.append("<input type='checkbox' class='my-2' checked disabled />"+ checkPres + "<br>");
                               return;
                           }
                       }

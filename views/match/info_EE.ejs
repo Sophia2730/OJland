@@ -1,0 +1,130 @@
+<div class="modal fade" id="info_EE" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">수주자 조회</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form>
+                  <div class="text-left">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <b>이름:</b><br><p id="Name"></p>
+                        </div>
+                        <div class="col-md-5">
+                            <b>이메일:</b><br><p id="Email"></p>
+                        </div>
+                        <div class="col-md-5">
+                            <b>전화번호:</b></br><p id="Tel"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <b>대학:</b><br><p id="Course"></p>
+                        </div>
+                        <div class="col-md-5">
+                            <b>학부:</b><br><p id="Colleage"></p>
+                        </div>
+                        <div class="col-md-5">
+                            <b>학과:</b></br><p id="Major"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b>보유 자격증:</b><div id="License"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b>자기소개:</b><br><textarea id="Content" style="width:100%" rows="4" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 m-img">
+                            <b>사진:</b><br><div id="Img"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 m-img">
+                            <b>우대조건:</b><br><div id="Prefer"></div>
+                        </div>
+                    </div>
+                  </div>
+               </form>
+            </div>
+            <div class="modal-footer mx-auto">
+                <a class="btn btn-success" data-toggle="modal" data-target="#mProgress" href="">진척도 확인</a>
+                <a class="btn btn-danger" data-toggle="modal" data-target="#mEvaluation" href="">외주 완료</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var name = $("#Name");
+        var email = $("#Email");
+        var tel = $("#Tel");
+        var course = $("#Course");
+        var colleage = $("#Colleage");
+        var major = $("#Major");
+        var license = $("#License");
+        var content = $("#Content");
+        var img = $("#Img");
+        var prefer = $("#Prefer");
+        var forms = [name, email, tel, course, colleage, major, license, content,
+                    img, prefer];
+
+        var apps, users, progresses, licenses, imgs, checkPres;
+        $("a[data-target='#info_EE']").on('click', function(e) {
+            // 모든 요소를 초기화 한다
+            for (var i = 0; i < forms.length; i++) {
+                forms[i].html('');
+            }
+            $.get('/info_EE/' + $(this).attr('id'), function(data) {
+                console.log(data);
+                apps = data.apps;
+                users = data.users;
+                progresses = data.progresses;
+                for (var i = 0; i < apps.length; i++) {
+                    for (var j = 0; j < users.length; j++) {
+                        if (apps[i]._UID == users[j]._UID) {  // app에 해당하는 user이면
+                            name.text(users[j].Name);
+                            email.text(users[j].Email);
+                            tel.text(users[j].Tel);
+                            course.text(users[j].Course);
+                            colleage.text(users[j].Colleage);
+                            major.text(users[j].Major);
+                            content.text(users[j].Content);
+
+                            licenses = users[j].License.split('%&');
+                            if (Array.isArray(licenses)) {
+                                for (var k = 0; k < licenses.length; k++) {
+                                    license.append("<a class='btn btn-primary text-white m-2'>" + licenses[k] +"</a>");
+                                }
+                            } else if (licneses)
+                                license.append("<a class='btn btn-primary text-white m-2'>" + licenses + "</a>");
+
+                            imgs = users[j].imageUrl.split('%&');
+                            if (Array.isArray(imgs)) {
+                                for (var k = 0; k < imgs.length; k++) {
+                                    img.append("<img src='uploads/" + imgs[k] + "' class='mr-3'></img>");
+                                }
+                            } else if (imgs)
+                                img.append("<img src='uploads/" + imgs + "' class='mr-3'></img>");
+
+                            checkPres = apps[i].CheckPre.split('%&');
+                            if (Array.isArray(checkPres)) {
+                                for (var k = 0; k < checkPres.length; k++) {
+                                    prefer.append("<input type='checkbox' class='my-2' checked disabled>" + checkPres[k] + "<br>");
+                                }
+                            } else if (checkPres)
+                                prefer.append("<input type='checkbox' value=' class='my-2' checked disabled>" + checkPres + "<br>");
+                            return;
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
