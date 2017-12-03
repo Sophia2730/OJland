@@ -35,7 +35,7 @@ router.get('/', function(req, res, next) {
             console.log(results);
             res.render('admin/statistics', {
                 user: results[0],
-                oj: date,
+                ojcnt: date,
                 session: req.session
             });
             connection.release();
