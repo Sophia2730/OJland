@@ -53,9 +53,11 @@
                   </div>
                </form>
             </div>
-            <div class="modal-footer mx-auto">
-                <a class="btn btn-success" data-toggle="modal" data-target="#mProgress" href="">진척도 확인</a>
-                <a class="btn btn-danger" data-toggle="modal" data-target="#mEvaluation" href="">외주 완료</a>
+            <div class="modal-footer mx-auto text-white">
+                <a id="prev" class="btn btn-primary mr-5">이전</a>
+                <a id="prog" class="btn btn-success ml-5">진척도 확인</a>
+                <a class="btn btn-danger mr-5" data-toggle="modal" data-target="#mEvaluation">외주 완료</a>
+                <a id="next" class="btn btn-primary ml-5">다음</a>
             </div>
         </div>
     </div>
@@ -76,21 +78,45 @@
                     img, prefer];
 
         var apps, users, progresses, licenses, imgs, checkPres;
+        var oid, max;
+
         $('#info_EE').click(function() {
             $('body').addClass('modal-open');
         });
 
+        $("#prog").on('click', function() {
+            $.get('/progress_list', {oid: oid, uid: $(this).attr('id')}, function(data) {
+                  window.location.replace('/progress_list');
+            });
+        });
+
+        var index = 0;
+        $("#next").on('click', function() {
+            if (index < max -1)
+                getInfo(++index);
+            console.log(index);
+        });
+
+        $("#prev").on('click', function() {
+            if (index > 0)
+                getInfo(--index);
+        });
+
         $("a[data-target='#info_EE']").on('click', function(e) {
+            oid = $(this).attr('id');
+            getInfo(index);
+        });
+
+        var getInfo = function(index) {
             // 모든 요소를 초기화 한다
             for (var i = 0; i < forms.length; i++) {
                 forms[i].html('');
             }
-            $.get('/info_EE/' + $(this).attr('id'), function(data) {
-                console.log(data);
+            $.get('/info_EE/' + oid, function(data) {
                 apps = data.apps;
                 users = data.users;
                 progresses = data.progresses;
-
+                max = apps.length;
                 if(!apps[0]) {
                     alert('조회 가능한 수주자가 없습니다!');
                     location.reload();
@@ -99,6 +125,10 @@
                 for (var i = 0; i < apps.length; i++) {
                     for (var j = 0; j < users.length; j++) {
                         if (apps[i]._UID == users[j]._UID) {  // app에 해당하는 user이면
+                            if(index > 0) {
+                                index--;
+                                continue;
+                            }
                             name.text(users[j].Name);
                             email.text(users[j].Email);
                             tel.text(users[j].Tel);
@@ -130,11 +160,15 @@
                                 }
                             } else if (checkPres.length != 0)
                                 prefer.append("<input type='checkbox' value=' class='my-2' checked disabled>" + checkPres + "<br>");
+
+                            $("#mEvaluation .modal-footer button:first-child").attr('id', users[j]._UID);
+
+                            $("#prog").attr('id', users[j]._UID);
                             return;
                         }
                     }
                 }
             });
-        });
+        }
     });
 </script>

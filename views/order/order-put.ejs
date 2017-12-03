@@ -83,7 +83,7 @@
                   <td>우대조건</td>
                   <td colspan="3">
                     <ul class="prefer text-white" style="list-style:none;margin: 0 !important;padding:0 !important;">
-                      <% if (preference[0] == '') { %>
+                      <% if (!preference[0]) { %>
                         <li style="margin-bottom:5px;">
                           <input type="text" name="Preference" style="width: 90%;" placeholder="ex) 정보처리기능사 자격증 보유" />
                           <a class="btn btn-primary btn-sm">+</a>
@@ -100,7 +100,7 @@
              </table>
              <div align="center">
                 <input type="submit" class="btn btn-success mr-3" value="등록"></input>
-                <a class="btn btn-danger" href="/list">취소</a>
+                <a class="btn btn-danger" href="/info/<%= data._OID %>">취소</a>
              </div>
         </form>
     </div>

@@ -75,24 +75,22 @@
              </tr>
            </tbody>
          </table>
-         <div class="btns" style="margin-bottom: 20px" align="center">
+         <div class="btns text-white mb-2" align="center">
             <% if (data._UID == session._UID) { %>
                 <% if (data.Status == 'A') { %>
-                    <form method="POST" action="/info/<%= data._OID %>" style="margin:0 !important;display:inline-block;">
-                        <a id="close" class="btn btn-success text-white mr-3" href="">마감</a>
-                    </form>
+                    <% if (apps[0]) { %>
+                      <a id="close" class="btn btn-success mr-3">마감</a>
+                    <% } %>
                     <% if (!apps[0]) { %>
                       <a class="btn btn-primary mr-3" href="/put/<%= data._OID %>">수정</a>
-                      <form method="POST" action="/info/<%= data._OID %>?_method=DELETE" style="margin:0 !important;display:inline-block;">
-                          <input type="submit" class="btn btn-danger mr-3" value="삭제" />
-                      </form>
+                      <a id="delete" class="btn btn-danger mr-3">삭제</a>
                     <% } %>
                 <% } else if (data.Status == 'B') { %>
-                    <a id="match" class="btn btn-primary text-white mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>
+                    <a id="match" class="btn btn-primary mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>
                 <% } %>
             <% } else if (session.UserType == 'EE') { %>
               <% if (!isReq && data.Status == 'A') { %>
-                <a class="btn btn-success mr-3"data-toggle="modal" data-target="#myModal" href="">수주요청</a>
+                <a class="btn btn-success mr-3" data-toggle="modal" data-target="#myModal" href="">수주요청</a>
               <% } else if (data.Status == 'C') { %>
                     <a class="btn btn-danger mr-3"data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
               <% } else if (isReq && data.Status == 'A'){ %>
@@ -113,33 +111,24 @@
      <% } %>
      <script>
         function back() {
-            if(document.referrer == $(location).attr('href')) {
-                $(location).attr('href', '/list');
-                return;
-            }
-            $(location).attr('href', document.referrer);
+            $(location).attr('href', '/list');
         }
 
         $("#close").on('click', function(e) {
-            var answer = confirm('정말로 마감하시겠습니까?');
-            if (!answer)
-                e.preventDefault();
-            else {
-                $.post('/close/' + <%= data._OID %> + '?_method=PUT');
-            }
+            if (confirm('정말로 마감하시겠습니까?'))
+                $.post('/close/<%= data._OID %>?_method=PUT', function(data) {
+                    if(data)
+                        window.location.replace('/list');
+                });
+        });
+        $("#delete").on('click', function(e) {
+            if (answer = confirm('정말로 삭제하시겠습니까?'))
+                $.post("/info/<%= data._OID %>?_method=DELETE", function(data) {
+                    if(data)
+                        window.location.replace('/list');
+                });
         });
 
-        $("input[type=submit]").on('click', function(e) {
-            if($(this).val() == "삭제") {
-                var answer = confirm('정말로 삭제하시겠습니까?');
-                if (!answer)
-                  e.preventDefault();
-            } else if ($(this).val() == "요청취소") {
-                var answer = confirm('정말로 취소하시겠습니까?');
-                if (!answer)
-                  e.preventDefault();
-            }
-        });
      </script>
   </body>
 </html>

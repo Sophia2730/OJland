@@ -70,7 +70,7 @@ router.delete('/:id', function(req, res, next) {
         var queryStr = 'DELETE FROM orders WHERE _OID=?'; // orders Table에서 파라미터로 전달받은 발주 삭제
         connection.query(queryStr, id, function(err, rows) {
             if (err) console.log('error: ', err);
-            res.redirect('/list');  // 발주 목록 페이지로 이동
+            res.send(true);
             connection.release();
         });
     });

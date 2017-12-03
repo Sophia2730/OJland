@@ -33,7 +33,6 @@ router.get('/:id', function(req, res, next) {
             }
         ], function(err, results) {
               if(err) console.log(err);
-              console.log(results);
               res.send({
                   apps: results[0],
                   users: results[1],
@@ -43,4 +42,60 @@ router.get('/:id', function(req, res, next) {
         });
     });
 });
+
+router.post('/', function(req, res, next) {
+    var body = req.body;
+
+    pool.getConnection(function(err, connection) {
+        async.waterfall([
+            function(callback) {
+                queryStr = "SELECT Score from resume WHERE _UID=?";
+                connection.query(queryStr, body.uid, function(err, rows) {
+                    if(err) callback(err);
+                    callback(null, rows[0].Score);
+                });
+            },
+            function(score, callback) {
+                var mScore = (score + Number(body.score)) / 2;
+                queryStr = "UPDATE resume SET Score=? WHERE _UID=?";
+                connection.query(queryStr, [mScore, body.uid], function(err) {
+                    if(err) callback(err);
+                    callback(null);
+                });
+            },
+            function(callback) {
+                queryStr = "UPDATE application SET Status='C' WHERE _UID=? AND _OID=?";
+                connection.query(queryStr, [body.uid, body.oid], function(err) {
+                    if(err) callback(err);
+                    callback(null);
+                });
+            },
+            function(callback) {
+                queryStr = "SELECT count(*) AS cnt FROM application WHERE _OID=? AND Status='B'";
+                connection.query(queryStr, body.oid, function(err, rows) {
+                    if(err) callback(err);
+                    if(rows[0].cnt == 0) {
+                        callback(null, true);
+                    } else {
+                        callback(null, false);
+                    }
+                });
+            },
+            function(isEnd, callback) {
+                if (isEnd) {
+                    queryStr = "UPDATE orders SET Status='D' WHERE _OID=?";
+                    connection.query(queryStr, body.oid, function(err, rows) {
+                        if(err) callback(err);
+                    });
+                }
+                callback(null, true);
+            }
+        ], function(err, result) {
+            if(err) console.log(err);
+            res.send(result);
+            connection.release();
+        });
+    });
+});
+
 module.exports = router;
