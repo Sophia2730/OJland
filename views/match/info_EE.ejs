@@ -76,6 +76,10 @@
                     img, prefer];
 
         var apps, users, progresses, licenses, imgs, checkPres;
+        $('#info_EE').click(function() {
+            $('body').addClass('modal-open');
+        });
+
         $("a[data-target='#info_EE']").on('click', function(e) {
             // 모든 요소를 초기화 한다
             for (var i = 0; i < forms.length; i++) {
@@ -86,6 +90,12 @@
                 apps = data.apps;
                 users = data.users;
                 progresses = data.progresses;
+
+                if(!apps[0]) {
+                    alert('조회 가능한 수주자가 없습니다!');
+                    location.reload();
+                }
+
                 for (var i = 0; i < apps.length; i++) {
                     for (var j = 0; j < users.length; j++) {
                         if (apps[i]._UID == users[j]._UID) {  // app에 해당하는 user이면
@@ -97,15 +107,15 @@
                             major.text(users[j].Major);
                             content.text(users[j].Content);
 
-                            licenses = users[j].License.split('%&');
+                            licenses = (users[j].License) ? users[j].License.split('%&') : '';
                             if (Array.isArray(licenses)) {
                                 for (var k = 0; k < licenses.length; k++) {
                                     license.append("<a class='btn btn-primary text-white m-2'>" + licenses[k] +"</a>");
                                 }
-                            } else if (licneses)
+                            } else if (licenses)
                                 license.append("<a class='btn btn-primary text-white m-2'>" + licenses + "</a>");
 
-                            imgs = users[j].imageUrl.split('%&');
+                            imgs = (users[j].imageUrl) ? users[j].imageUrl.split('%&') : '';
                             if (Array.isArray(imgs)) {
                                 for (var k = 0; k < imgs.length; k++) {
                                     img.append("<img src='uploads/" + imgs[k] + "' class='mr-3'></img>");
@@ -113,12 +123,12 @@
                             } else if (imgs)
                                 img.append("<img src='uploads/" + imgs + "' class='mr-3'></img>");
 
-                            checkPres = apps[i].CheckPre.split('%&');
+                            checkPres = (apps[i].CheckPre) ? apps[i].CheckPre.split('%&') : '';
                             if (Array.isArray(checkPres)) {
                                 for (var k = 0; k < checkPres.length; k++) {
                                     prefer.append("<input type='checkbox' class='my-2' checked disabled>" + checkPres[k] + "<br>");
                                 }
-                            } else if (checkPres)
+                            } else if (checkPres.length != 0)
                                 prefer.append("<input type='checkbox' value=' class='my-2' checked disabled>" + checkPres + "<br>");
                             return;
                         }

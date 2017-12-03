@@ -25,34 +25,36 @@
          <table style="margin-top:20px; width: 95%;" align="center" class="table table-bordered table-hover text-center">
            <tbody>
              <tr>
-                <td style="width:10%;">카테고리</td>
+                <td style="width:10%;"><b>카테고리</b></td>
                 <td style="width:10%;">디자인</td>
-                <td style="width:10%;">제목</td>
-                <td colspan="3" style="text-align:left;"><%= data.Title %></td>
-                <td>등록일</td>
+                <td style="width:10%;"><b>제목</b></td>
+                <td colspan="3" style="text-align:left;">
+                  <%if(data.Status == 'A'){ %><b>[모집중]</b><% } %>
+                  <%if(data.Status != 'A'){ %><b>[마감]</b><% } %>
+                  <%= data.Title %></td>
+                <td><b>등록일</b></td>
                 <td><%= date %></td>
              </tr>
              <tr>
-                <td>발주자</td>
+                <td><b>발주자</b></td>
                 <td><%= user.Name %></td>
-                <td>전화번호</td>
+                <td><b>전화번호</b></td>
                 <td><%= user.Tel %></td>
-                <td>이메일</td>
-                <td><%= user.Email %></td>
-                <td colspan="2"></td>
+                <td><b>이메일</b></td>
+                <td colspan="3"><%= user.Email %></td>
              </tr>
              <tr>
-              <td>인원</td>
+              <td><b>인원</b></td>
               <td><%= reqNum %>/<%= data.MaxNum %></td>
-              <td>급여</td>
+              <td><b>급여</b></td>
               <td><%= data.Cost %></td>
-              <td style="width:10%;">기간</td>
+              <td style="width:10%;"><b>기간</b></td>
               <td><%= data.Period %></td>
-              <td style="width:10%;">학부제한</td>
+              <td style="width:10%;"><b>학부제한</b></td>
               <td><%= data.Colleage %></td>
              </tr>
              <tr>
-              <td>우대조건</td>
+              <td><b>우대조건</b></td>
               <td colspan="3">
                 <ul class="prefer" style="list-style:none;margin: 0 !important;padding:0 !important;">
                     <li style="margin-bottom: 5px;text-align:left;">
@@ -68,7 +70,7 @@
               </td>
              </tr>
              <tr>
-                <td>내용</td>
+                <td><b>내용</b></td>
                 <td colspan="7"><textarea rows="5" style="width:100%;" readonly><%= data.Content %></textarea></td>
              </tr>
            </tbody>
@@ -87,12 +89,11 @@
                     <% } %>
                 <% } else if (data.Status == 'B') { %>
                     <a id="match" class="btn btn-primary text-white mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>
-                <% } else { %>
                 <% } %>
             <% } else if (session.UserType == 'EE') { %>
               <% if (!isReq && data.Status == 'A') { %>
                 <a class="btn btn-success mr-3"data-toggle="modal" data-target="#myModal" href="">수주요청</a>
-              <% } else if (data.Status != 'C') { %>
+              <% } else if (data.Status == 'C') { %>
                     <a class="btn btn-danger mr-3"data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
               <% } else if (isReq && data.Status == 'A'){ %>
                 <form method="POST" action="/req/<%= data._OID %>?_method=DELETE" style="display:inline-block">
@@ -112,7 +113,11 @@
      <% } %>
      <script>
         function back() {
-            history.go(-1);
+            if(document.referrer == $(location).attr('href')) {
+                $(location).attr('href', '/list');
+                return;
+            }
+            $(location).attr('href', document.referrer);
         }
 
         $("#close").on('click', function(e) {

@@ -9,6 +9,9 @@ router.get('/', function(req, res, next) {
     if (!req.session.Name) {
         res.redirect('/');
         return;
+    } else if (req.session.UserType == 'AD') {
+        res.redirect('/changepwd-admin');
+        return;
     }
     pool.getConnection(function(err, connection) {
         async.series([

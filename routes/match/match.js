@@ -36,4 +36,73 @@ router.get('/:id', function(req, res, next) {
         });
     });
 });
+
+router.put('/', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        async.waterfall([
+            function(callback) {
+                connection.query("UPDATE application SET Status='B' WHERE _AID=?", req.body.id, function(err) {
+                    if(err) callback(err);
+                    callback(null);
+                });
+            },
+            function(callback) {
+                connection.query("SELECT _OID FROM application WHERE _AID=?", req.body.id, function(err, rows) {
+                    if(err) callback(err);
+                    callback(null, rows[0]._OID);
+                });
+            },
+            function(oid, callback) {
+                if(req.body.needNum == 0) {
+                    connection.query("UPDATE orders SET Status='C' WHERE _OID=?", oid, function(err) {
+                        if(err) callback(err);
+                        callback(null, oid);
+                    });
+                } else {
+                    callback(null, 'success');
+                }
+            }
+        ], function(err, result) {
+            if(err) console.log(err);
+            if(req.body.needNum == 0)
+                res.redirect('/info/' + result);
+            connection.release();
+        });
+    });
+});
+
+router.delete('/', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        async.waterfall([
+            function(callback) {
+                connection.query("UPDATE application SET Status='F' WHERE _AID=?", req.body.id, function(err) {
+                    if(err) callback(err);
+                    callback(null);
+                });
+            },
+            function(callback) {
+                connection.query("SELECT _OID FROM application WHERE _AID=?", req.body.id, function(err, rows) {
+                    if(err) callback(err);
+                    callback(null, rows[0]._OID);
+                });
+            },
+            function(oid, callback) {
+                if(req.body.reqNum == 0) {
+                    connection.query("UPDATE orders SET Status='C' WHERE _OID=?", oid, function(err) {
+                        if(err) callback(err);
+                        callback(null, oid);
+                    });
+                } else {
+                    callback(null, 'success');
+                }
+            }
+        ], function(err, result) {
+            if(err) console.log(err);
+            if(req.body.reqNum == 0)
+                res.redirect('/info/' + result);
+            connection.release();
+        });
+    });
+});
+
 module.exports = router;
