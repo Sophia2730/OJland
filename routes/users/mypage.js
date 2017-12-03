@@ -66,7 +66,7 @@ router.get('/', function(req, res, next) {
 
 router.put('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
-        var queryStr = "UPDATE notice SET Status = 0 WHERE _NID='" + req.body.nid + "';";
+        var queryStr = "UPDATE notice SET Status = 1 WHERE _NID='" + req.body.nid + "';";
         connection.query(queryStr, function(err, users) {
             if (err) console.log('error: ', err);
             res.redirect('/mypage');
