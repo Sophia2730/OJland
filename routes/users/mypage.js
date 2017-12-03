@@ -64,26 +64,23 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.put('/:nid', function(req, res, next) {
-    // pool.getConnection(function(err, connection) {
-        // var queryStr = 'DELETE FROM notice WHERE _OID=?'; // orders Table에서 파라미터로 전달받은 발주 삭제
-        // connection.query(queryStr, id, function(err, users) {
-        //     if (err) console.log('error: ', err);
-        //     res.redirect('/list');  // 발주 목록 페이지로 이동
-        //     connection.release();
-        // });
-        console.log(nid);
-        res.redirect('/mypage');  // 발주 목록 페이지로 이동
-
-    // });
+router.put('/', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        var queryStr = "UPDATE notice SET Status = 0 WHERE _NID='" + req.body.nid + "';";
+        connection.query(queryStr, function(err, users) {
+            if (err) console.log('error: ', err);
+            res.redirect('/mypage');
+            connection.release();
+        });
+    });
 });
 
-router.delete('/:nid', function(req, res, next) {
+router.delete('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
-        var queryStr = 'DELETE FROM orders WHERE _OID=?'; // orders Table에서 파라미터로 전달받은 발주 삭제
-        connection.query(queryStr, id, function(err, users) {
+        var queryStr = "DELETE FROM notice WHERE _NID='" + req.body.nid + "';";
+        connection.query(queryStr, function(err, users) {
             if (err) console.log('error: ', err);
-            res.redirect('/list');  // 발주 목록 페이지로 이동
+            res.redirect('/mypage');
             connection.release();
         });
     });

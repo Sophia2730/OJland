@@ -62,16 +62,16 @@
                            <% if(user.UserType == 'EE') { %>
                           <table class="table mb-5">
                             <% var A = 0,
-                                   B= 0,
-                                   C = 0;
-                               for (var i = 0; i < app.length; i++) {
-                                  if (app[i].Status == 'A')
-                                      A++;
-                                  else if (app[i].Status == 'B')
-                                      B++;
-                                  else if (app[i].Status == 'C')
-                                      C++;
-                               } %>
+                                B= 0,
+                                C = 0;
+                                for (var i = 0; i < app.length; i++) {
+                                if (app[i].Status == 'A')
+                                    A++;
+                                else if (app[i].Status == 'B')
+                                    B++;
+                                else if (app[i].Status == 'C')
+                                    C++;
+                            } %>
                              <tr>
                                 <th>매칭대기</th>
                                 <td><%= A %></td>
@@ -144,13 +144,14 @@
                               </thead>
                               <tbody>
                                 <% for(var i=0; i<noti.length; i++) { %>
-                                   <tr>
-                                      <td><%= i+1 %></td>
-                                      <td><a id="<%= noti[i]._NID %>" data-toggle="modal" data-target="#notice" href=""><%= noti[i].Title%></a>
-                                          <%if(noti[i].Status == '0') {%><i class="fa fa-fw  fa-bell" style="color: #fb0;"></i> <%} %></td>
-                                      <td><%=dates[i]%></td>
-                                   </tr>
-                                <% } %>
+                                    <tr>
+                                       <td><%= i+1 %></td>
+                                       <td><%if(noti[i].Status == '0') {%><i class="fa fa-fw  fa-bell" style="color: #fb0;"></i> <%} %>
+                                          <a id="<%= noti[i]._NID %>" data-toggle="modal" data-target="#notice" href=""><%= noti[i].Title%></a>
+                                       </td>
+                                       <td><%=dates[i]%></td>
+                                    </tr>
+                                 <% } %>
                               </tbody>
                           </table>
                        </div>
