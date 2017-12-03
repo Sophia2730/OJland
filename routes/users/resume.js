@@ -11,7 +11,7 @@ var id;
 router.get('/', function(req, res, next) {
     async.series([
         function(callback) {
-            fs.readFile('public/data/major.json', 'utf-8', function(err, data) {
+            fs.readFile('../public/data/major.json', 'utf-8', function(err, data) {
                 if(err) callback(err);
                 callback(null, JSON.parse(data));
             });
