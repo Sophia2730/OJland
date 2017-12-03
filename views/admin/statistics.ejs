@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <% include ../nav/header.ejs %>
+      <style>
+        .navbar-sidenav > .nav-item, .sidenav-toggler > .nav-item {
+            width: 160px !important;
+        }
+      </style>
+  </head>
+  <body class="fixed-nav sidenav-toggled" id="page-top">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+          <% include ../nav/nav-admin.ejs %>
+      </nav>
+      <header class="text-center text-gray d-flex">
+         <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fa fa-bar-chart"></i> 외주 통계</div>
+                        <div class="card-body">
+                            <canvas id="myBarChart" width="100" height="50"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <!-- Example Pie Chart Card-->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fa fa-pie-chart"></i> 회원 통계</div>
+                        <div class="card-body">
+                            <canvas id="myPieChart" width="100%" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% include charts.ejs %>
+         </div>
+      </header>
+  </body>
+</html>

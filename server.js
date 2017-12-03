@@ -21,6 +21,7 @@ var changepwdAdmin = require('./routes/admin/changepwd');
 var admin = require('./routes/admin/index');
 var members = require('./routes/admin/members');
 var orders = require('./routes/admin/orders');
+var statistics = require('./routes/admin/statistics');
 var post = require('./routes/orders/post');
 var list = require('./routes/orders/list');
 var info = require('./routes/orders/info');
@@ -76,6 +77,7 @@ app.use('/resume', resume);
 app.use('/progress', progress);
 app.use('/close', close);
 app.use('/match', match);
+app.use('/statistics', statistics);
 app.use('/info_EE', info_EE);
 
 // catch 404 and forward to error handler
