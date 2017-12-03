@@ -2,40 +2,54 @@
 <html>
   <head>
       <% include ../nav/header.ejs %>
-      <style>
-        .navbar-sidenav > .nav-item, .sidenav-toggler > .nav-item {
-            width: 160px !important;
-        }
-      </style>
+      <script>
+          $(document).ready(function() {
+              $("#order").css('display', 'none');
+
+              $("input[name=type]").change(function(e) {
+                  if($(this).val() == "A") {
+                      $("#user").css('display', 'block');
+                      $("#order").css('display', 'none');
+                  } else if ($(this).val() == "B") {
+                      $("#user").css('display', 'none');
+                      $("#order").css('display', 'block');
+                  }
+              });
+          });
+      </script>
   </head>
-  <body class="fixed-nav sidenav-toggled" id="page-top">
+  <body class="bg-dark fixed-nav sidenav-toggled" id="page-top">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
           <% include ../nav/nav-admin.ejs %>
       </nav>
-      <header class="text-center text-gray d-flex">
-         <div class="container">
-            <div class="row">
-              <div class="col-lg-4">
-                  <div class="card mb-3">
-                      <div class="card-header">
-                          <i class="fa fa-pie-chart"></i> 회원 통계</div>
-                      <div class="card-body">
-                          <canvas id="myPieChart" width="100%" height="100%"></canvas>
-                      </div>
+      <div class="container-fluid">
+        <div class="row mt-5">
+          <div class="col-md-3 text-white mx-auto">
+              <input type="radio" name="type" value="A" checked>회원 통계
+              <input type="radio" name="type" class="ml-3" value="B">외주 통계
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div id="user" class="col-md-4 mx-auto">
+              <div class="card mb-3">
+                  <div class="card-header">
+                      <i class="fa fa-pie-chart"></i> 회원 수</div>
+                  <div class="card-body">
+                      <canvas id="myPieChart" width="100%" height="100%"></canvas>
                   </div>
               </div>
-              <div class="col-lg-8">
-                  <div class="card mb-3">
-                      <div class="card-header">
-                          <i class="fa fa-bar-chart"></i> 외주 통계</div>
-                      <div class="card-body">
-                          <canvas id="myBarChart" width="100" height="46%"></canvas>
-                      </div>
+          </div>
+          <div id="order" class="col-md-8 mx-auto">
+              <div class="card mb-3">
+                  <div class="card-header">
+                      <i class="fa fa-bar-chart"></i> 외주 수</div>
+                  <div class="card-body">
+                      <canvas id="myBarChart" width="100" height="46%"></canvas>
                   </div>
               </div>
-            </div>
-            <% include charts.ejs %>
-         </div>
-      </header>
+          </div>
+        </div>
+        <% include charts.ejs %>
+      </div>
   </body>
 </html>

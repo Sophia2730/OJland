@@ -119,7 +119,9 @@
                 max = apps.length;
                 if(!apps[0]) {
                     alert('조회 가능한 수주자가 없습니다!');
-                    location.reload();
+                    setTimeout(function() {
+                      $("#info_EE").modal('hide');
+                    }, 450);
                 }
 
                 for (var i = 0; i < apps.length; i++) {
@@ -129,6 +131,7 @@
                                 index--;
                                 continue;
                             }
+
                             name.text(users[j].Name);
                             email.text(users[j].Email);
                             tel.text(users[j].Tel);
