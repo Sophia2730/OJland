@@ -55,7 +55,12 @@
             </div>
             <div class="modal-footer mx-auto text-white">
                 <a id="prev" class="btn btn-primary mr-5">이전</a>
-                <a id="prog" class="btn btn-success ml-5">진척도 확인</a>
+                <form action ="progress_list" method="post">
+                  <input name="ooid" id="ooid" type = "text" style="display:none;" >
+                  <input name="uuid" id="uuid" type = "text" style="display:none;">
+                  <input type="submit" class="btn btn-success btn-block" value="진척도 확인" />
+                <!-- <a class="btn btn-success" id="prog" href="">진척도 확인</a> -->
+                </form>
                 <a class="btn btn-danger mr-5" data-toggle="modal" data-target="#mEvaluation">외주 완료</a>
                 <a id="next" class="btn btn-primary ml-5">다음</a>
             </div>
@@ -139,6 +144,9 @@
                             colleage.text(users[j].Colleage);
                             major.text(users[j].Major);
                             content.text(users[j].Content);
+                            $("#uuid").val(users[j]._UID);
+                            $("#ooid").val(data.uuuid);
+
 
                             licenses = (users[j].License) ? users[j].License.split('%&') : '';
                             if (Array.isArray(licenses)) {
