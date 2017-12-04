@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
       res.render('user/register');
 });
 
-router.get('/:email', function(req, res, next) {
+router.get('/check/:email', function(req, res, next) {
       pool.getConnection(function(err, connection) {
           connection.query('SELECT * FROM user WHERE Email=?', req.params.email, function(err, rows) {
               if(err) console.log(err);

@@ -14,7 +14,7 @@
 
               $('#check').on('click', function() {
                   if (Email.val() && Email.val().indexOf("@") != -1 && Email.val().indexOf(".") != -1) {
-                      $.get('/register/' + Email.val(), function(data) {
+                      $.get('/register/check/' + Email.val(), function(data) {
                             if(data) {
                                 $("#result").text('이미 존재하는 이메일입니다.');
                                 $("#result").css('color', '#f44');
@@ -74,56 +74,56 @@
           });
       </script>
   </head>
-  <body class="bg-dark sidenav-toggled">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-        <% include ../nav/nav.ejs %>
-    </nav>
-    <div class="container">
-      <div class="card card-register mx-auto mt-5">
-        <div class="card-header">회원가입</div>
-        <div class="card-body">
-          <form action="register" method="post">
-            <div class="text-center mb-3">
-               <label class="radio-inline" style="margin-right:30px;">
-                 <input type="radio" name="UserType" value="ER" checked> 발주자(기업)
-               </label>
-               <label class="radio-inline">
-                 <input type="radio" name="UserType" value="EE"> 수주자(학생)
-               </label>
-            </div>
-            <div class="form-group">
-              <div class="form-row">
-                <div class="col-md-6">
-                 <label for="Name">이름</label>
-                 <input class="form-control" name="Name" type="text" aria-describedby="nameHelp" maxlength="6" placeholder="(2~6자리)이름을 입력해주세요.">
+  <body class="fixed-nav sidenav-toggled">
+    <% include ../nav/nav.ejs %>
+    <div class="container-fluid bg-header">
+      <div class="row">
+          <div class="card card-register col-md-5 p-0 mx-auto mt-3 mb-3">
+            <div class="card-header">회원가입</div>
+            <div class="card-body">
+              <form action="register" method="post">
+                <div class="text-center mb-1">
+                   <label class="radio-inline" style="margin-right:30px;">
+                     <input type="radio" name="UserType" value="ER" checked> 발주자(기업)
+                   </label>
+                   <label class="radio-inline">
+                     <input type="radio" name="UserType" value="EE"> 수주자(학생)
+                   </label>
                 </div>
-                <div class="col-md-6">
-                 <label for="Birth">생년월일</label>
-                 <input class="form-control" name="Birth" type="text" maxlength="8" placeholder="ex)19940101">
+                <div class="form-group">
+                  <div class="form-row">
+                    <div class="col-md-6">
+                     <label for="Name">이름</label>
+                     <input class="form-control" name="Name" type="text" aria-describedby="nameHelp" maxlength="6" placeholder="(2~6자리)이름을 입력해주세요.">
+                    </div>
+                    <div class="col-md-6">
+                     <label for="Birth">생년월일</label>
+                     <input class="form-control" name="Birth" type="text" maxlength="8" placeholder="ex)19940101">
+                    </div>
+                  </div>
                 </div>
-              </div>
+                <div class="form-group">
+                  <label for="Email">이메일(아이디)</label>
+                  <input class="form-control" name="Email" type="email" aria-describedby="emailHelp" maxlength="40" placeholder="이메일을 입력해주세요.">
+                  <a id="check" class="btn btn-primary text-white mt-2">중복 확인</a>
+                  <label id="result"></label>
+                </div>
+                <div class="form-group">
+                  <label for="Tel">전화번호</label>
+                  <input class="form-control" name="Tel" type="tel" placeholder="ex) 010-1234-5678">
+                </div>
+                <div class="form-group">
+                  <label for="Password">비밀번호</label>
+                  <input class="form-control" name="Password" type="password" aria-describedby="pwdHelp" placeholder="(8~16자리)비밀번호를 입력해주세요.">
+                </div>
+                <div class="form-group">
+                  <label for="Password2">비밀번호 확인</label>
+                  <input class="form-control" name="Password2" type="password" aria-describedby="pwdHelp" placeholder="(8~16자리)비밀번호를 확인해주세요.">
+                </div>
+                <input type="submit" class="btn btn-success btn-block" value="가입하기" />
+              </form>
             </div>
-            <div class="form-group">
-              <label for="Email">이메일(아이디)</label>
-              <input class="form-control" name="Email" type="email" aria-describedby="emailHelp" maxlength="40" placeholder="이메일을 입력해주세요.">
-              <a id="check" class="btn btn-primary text-white mt-1">중복 확인</a>
-              <label id="result"></label>
-            </div>
-            <div class="form-group">
-              <label for="Tel">전화번호</label>
-              <input class="form-control" name="Tel" type="tel" placeholder="ex) 010-1234-5678">
-            </div>
-            <div class="form-group">
-              <label for="Password">비밀번호</label>
-              <input class="form-control" name="Password" type="password" aria-describedby="pwdHelp" placeholder="(8~16자리)비밀번호를 입력해주세요.">
-            </div>
-            <div class="form-group">
-              <label for="Password2">비밀번호 확인</label>
-              <input class="form-control" name="Password2" type="password" aria-describedby="pwdHelp" placeholder="(8~16자리)비밀번호를 확인해주세요.">
-            </div>
-            <input type="submit" class="btn btn-success btn-block" value="가입하기" />
-          </form>
-        </div>
+          </div>
       </div>
     </div>
   </body>

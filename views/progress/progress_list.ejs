@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../nav/header.ejs %>
+    <style>
+        tr {
+          text-align: center;
+        }
+        td {
+            vertical-align: middle !important;
+        }
+    </style>
+</head>
+<body class="fixed-nav sticky-footer" id="page-top">
+  <% include ../nav/nav-login.ejs %>
+  <div class="container-fluid">
+    <div class="card mb-3 mt-3">
+      <div class="card-header"><h3>진척도</h3></div>
+      <div class="card-body">
+          <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                  <th>No.</th>
+                  <th>제목</th>
+                  <th>등록일</th>
+                  <th>내용</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% for(var i = 0; i < data.length; i++) { if (data[i].Title) { %>
+                  <tr class="text-center">
+                      <td><%= i+1 %></td>
+                      <td><%= data[i].Title %></td>
+                      <td><%= data[i].Time %></td> //date로 바꾸기 필요!
+                      <td><%= data[i].Content %></td>
+                  </tr>
+                  <% } } %>
+              </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+</div>
+</body>
+</html>

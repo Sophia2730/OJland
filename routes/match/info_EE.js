@@ -4,7 +4,6 @@ var pool = require('../../config.js').pool;
 var async = require('async');
 
 router.get('/:id', function(req, res, next) {
-    var body = req.body;
 
     pool.getConnection(function(err, connection) {
         async.series([
@@ -34,6 +33,7 @@ router.get('/:id', function(req, res, next) {
         ], function(err, results) {
               if(err) console.log(err);
               res.send({
+                  uuuid: req.params.id,
                   apps: results[0],
                   users: results[1],
                   progresses: results[2]

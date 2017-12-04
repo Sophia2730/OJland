@@ -146,7 +146,7 @@
 
         $("#choice a:first-child").on('click', function() {
             if(confirm('정말로 승인하시겠습니까?')) {
-                $.post('/match?_method=PUT', {id: $(this).attr('id'), needNum: needNum-1});
+                $.post('/match?_method=PUT', {id: $(this).attr('id'), needNum: needNum-1, reqNum: reqNum-1});
                 if (needNum - 1 > 0 && reqNum - 1 > 0)
                       doMatch();
                 else if (needNum - 1 > 0 && reqNum - 1 == 0) {

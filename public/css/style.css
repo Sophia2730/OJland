@@ -1,40 +1,44 @@
-html, body {
-  width: 100%;
-  height: 100%;
-}
-
-header {
+#header {
   position: relative;
   width: 100%;
-  height: 100%;
-  background-image: url('../imgs/header.png');
-  background-position: center center;
-  background-size: cover;
+  height: calc(100vh - 66px);
 }
-header h1 {
+#header h1 {
   font-size: 1.3em !important;
 }
-header a {
+#header a {
   padding: 1em 2em !important;
   font-size: 0.8em !important;
 }
 #contact {
   padding: 20px;
 }
+.bg-header {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('../imgs/header.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 .container {
     padding-top: 25px;
     max-width: 100%;
 }
-.container-fluid {
-    margin-left: 130px !important;
-    width: calc(100% - 130px) !important;
+.navbar {
+    padding-left: 10px;
+    background-color: #b12f4d !important;
 }
 .navbar-brand {
     padding: 0 !important;
 }
+.navbar-brand img {
+    width: 120px;
+    height: 50px;
+}
 .sidenav-toggled .container-fluid {
-    margin-left: 55px !important;
-    width: calc(100% - 55px) !important;
+    margin-left: 0 !important;
+    width: 100% !important;
 }
 .fixed-nav {
     padding-top: 66px !important;
@@ -73,35 +77,39 @@ header a {
 @media (min-width: 768px) {
 }
 @media (min-width: 992px) {
-  header {
-    left: 55px;
+  #header {
     width: calc(100% - 55px);
   }
-  header h1 {
+  #header h1 {
     font-size: 2.5em !important;
   }
-  header a {
-    padding: 1em 2em !important;
-    font-size: 1.5em !important;
+  #header a {
+    padding: 0.8em 1.6em !important;
+    font-size: 1em !important;
   }
   #contact {
     padding: 50px;
   }
-  .navbar {
-      padding: 3px 1rem;
+  .container-fluid {
+      margin-left: 160px !important;
+      width: calc(100% - 160px) !important;
+  }
+  .sidenav-toggled .container-fluid {
+      margin-left: 55px !important;
+      width: calc(100% - 55px) !important;
   }
   .fixed-nav {
       padding-top: 66px !important;
   }
   .navbar-collapse .navbar-sidenav {
       margin-top: 66px !important;
-      height: calc(100vh - 116px) !important;
+      height: calc(100vh - 108px) !important;
   }
   .sidenav-toggler {
-      margin-top: calc(100vh - 50px) !important;
+      margin-top: calc(100vh - 42px) !important;
   }
   .navbar-sidenav > .nav-item, .sidenav-toggler > .nav-item {
-      width: 130px !important;
+      width: 160px !important;
   }
   .sidenav-toggled .navbar-sidenav {
       width: 55px !important;
@@ -110,7 +118,6 @@ header a {
       display: none !important;
   }
   .nav-link {
-      margin-top: 10px;
       padding: 0.5em !important;
   }
   .nav-link img {

@@ -4,7 +4,6 @@ var pool = require('../../config.js').pool;
 var async = require('async');
 
 router.get('/:id', function(req, res, next) {
-    var body = req.body;
 
     pool.getConnection(function(err, connection) {
         async.series([
@@ -55,7 +54,7 @@ router.put('/', function(req, res, next) {
                 });
             },
             function(oid, callback) {
-                if(body.needNum == 0) {
+                if(body.needNum == 0 || body.reqNum == 0) {
                     connection.query("UPDATE orders SET Status='C' WHERE _OID=?", oid, function(err) {
                         if(err) callback(err);
                         callback(null, oid);
