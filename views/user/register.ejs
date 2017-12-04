@@ -46,9 +46,9 @@
                       }
                   }
                   if (Name.val().length < 2 || Name.val().length > 6) {
-                    e.preventDefault();
-                    alert('2~6자리의 이름을 입력해주세요!');
-                    Birth.focus();
+                      e.preventDefault();
+                      alert('2~6자리의 이름을 입력해주세요!');
+                      Name.focus();
                   } else if (Birth.val().length != 8) {
                       e.preventDefault();
                       alert('8자리의 생년월일을 입력해주세요!');
@@ -74,11 +74,11 @@
           });
       </script>
   </head>
-  <body class="fixed-nav sidenav-toggled">
+  <body class="fixed-nav" id="page-top">
     <% include ../nav/nav.ejs %>
     <div class="container-fluid bg-header">
       <div class="row">
-          <div class="card card-register col-md-5 p-0 mx-auto mt-3 mb-3">
+          <div class="card card-register col-md-7 p-0 mx-auto mt-3 mb-3">
             <div class="card-header">회원가입</div>
             <div class="card-body">
               <form action="register" method="post">

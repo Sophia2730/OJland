@@ -44,6 +44,7 @@ router.post('/', function(req, res, next) {
                         req.session.Name = results[1].Name;
                         req.session._UID = results[1]._UID;
                         req.session.UserType = results[1].UserType;
+                        req.session.toggled = false;
                         res.redirect('/main');
                     }
                 } else {    // 비밀번호를 틀리면
