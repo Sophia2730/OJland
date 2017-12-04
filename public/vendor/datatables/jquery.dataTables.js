@@ -11703,7 +11703,7 @@
 			 * displayed after filtering. `emptyTable` is shown when there is simply no
 			 * information in the table at all (regardless of filtering).
 			 *  @type string
-			 *  @default 찾으시는 발주가 없습니다.		// 우상 No matching records found
+			 *  @default 찾으시는 정보가 없습니다.		// 우상 No matching records found
 			 *
 			 *  @dtopt Language
 			 *  @name DataTable.defaults.language.zeroRecords
@@ -11717,7 +11717,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "찾으시는 발주가 없습니다."		// 우상 No matching records found
+			"sZeroRecords": "찾으시는 정보가 없습니다."		// 우상 No matching records found
 		},
 
 

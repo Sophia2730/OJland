@@ -10,6 +10,17 @@ router.get('/', function(req, res, next) {
       res.render('user/register');
 });
 
+router.get('/:email', function(req, res, next) {
+      pool.getConnection(function(err, connection) {
+          connection.query('SELECT * FROM user WHERE Email=?', req.params.email, function(err, rows) {
+              if(err) console.log(err);
+              var exist = (rows[0]) ? true : false;
+              res.send(exist);
+              connection.release();
+          });
+      });
+});
+
 router.get('/success', function(req, res, next) {
     res.send('<script>alert("가입성공! 가입하신 이메일을 확인해주세요.");' +
             'window.location.replace("/login");</script>');
