@@ -9,6 +9,9 @@
           td {
               vertical-align: middle !important;
           }
+          a {
+              color: black;
+          }
       </style>
   </head>
   <body class="fixed-nav" id="page-top">
@@ -16,8 +19,11 @@
           <% include ../nav/nav-login.ejs %>
       </nav>
       <div class="container-fluid">
+          <div class="row ml-3 mt-3">
+              <h4><%= category %> 발주정보</h4>
+          </div>
+          <hr class="mt-0" style="border: 0.5px solid black">
           <div class="card mb-3 mt-3">
-              <div class="card-header"><h3><%= category %></h3></div>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

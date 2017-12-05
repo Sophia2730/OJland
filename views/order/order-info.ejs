@@ -14,91 +14,136 @@
               margin: 10px;
               border: solid 1px black;
           }
+          .row img {
+              width: 60px;
+              height: 60px;
+          }
+          .row h3 img {
+              width: 40px;
+              height: 40px;
+          }
+          .row p {
+              margin-top: 10px;
+              font-size: 1.2rem;
+          }
+          .pa {
+              font-size: 0.8rem !important;
+              color: gray;
+              display: inline;
+          }
+          .pb {
+              font-size: 0.8rem !important;
+              color: black;
+              display: inline;
+          }
+          .container-fluid hr {
+              width: 95% !important;
+              border: solid 0.5px #555;
+          }
       </style>
   </head>
   <body class="fixed-nav" id="page-top">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
           <% include ../nav/nav-login.ejs %>
       </nav>
-      <div class="content-wrapper">
-        <h1 style="margin: 10px;">&nbsp;<i class="fa fa-fw fa-eye"></i>발주정보</h1>
-         <table style="margin-top:20px; width: 95%;" align="center" class="table table-bordered table-hover text-center">
-           <tbody>
-             <tr>
-                <td style="width:10%;"><b>카테고리</b></td>
-                <td style="width:10%;">디자인</td>
-                <td style="width:10%;"><b>제목</b></td>
-                <td colspan="3" style="text-align:left;">
-                  <%if(data.Status == 'A'){ %><b>[모집중]</b><% } %>
-                  <%if(data.Status != 'A'){ %><b>[마감]</b><% } %>
-                  <%= data.Title %></td>
-                <td><b>등록일</b></td>
-                <td><%= date %></td>
-             </tr>
-             <tr>
-                <td><b>발주자</b></td>
-                <td><%= user.Name %></td>
-                <td><b>전화번호</b></td>
-                <td><%= user.Tel %></td>
-                <td><b>이메일</b></td>
-                <td colspan="3"><%= user.Email %></td>
-             </tr>
-             <tr>
-              <td><b>인원</b></td>
-              <td><%= reqNum %>/<%= data.MaxNum %></td>
-              <td><b>급여</b></td>
-              <td><%= data.Cost %></td>
-              <td style="width:10%;"><b>기간</b></td>
-              <td><%= data.Period %></td>
-              <td style="width:10%;"><b>학부제한</b></td>
-              <td><%= data.Colleage %></td>
-             </tr>
-             <tr>
-              <td><b>우대조건</b></td>
-              <td colspan="3">
-                <ul class="prefer" style="list-style:none;margin: 0 !important;padding:0 !important;">
-                    <li style="margin-bottom: 5px;text-align:left;">
-                      <% for (var i = 0; i < preference.length; i++) { %>
-                        <% if (preference[i] != '') { %>
-                            <p>[<%= i+1 %>] <%= preference[i] %></p>
+      <div class="container-fluid">
+          <div class="row mt-5 ml-5">
+              <h4>발주정보 상세보기</h4><small class="mx-3 mt-2">등록일: <%= date %></small>
+              <%if(data.Status == 'A'){ %><h5>[모집 중]</h5><% } %>
+              <%if(data.Status != 'A'){ %><h5>[마감]</h5><% } %>
+          </div>
+          <hr>
+          <div class="row my-4">
+              <h3 class="mx-auto my-auto">
+                <%= data.Title %>
+              </h3>
+          </div>
+          <hr style="border: 0.5px solid #bbb">
+          <div class="row my-4">
+              <div class="col-md-8">
+                  <div class="row">
+                      <div class="col-md-2 text-center ml-auto">
+                          <img src="imgs/icons-info/category.png" alt="">
+                          <p><%= data.Category %></p>
+                      </div>
+                      <div class="col-md-2 text-center">
+                          <img src="imgs/icons-info/cost.png" alt="">
+                          <p><%= data.Cost %>원</p>
+                      </div>
+                      <div class="col-md-2 text-center">
+                          <img src="imgs/icons-info/maxNum.png" alt="">
+                          <p><%= reqNum %>/<%= data.MaxNum %></p>
+                      </div>
+                      <div class="col-md-2 text-center">
+                          <img src="imgs/icons-info/period.png" alt="">
+                          <p><%= data.Period %></p>
+                      </div>
+                      <div class="col-md-2 text-center mr-auto">
+                          <img src="imgs/icons-info/colleage.png" alt="">
+                          <p><%= data.Colleage %></p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-4" style="border-left:1px solid #bbb">
+                  <h4>발주자 정보</h5>
+                  <p class="pa">발주자:</p> <p class="pb"><%= user.Name %></p><br>
+                  <p class="pa">전화:</p> <p class="pb"><%= user.Tel %></p><br>
+                  <p class="pa">이메일:</p> <p class="pb"><%= user.Email %></p>
+              </div>
+          </div>
+          <hr style="border: 0.5px solid #bbb">
+          <div class="row my-4">
+              <div class="col-md-2 ml-5 my-auto">
+                  <h4>우대조건</h4>
+              </div>
+              <div class="col-md-6 mr-auto" style="border-left:1px solid #bbb">
+                  <ul class="prefer" style="list-style:none;margin: 0 !important;padding:0 !important;">
+                      <li style="margin-bottom: 5px;text-align:left;">
+                        <% for (var i = 0; i < preference.length; i++) { %>
+                          <% if (preference[i] != '') { %>
+                              <input type="checkbox" disabled /> <%= preference[i] %><br>
+                          <% } %>
                         <% } %>
-                      <% } %>
-                    </li>
-                </ul>
-              </td>
-              <td colspan="4">
-              </td>
-             </tr>
-             <tr>
-                <td><b>내용</b></td>
-                <td colspan="7"><textarea rows="5" style="width:100%;" readonly><%= data.Content %></textarea></td>
-             </tr>
-           </tbody>
-         </table>
-         <div class="btns text-white mb-2" align="center">
-            <% if (data._UID == session._UID) { %>
-                <% if (data.Status == 'A') { %>
-                    <% if (apps[0]) { %>
-                      <a id="close" class="btn btn-success mr-3">마감</a>
-                    <% } %>
-                    <% if (!apps[0]) { %>
-                      <a class="btn btn-primary mr-3" href="/put/<%= data._OID %>">수정</a>
-                      <a id="delete" class="btn btn-danger mr-3">삭제</a>
-                    <% } %>
-                <% } else if (data.Status == 'B') { %>
-                    <a id="match" class="btn btn-primary mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>
-                <% } %>
-            <% } else if (session.UserType == 'EE') { %>
-              <% if (!isReq && data.Status == 'A') { %>
-                    <a class="btn btn-success mr-3" data-toggle="modal" data-target="#myModal" href="">수주요청</a>
-              <% } else if (data.Status == 'C') { %>
-                    <a class="btn btn-danger mr-3"data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
-              <% } else if (isReq && data.Status == 'A'){ %>
-                    <a id="cancel" class="btn btn-danger mr-3">요청취소</a>
-              <% } %>
-            <% } %>
-            <a class="btn btn-info" onclick="history.go(-1);">목록</a>
-         </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          <hr>
+          <div class="row my-4">
+              <div class="col-md-2 ml-5 my-auto">
+                  <h4>내용</h4>
+              </div>
+              <div class="col-md-8 mr-auto" style="border-left:1px solid #bbb">
+                  <textarea rows="5" style="width:100%;border:none" readonly><%= data.Content %></textarea>
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="btns text-white mb-5 mx-auto">
+                 <% if (data._UID == session._UID) { %>
+                     <% if (data.Status == 'A') { %>
+                         <% if (apps[0]) { %>
+                           <a id="close" class="btn btn-success mr-3">마감</a>
+                         <% } %>
+                         <% if (!apps[0]) { %>
+                           <a class="btn btn-primary mr-3" href="/put/<%= data._OID %>">수정</a>
+                           <a id="delete" class="btn btn-danger mr-3">삭제</a>
+                         <% } %>
+                     <% } else if (data.Status == 'B') { %>
+                         <a id="match" class="btn btn-primary mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>
+                     <% } %>
+                 <% } else if (session.UserType == 'EE') { %>
+                   <% if (!isReq && data.Status == 'A') { %>
+                         <a class="btn btn-success mr-3" data-toggle="modal" data-target="#myModal" href="">수주요청</a>
+                   <% } else if (data.Status == 'C') { %>
+                         <a class="btn btn-danger mr-3"data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
+                   <% } else if (isReq && data.Status == 'A'){ %>
+                         <a id="cancel" class="btn btn-danger mr-3">요청취소</a>
+                   <% } %>
+                 <% } %>
+                 <a class="btn btn-info" onclick="history.go(-1);">목록</a>
+              </div>
+          </div>
      </div>
      <% if (session.UserType == 'EE') { %>
        <% include ./request.ejs %>
