@@ -21,7 +21,6 @@ router.get('/resume', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         connection.query('SELECT * FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
               if(err) console.log(err);
-              console.log('resume: ', rows);
               if(rows[0])
                   res.send(true);
               else
@@ -46,6 +45,7 @@ router.post('/:id', function(req, res, next) {
     } else if (body.Preference){ // 우대조건이 1개이면
         prefer = body.Preference;
     }
+    console.log('prefer: ', prefer);
 
     pool.getConnection(function(err, connection) {
         async.parallel([

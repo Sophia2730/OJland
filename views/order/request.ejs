@@ -31,10 +31,10 @@
                     <% } %>
                    </div>
               </div>
-             <div class="modal-footer text-white">
-                <a id="req" class="btn btn-success ml-auto mr-3">요청</a>
-                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">취소</button>
-             </div>
+              <div class="modal-footer text-white">
+                  <input id="req" type="submit" class="btn btn-success ml-auto mr-3" value="요청">
+                  <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">취소</button>
+              </div>
           </form>
         </div>
       </div>
@@ -43,10 +43,8 @@
 <script>
     $("#myModal #req").on('click', function(e) {
         $("#myModal").modal('hide');
-        $.post('/req/<%= data._OID %>', function(data) {
-            $("a[data-target='#myModal']").remove();
-            $(".btns").prepend('<a id="cancel" class="btn btn-danger mr-3">요청취소</a>');
-            $("#reqNum").text(++req + "/" + <%= data.MaxNum %>);
-        });
+        $("a[data-target='#myModal']").remove();
+        $(".btns").prepend('<a id="cancel" class="btn btn-danger mr-3">요청취소</a>');
+        $("#reqNum").text(++req + "/" + <%= data.MaxNum %>);
     });
 </script>
