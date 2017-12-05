@@ -54,15 +54,15 @@
                </form>
             </div>
             <div class="modal-footer mx-auto text-white">
-                <a id="prev" class="btn btn-primary mr-5">이전</a>
+                <a id="prev" class="btn btn-primary mx-5">이전</a>
                 <form action ="progress_list" method="post">
                   <input name="ooid" id="ooid" type = "text" style="display:none;" >
                   <input name="uuid" id="uuid" type = "text" style="display:none;">
-                  <input type="submit" class="btn btn-success btn-block" value="진척도 확인" />
+                  <input type="submit" class="btn btn-success mx-3" value="진척도 확인" />
                 <!-- <a class="btn btn-success" id="prog" href="">진척도 확인</a> -->
                 </form>
-                <a class="btn btn-danger mr-5" data-toggle="modal" data-target="#mEvaluation">외주 완료</a>
-                <a id="next" class="btn btn-primary ml-5">다음</a>
+                <a id="finish" class="btn btn-danger mx-3" data-toggle="modal" data-target="#mEvaluation">외주 완료</a>
+                <a id="next" class="btn btn-primary mx-5">다음</a>
             </div>
         </div>
     </div>
@@ -99,7 +99,6 @@
         $("#next").on('click', function() {
             if (index < max -1)
                 getInfo(++index);
-            console.log(index);
         });
 
         $("#prev").on('click', function() {
@@ -109,6 +108,11 @@
 
         $("a[data-target='#info_EE']").on('click', function(e) {
             oid = $(this).attr('id');
+            $.get('/ordered_list/check/' + oid, function(data) {
+                if(data != 'C') {
+                    $("#finish").remove();
+                }
+            });
             getInfo(index);
         });
 

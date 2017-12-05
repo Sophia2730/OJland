@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
                 });
               },
               function(orders, dates, callback) {
-                  connection.query('SELECT * FROM application', function(err, apps) {
+                  connection.query("SELECT * FROM application WHERE Status<>'F'", function(err, apps) {
                       var reqNums = [];
                       for (var i = 0; i < orders.length; i++) {
                           reqNums[i] = 0;

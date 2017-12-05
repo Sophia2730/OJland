@@ -20,13 +20,13 @@ router.get('/', function(req, res, next) {
                 });
             },
             function(order, callback) {
-                connection.query('SELECT * FROM user WHERE _UID=?', order._UID, function(err, users) {
+                connection.query("SELECT * FROM user WHERE _UID=?", order._UID, function(err, users) {
                     if(err) callback(err);
                     callback(null, order, users[0]);
                 });
             },
             function(order, user, callback) {
-                connection.query('SELECT * FROM application WHERE _OID=?', order._OID, function(err, apps) {
+                connection.query("SELECT * FROM application WHERE _OID=? AND Status<>'F'", order._OID, function(err, apps) {
                     if(err) callback(err);
                     var prefer = [];  // 우대조건을 저장할 배열
                     if (order.Preference) // 해당 발주의 우대조건이 존재하면

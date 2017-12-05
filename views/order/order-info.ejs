@@ -49,7 +49,7 @@
       <div class="container-fluid">
           <div class="row mt-5 ml-5">
               <h4>발주정보 상세보기</h4><small class="mx-3 mt-2">등록일: <%= date %></small>
-              <%if(data.Status == 'A'){ %><h5>[모집 중]</h5><% } %>
+              <%if(data.Status == 'A'){ %><h5 id="stat">[모집 중]</h5><% } %>
               <%if(data.Status != 'A'){ %><h5>[마감]</h5><% } %>
           </div>
           <hr>
@@ -184,15 +184,19 @@
          $("#close").on('click', function(e) {
              if (confirm('정말로 마감하시겠습니까?'))
                  $.post('/close/<%= data._OID %>?_method=PUT', function(data) {
-                     if(data)
-                         window.location.replace('/list');
+                     if(data) {
+                         $("#close").parent().prepend('<a id="match" class="btn btn-primary mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>');
+                         $("#close").remove();
+                         $("#stat").text('[마감]');
+                         alert('마감되었습니다!');
+                     }
                  });
          });
          $("#delete").on('click', function(e) {
              if (confirm('정말로 삭제하시겠습니까?'))
                  $.post("/info/<%= data._OID %>?_method=DELETE", function(data) {
                      if(data)
-                         window.location.replace('/list');
+                         location.href = document.reffere;
                  });
          });
      </script>

@@ -76,9 +76,9 @@
                     content, img, prefer];
 
         var apps, users, licenses, imgs, checkPres;
-        var needNum = <%= data.MaxNum %>; // 필요 인원 수에 모집 인원 저장
-        var reqNum = 0;
-        $("a[data-target='#myMatch']").on('click', function(e) {
+        var needNum, reqNum; // 필요 인원 수, 남은 지원자 수
+
+        $(".btns").on('click', '#match', function(e) {
             doMatch();
         });
 
@@ -87,57 +87,58 @@
             for (var i = 0; i < forms.length; i++) {
                 forms[i].html('');
             }
+
+            $.get('/ordered_list/req/<%= data._OID %>', function(data) {
+                reqNum = data.cnt;  // 남은 지원인원
+            });
+
+            $.get('/ordered_list/complete/<%= data._OID %>', function(data) {
+                needNum = <%= data.MaxNum %> - data.cnt;  // 남은 모집인원
+            });
+
             $.get('/match/' + <%= data._OID %>, function(data) {
-                  console.log(data);
                   apps = data.apps;
                   users = data.users;
-                  reqNum = users.length;  // 지원자 수 저장
-                  console.log('지원자수: ', reqNum);
                   for (var i = 0; i < apps.length; i++) {
-                      if (apps[i].Status == 'B' || apps[i].Status == 'F') {
-                          needNum--; // 이미 매칭 된 만큼 빼기
-                      } else if(needNum > 0) {
-                          for (var j = 0; j < users.length; j++) {
-                              if (apps[i]._UID == users[j]._UID) {  // app에 해당하는 user이면
-                                  name.text(users[j].Name);
-                                  email.text(users[j].Email);
-                                  tel.text(users[j].Tel);
-                                  course.text(users[j].Course);
-                                  colleage.text(users[j].Colleage);
-                                  major.text(users[j].Major);
-                                  content.text(users[j].Content);
+                      for (var j = 0; j < users.length; j++) {
+                          if (apps[i]._UID == users[j]._UID) {  // app에 해당하는 user이면
+                              name.text(users[j].Name);
+                              email.text(users[j].Email);
+                              tel.text(users[j].Tel);
+                              course.text(users[j].Course);
+                              colleage.text(users[j].Colleage);
+                              major.text(users[j].Major);
+                              content.text(users[j].Content);
+                              $("#choice").children().attr('id', apps[i]._AID);
 
-                                  licenses = (users[j].License) ? users[j].License.split('%&') : '';
-                                  license.html('');
-                                  if (Array.isArray(licenses)) {
-                                      for (var k = 0; k < licenses.length; k++) {
-                                          license.append("<a class='btn btn-primary text-white m-2'>" + licenses[k] +"</a>");
-                                      }
-                                  } else if (licenses)
-                                      license.append("<a class='btn btn-primary text-white m-2'>" + licenses + "</a>");
+                              licenses = (users[j].License) ? users[j].License.split('%&') : '';
+                              license.html('');
+                              if (Array.isArray(licenses)) {
+                                  for (var k = 0; k < licenses.length; k++) {
+                                      license.append("<a class='btn btn-primary text-white m-2'>" + licenses[k] +"</a>");
+                                  }
+                              } else if (licenses)
+                                  license.append("<a class='btn btn-primary text-white m-2'>" + licenses + "</a>");
 
-                                  imgs = (users[j].imageUrl) ? users[j].imageUrl.split('%&') : '';
-                                  img.html('');
-                                  if (Array.isArray(imgs)) {
-                                      for (var k = 0; k < imgs.length; k++) {
-                                          img.append("<img src='uploads/" + imgs[k] + "' class='mr-3'></img>");
-                                      }
-                                  } else if (imgs)
-                                      img.append("<img src='uploads/" + imgs + "' class='mr-3'></img>");
+                              imgs = (users[j].imageUrl) ? users[j].imageUrl.split('%&') : '';
+                              img.html('');
+                              if (Array.isArray(imgs)) {
+                                  for (var k = 0; k < imgs.length; k++) {
+                                      img.append("<img src='uploads/" + imgs[k] + "' class='mr-3'></img>");
+                                  }
+                              } else if (imgs)
+                                  img.append("<img src='uploads/" + imgs + "' class='mr-3'></img>");
 
-                                  checkPres = (apps[i].CheckPre) ? apps[i].CheckPre.split('%&') : '';
-                                  prefer.html('');
-                                  if (Array.isArray(checkPres)) {
-                                      for (var k = 0; k < checkPres.length; k++) {
-                                          prefer.append("<input type='checkbox' class='my-2' checked disabled />"+ checkPres[k] + "<br>");
-                                      }
-                                  } else if (checkPres)
-                                      prefer.append("<input type='checkbox' class='my-2' checked disabled />"+ checkPres + "<br>");
+                              checkPres = (apps[i].CheckPre) ? apps[i].CheckPre.split('%&') : '';
+                              prefer.html('');
+                              if (Array.isArray(checkPres)) {
+                                  for (var k = 0; k < checkPres.length; k++) {
+                                      prefer.append("<input type='checkbox' class='my-2' checked disabled />"+ checkPres[k] + "<br>");
+                                  }
+                              } else if (checkPres)
+                                  prefer.append("<input type='checkbox' class='my-2' checked disabled />"+ checkPres + "<br>");
 
-                                  $("#choice a:first-child").attr('id', apps[i]._AID);
-                                  $("#choice a:last-child").attr('id', apps[i]._AID);
-                                  return;
-                              }
+                              return;
                           }
                       }
                   }
@@ -146,13 +147,13 @@
 
         $("#choice a:first-child").on('click', function() {
             if(confirm('정말로 승인하시겠습니까?')) {
-                $.post('/match?_method=PUT', {id: $(this).attr('id'), needNum: needNum-1, reqNum: reqNum-1});
-                if (needNum - 1 > 0 && reqNum - 1 > 0)
-                      doMatch();
-                else if (needNum - 1 > 0 && reqNum - 1 == 0) {
+                $.post('/match?_method=PUT', {id: $(this).attr('id'), oid: <%= data._OID %>, needNum: needNum-1, reqNum: reqNum-1});
+                if (needNum > 1 && reqNum > 1) {
+                    doMatch();
+                } else if (reqNum == 1) {
                     alert('더 이상 지원자가 없습니다!');
                     location.reload();
-                } else if (needNum - 1 == 0) {
+                } else if (needNum == 1) {
                     alert('매칭이 완료되었습니다!');
                     location.reload();
                 }
@@ -161,8 +162,9 @@
 
         $("#choice a:last-child").on('click', function() {
             if(confirm('정말로 거절하시겠습니까?')) {
-                $.post('/match?_method=DELETE', {id: $(this).attr('id'), reqNum: reqNum-1});
-                if (reqNum - 1 > 0) {
+                $.post('/match?_method=DELETE', {id: $(this).attr('id'), oid: <%= data._OID %>, reqNum: reqNum-1});
+                if (reqNum > 1) {
+                    $("#reqNum").text(--req + "/" + <%= data.MaxNum %>);
                     doMatch();
                 } else {
                     alert('더 이상 지원자가 없습니다!');

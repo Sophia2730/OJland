@@ -8,7 +8,7 @@ router.get('/:id', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.series([
             function(callback) {
-                queryStr = "SELECT * FROM application WHERE _OID=? AND Status<>'F'"
+                queryStr = "SELECT * FROM application WHERE _OID=? AND Status='A'"
                           + " ORDER BY TotalScore DESC";
                 connection.query(queryStr, req.params.id, function(err, rows) {
                     if(err) callback(err);
@@ -17,7 +17,7 @@ router.get('/:id', function(req, res, next) {
             },
             function(callback) {
                 queryStr = "select * from user as U JOIN resume as R where U._UID IN ("
-                  + "select _UID from application AS A where _OID=? AND Status<>'F')"
+                  + "select _UID from application AS A where _OID=? AND Status='A')"
                   + " AND R._UID IN (select _UID from resume where _UID = U._UID);"
                 connection.query(queryStr, req.params.id, function(err, rows) {
                     if(err) callback(err);
@@ -26,7 +26,6 @@ router.get('/:id', function(req, res, next) {
             }
         ], function(err, results) {
               if(err) console.log(err);
-              console.log(results);
               res.send({
                   apps: results[0],
                   users: results[1]
@@ -38,7 +37,7 @@ router.get('/:id', function(req, res, next) {
 
 router.put('/', function(req, res, next) {
     var body = req.body;
-
+    console.log("body: ", body);
     pool.getConnection(function(err, connection) {
         async.waterfall([
             function(callback) {
@@ -48,25 +47,37 @@ router.put('/', function(req, res, next) {
                 });
             },
             function(callback) {
-                connection.query("SELECT _OID FROM application WHERE _AID=?", body.id, function(err, rows) {
-                    if(err) callback(err);
-                    callback(null, rows[0]._OID);
-                });
-            },
-            function(oid, callback) {
                 if(body.needNum == 0 || body.reqNum == 0) {
-                    connection.query("UPDATE orders SET Status='C' WHERE _OID=?", oid, function(err) {
+                    connection.query("UPDATE orders SET Status='C' WHERE _OID=?", body.oid, function(err) {
                         if(err) callback(err);
-                        callback(null, oid);
+                        callback(null, true);
                     });
                 } else {
-                    callback(null, 'success');
+                    callback(null, false);
                 }
+            },
+            function(isEnd, callback) {
+                if(isEnd) {
+                    connection.query("SELECT _AID FROM application WHERE _OID=? AND Status='A'", body.oid, function(err, rows) {
+                        if(err) callback(err);
+                        callback(null, rows, true);
+                    });
+                } else {
+                  callback(null, null, false);
+                }
+            },
+            function(aids, isEnd, callback) {
+                if(isEnd) {
+                    for (var i = 0; i < aids.length; i++) {
+                        connection.query("UPDATE application SET Status='F' WHERE _AID=?", aids[i]._AID, function(err, rows) {
+                            if(err) callback(err);
+                        });
+                    }
+                }
+                callback(null, 'success');
             }
         ], function(err, result) {
             if(err) console.log(err);
-            if(body.needNum == 0)
-                res.redirect('/info/' + result);
             connection.release();
         });
     });
@@ -84,25 +95,25 @@ router.delete('/', function(req, res, next) {
                 });
             },
             function(callback) {
-                connection.query("SELECT _OID FROM application WHERE _AID=?", body.id, function(err, rows) {
-                    if(err) callback(err);
-                    callback(null, rows[0]._OID);
-                });
+                  connection.query("SELECT count(*) AS cnt FROM application WHERE _OID=? AND Status='B'", body.oid, function(err, rows) {
+                      if(err) callback(err);
+                      callback(null, rows[0].cnt);
+                  });
             },
-            function(oid, callback) {
-                if(body.reqNum == 0) {
-                    connection.query("UPDATE orders SET Status='C' WHERE _OID=?", oid, function(err) {
+            function(cnt, callback) {
+                if(body.reqNum == 0 && cnt == 0) { // 지원자가 더 이상 없고 수주자가 존재하지 않으면
+                    connection.query("UPDATE orders SET Status='F' WHERE _OID=?", body.oid, function(err) {
                         if(err) callback(err);
-                        callback(null, oid);
                     });
-                } else {
-                    callback(null, 'success');
+                } else if (body.reqNum == 0 && cnt > 0) { // 지원자가 더 이상 없고 수주자가 존재하면
+                    connection.query("UPDATE orders SET Status='C' WHERE _OID=?", body.oid, function(err) {
+                        if(err) callback(err);
+                    });
                 }
+                callback(null, 'success');
             }
         ], function(err, result) {
             if(err) console.log(err);
-            if(body.reqNum == 0)
-                res.redirect('/info/' + result);
             connection.release();
         });
     });

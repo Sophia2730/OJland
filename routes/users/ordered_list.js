@@ -37,5 +37,37 @@ router.get('/', function(req, res, next) {
     });
 });
 
+// 해당 발주의 상태를 리턴
+router.get('/check/:id', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        connection.query("SELECT Status FROM orders WHERE _OID=?", req.params.id, function (err, rows) {
+            if(err) console.log("err: ", err);
+            res.send(rows[0].Status);
+            connection.release();
+        });
+    });
+});
+
+// 수주 요청자의 수를 리턴
+router.get('/req/:id', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        connection.query("SELECT count(*) AS cnt FROM application WHERE _OID=? AND Status='A'", req.params.id, function (err, rows) {
+            if(err) console.log("err: ", err);
+            res.send({cnt: rows[0].cnt});
+            connection.release();
+        });
+    });
+});
+
+// 매칭 완료된 수주자의 수를 리턴
+router.get('/complete/:id', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        connection.query("SELECT count(*) AS cnt FROM application WHERE _OID=? AND Status='B'", req.params.id, function (err, rows) {
+            if(err) console.log("err: ", err);
+            res.send({cnt: rows[0].cnt});
+            connection.release();
+        });
+    });
+});
 
 module.exports = router;

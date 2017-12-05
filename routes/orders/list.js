@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
                   });
               },
               function(orders, dates, callback) {
-                  connection.query('SELECT * FROM application', function(err, apps) {
+                  connection.query("SELECT * FROM application WHERE Status<>'F'", function(err, apps) {
                       if(err) callback(err);
                       var reqNums = []; // 지원자 수를 저장할 배열
                       for (var i = 0; i < orders.length; i++) {
