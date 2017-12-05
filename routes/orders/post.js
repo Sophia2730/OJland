@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var pool = require('../../config.js').pool;
+var fs = require('fs');
 var async = require('async');
 
 router.get('/', function(req, res, next) {
@@ -8,14 +9,19 @@ router.get('/', function(req, res, next) {
         res.redirect('/');  // 세션이 없으면 메인 페이지로 이동
         return;
     }
-    res.render('order/order-post', {
-        session: req.session
+    fs.readFile('public/data/major.json', 'utf-8', function(err, data) {
+        if(err) console.log(err);
+        res.render('order/order-post', {
+            major: JSON.parse(data),
+            session: req.session
+        });
     });
+
 });
 
 router.post('/', function(req, res, next) {
     var body = req.body;
-
+    console.log('body: ', body);
     var prefer = '';  // 우대조건을 저장할 변수
     if (Array.isArray(body.Preference)) { // body.Preference가 배열이면
         for (var i = 0; i < body.Preference.length; i++) {
@@ -41,16 +47,17 @@ router.post('/', function(req, res, next) {
             function(newId, callback) {
                 var inputs = [newId, req.session._UID, body.Category, body.Title, body.Colleage, body.Cost,
                             body.Content, prefer, body.Period, body.MaxNum];  // orders Table에 저장할 값들
+                            console.log(inputs);
                 var queryStr = 'INSERT INTO orders(_OID,_UID,Category,Title,Colleage,Cost,Content,Preference,Period,MaxNum)'
                               + ' VALUES(?,?,?,?,?,?,?,?,?,?)'; // orders Table에 데이터를 삽입
                 connection.query(queryStr, inputs, function(err) {
                     if(err) callback(err);
-                    callback(null, 'success');
+                    callback(null, newId);
                 });
             }
-        ], function(err, results) {
+        ], function(err, result) {
             if(err) console.log(err);
-            res.redirect('/list');
+            res.redirect('/info/' + result);
             connection.release();
         });
     });

@@ -196,7 +196,7 @@
              if (confirm('정말로 삭제하시겠습니까?'))
                  $.post("/info/<%= data._OID %>?_method=DELETE", function(data) {
                      if(data)
-                         location.href = document.reffere;
+                         location.href = '/list';
                  });
          });
      </script>

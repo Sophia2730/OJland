@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
 var pool = require('../../config.js').pool;
 
 var id; // 파라미터로 전달받은 _OID를 저장할 변수
@@ -13,10 +14,14 @@ router.get('/', function(req, res, next) {
             var prefer = [];  // 우대조건을 저장할 배열
             if (rows[0].Preference) // 우선조건이 존재하면
                 prefer = rows[0].Preference.split('%&');  // '%&'을 구분자로하여 분할
-            res.render('order/order-put', { // 발주 수정 페이지 렌딩
-                session: req.session, // 접속자 정보
-                data: rows[0],  // 해당 발주 정보
-                preference: prefer  // 우대조건 정보
+            fs.readFile('public/data/major.json', 'utf-8', function(err, data) {
+                if(err) console.log(err);
+                res.render('order/order-put', { // 발주 수정 페이지 렌딩
+                    session: req.session, // 접속자 정보
+                    major: JSON.parse(data),
+                    data: rows[0],  // 해당 발주 정보
+                    preference: prefer  // 우대조건 정보
+                });
             });
             connection.release();
         });
