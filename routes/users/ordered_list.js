@@ -69,6 +69,17 @@ router.get('/req/:id', function(req, res, next) {
     });
 });
 
+// 수주 요청자의 수를 리턴
+router.get('/num/:id', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        connection.query("SELECT count(*) AS cnt FROM application WHERE _OID=? AND Status<>'F'", req.params.id, function (err, rows) {
+            if(err) console.log("err: ", err);
+            res.send({cnt: rows[0].cnt});
+            connection.release();
+        });
+    });
+});
+
 // 매칭 완료된 수주자의 수를 리턴
 router.get('/complete/:id', function(req, res, next) {
     pool.getConnection(function(err, connection) {

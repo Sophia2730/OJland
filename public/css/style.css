@@ -10,6 +10,9 @@
   padding: 1em 2em !important;
   font-size: 0.8em !important;
 }
+#dataTable th {
+    text-align: center;
+}
 .bg-header {
     position: relative;
     width: 100%;

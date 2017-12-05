@@ -30,6 +30,7 @@
                         <th>제목</th>
                         <th>급여</th>
                         <th>등록일</th>
+                        <th>인원</th>
                         <th>상태</th>
                         <th>수주자</th>
                     </tr>
@@ -44,6 +45,7 @@
                             </td>
                             <td><%= data[i].Cost %></td>
                             <td><%= date[i] %></td>
+                            <td id="num_<%= i %>"></td>
                             <% if(data[i].Status == 'A' ) { %>
                                 <td>모집 중</td>
                             <% } else if(data[i].Status == 'B'){ %>
@@ -108,7 +110,6 @@
       <% if (session.UserType == 'EE') {
           for (var i = 0; i < data.length; i++) { %>
             $.get('/ordered_list/status/<%= data[i]._OID %>', function(data) {
-                console.log(data);
                 var status;
                 if (data == 'A')
                     status = '매칭대기';
@@ -121,8 +122,13 @@
 
                 $("a[id=<%= data[i]._UID %>]").parent().next().text(status);
             });
-      <% }
-      } %>
+      <% }} %>
+      <% if (session.UserType == 'ER') {
+            for (var i = 0; i < data.length; i++) { %>
+                $.get('/ordered_list/num/<%= data[i]._OID %>', function(data) {
+                    $("#num_<%= i %>").text(data.cnt + '/<%= data[i].MaxNum %>');
+                });
+      <% }} %>
   </script>
   </body>
 </html>
