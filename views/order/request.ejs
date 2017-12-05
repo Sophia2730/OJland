@@ -2,44 +2,38 @@
     <div class="modal-dialog modal-lg" style="width:350px">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">수주요청</h4>
+          <h4 class="modal-title ml-2">수주요청</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
           <form method="POST" action="req/<%= data._OID %>">
-             <div class="text-left">
-               <div class="row">
-                   <div class="col-md-12">
-                       제목: <b><%= data.Title %></b>
+              <div class="row my-3 ml-1">
+                  <div class="col-md-3"><b>제목</b></div>
+                  <div class="col-md-9"><%= data.Title %></div>
+              </div>
+              <div class="row my-3 ml-1">
+                  <div class="col-md-3"><b>급여</b></div>
+                  <div class="col-md-9"><%= data.Cost %>원</div>
+              </div>
+              <div class="row my-3 ml-1">
+                  <div class="col-md-3"><b>기간</b></div>
+                  <div class="col-md-9"><%= data.Period %></div>
+              </div>
+              <div class="row my-3 ml-1">
+                  <div class="col-md-12">
+                    <% if (preference[0]) { %>
+                     <b class="mt-3 mb-1">해당사항을 체크해주세요!</b><br>
+                    <% } %>
+                    <% for (var i = 0; i < preference.length; i++) { %>
+                     <% if (preference[i]) { %>
+                      <input type="checkbox" name="Preference" value="<%= preference[i] %>"/> <%= preference[i] %><br>
+                     <% } %>
+                    <% } %>
                    </div>
-               </div>
-               <div class="row">
-                   <div class="col-md-4">
-                       카테고리:<br><b><%= data.Category %></b>
-                   </div>
-                   <div class="col-md-4">
-                       급여:<br><b><%= data.Cost %>원</b>
-                   </div>
-                   <div class="col-md-4">
-                       기간:<br><b><%= data.Period %></b>
-                   </div>
-               </div>
-               <div class="row">
-                   <div class="col-md-12">
-                      <% if (preference[0]) { %>
-                       <p class="mt-3 mb-1">해당사항을 체크해주세요!</p>
-                      <% } %>
-                       <% for (var i = 0; i < preference.length; i++) { %>
-                         <% if (preference[i]) { %>
-                          <input type="checkbox" name="Preference" value="<%= preference[i] %>"/> <b><%= preference[i] %></b><br>
-                         <% } %>
-                       <% } %>
-                   </div>
-               </div>
-             </div>
+              </div>
              <div class="modal-footer text-white">
-               <a id="req" class="btn btn-success">요청</a>
-               <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+                <a id="req" class="btn btn-success ml-auto mr-3">요청</a>
+                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">취소</button>
              </div>
           </form>
         </div>
@@ -52,6 +46,7 @@
         $.post('/req/<%= data._OID %>', function(data) {
             $("a[data-target='#myModal']").remove();
             $(".btns").prepend('<a id="cancel" class="btn btn-danger mr-3">요청취소</a>');
+            $("#reqNum").text(++req + "/" + <%= data.MaxNum %>);
         });
     });
 </script>

@@ -72,7 +72,7 @@
                       </div>
                       <div class="col-md-2 text-center">
                           <img src="imgs/icons-info/maxNum.png" alt="">
-                          <p><%= reqNum %>/<%= data.MaxNum %></p>
+                          <p id="reqNum"><%= reqNum %>/<%= data.MaxNum %></p>
                       </div>
                       <div class="col-md-2 text-center">
                           <img src="imgs/icons-info/period.png" alt="">
@@ -141,7 +141,7 @@
                          <a id="cancel" class="btn btn-danger mr-3">요청취소</a>
                    <% } %>
                  <% } %>
-                 <a class="btn btn-info" onclick="history.go(-1);">목록</a>
+                 <a class="btn btn-info" onclick="location.href=document.referrer">목록</a>
               </div>
           </div>
      </div>
@@ -152,10 +152,9 @@
        <% include ../match/match.ejs %>
      <% } %>
      <script>
-
+        var req = <%= reqNum %>;
          $("a[data-target='#myModal']").on('click', function(e) {
              $.get('/req/resume', function(data) {
-                 console.log(data);
                  if (!data) {
                      location.href = '/resume';
                      alert('이력서가 없습니다!');
@@ -178,6 +177,7 @@
                  $.post("/req/<%= data._OID %>?_method=DELETE");
                  $(this).parent().prepend('<a class="btn btn-success mr-3" data-toggle="modal" data-target="#myModal">수주요청</a>');
                  $(this).remove();
+                 $("#reqNum").text(--req + "/" + <%= data.MaxNum %>);
              }
          });
 
