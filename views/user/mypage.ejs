@@ -3,21 +3,18 @@
 <head>
     <% include ../nav/header.ejs %>
     <style>
-      .card .row img {
+      .row img {
           margin: 5px 10px;
           display: inline-block;
-          width: 120px;
-          height: 80px;
+          width: 180px;
+          height: 120px;
           border: solid 1px black;
       }
-      .card .card-block {
-          padding: 30px;
-      }
-      .card {
-          height: 400px;
-      }
-      #dataTable_wrapper {
-          margin: 0 !important;
+      .mRow {
+          background-color: white;
+          padding: 1rem;
+          margin: 1rem auto;
+          border: solid 2px #aaa;
       }
     </style>
 </head>
@@ -26,289 +23,175 @@
     <div class="container-fluid bg-header">
        <% include ./notice.ejs %>
        <div class="row">
-          <div class="col-md-5 bg-white mx-auto my-3">
+          <div class="col-md-5 mRow">
               <h2>회원정보</h2>
               <hr class="my-1 bg-dark">
-              <div class="row my-3">
-                  <div class="col-md-3 ml-2"><b>이름</b><br></div>
+              <div class="row my-3 ml-1">
+                  <div class="col-md-3"><b>이름</b><br></div>
                   <div class="col-md-6 mx-auto"><%= user.Name %></div>
               </div>
               <hr>
-              <div class="row my-3">
-                  <div class="col-md-3 ml-2"><b>생년월일</b><br></div>
+              <div class="row my-3 ml-1">
+                  <div class="col-md-3"><b>생년월일</b><br></div>
                   <div class="col-md-6 mx-auto"><%= user.Birth %></div>
               </div>
               <hr>
-              <div class="row my-3">
-                  <div class="col-md-3 ml-2"><b>전화번호</b><br></div>
+              <div class="row my-3 ml-1">
+                  <div class="col-md-3"><b>전화번호</b><br></div>
                   <div class="col-md-6 mx-auto"><%= user.Tel %></div>
               </div>
               <hr class="mt-1 bg-dark">
               <div align="center" class="my-3">
-                    <a class="btn btn-primary" href="/changeinfo">개인정보 수정</a>
+                    <a class="btn btn-primary mr-3" href="/changeinfo">개인정보 수정</a>
                     <a class="btn btn-primary" href="/changepwd">비밀번호 변경</a>
               </div>
           </div>
-          <div class="col-md-5 bg-white mx-auto my-3">
+          <div class="col-md-5 mRow">
               <h2>외주정보</h2>
               <hr class="mt-1 bg-dark">
-              <% var A = 0, B = 0,C = 0;
-                  for (var i = 0; i < app.length; i++) {
-                  if (app[i].Status == 'A')
-                      A++;
-                  else if (app[i].Status == 'B')
-                      B++;
-                  else if (app[i].Status == 'C')
-                      C++;
-                  } %>
-              <div class="row my-3 ml-2">
-                  <div class="col-md-3"><b>매칭대기</b></div>
-                  <div class="col-md-3 mx-auto"><%= A %></div>
-              </div>
-              <hr>
-              <div class="row my-3 ml-2">
-                  <div class="col-md-3"><b>매칭완료</b></div>
-                  <div class="col-md-3 mx-auto"><%= B %></div>
-              </div>
-              <hr>
-              <div class="row my-3 ml-2">
-                  <div class="col-md-3"><b>외주완료</b></div>
-                  <div class="col-md-3 mx-auto"><%= C %></div>
-              </div>
-              <hr class="my-1 bg-dark">
-              <div align="center" class="my-3">
-                  <a class="btn btn-primary" href="/ordered_list" style="margin-right:40px;">수주내역 확인</a>
-              </div>
+              <% if(user.UserType == 'EE') { %>
+                <% var A = 0, B = 0,C = 0;
+                    for (var i = 0; i < app.length; i++) {
+                    if (app[i].Status == 'A')
+                        A++;
+                    else if (app[i].Status == 'B')
+                        B++;
+                    else if (app[i].Status == 'C')
+                        C++;
+                    } %>
+                <div class="row my-3 ml-1">
+                    <div class="col-md-3"><b>매칭대기</b></div>
+                    <div class="col-md-3 mx-auto"><%= A %></div>
+                </div>
+                <hr>
+                <div class="row my-3 ml-1">
+                    <div class="col-md-3"><b>매칭완료</b></div>
+                    <div class="col-md-3 mx-auto"><%= B %></div>
+                </div>
+                <hr>
+                <div class="row my-3 ml-1">
+                    <div class="col-md-3"><b>외주완료</b></div>
+                    <div class="col-md-3 mx-auto"><%= C %></div>
+                </div>
+                <hr class="my-1 bg-dark">
+                <div align="center" class="my-3">
+                    <a class="btn btn-primary" href="/ordered_list">수주내역 확인</a>
+                </div>
+              <% } else if (user.UserType == 'ER'){ %>
+                <% var A = 0, B = 0, C = 0, D = 0;
+                   for (var i = 0; i < order.length; i++) {
+                      if (order[i].Status == 'A')
+                          A++;
+                      else if (order[i].Status == 'B')
+                          B++;
+                      else if (order[i].Status == 'C')
+                          C++;
+                      else if (order[i].Status == 'D')
+                          D++;
+                   } %>
+                 <div class="row my-3 ml-1">
+                     <div class="col-md-3"><b>모집 중</b></div>
+                     <div class="col-md-3 mx-auto"><%= A %></div>
+                 </div>
+                 <hr>
+                 <div class="row my-3 ml-1">
+                     <div class="col-md-3"><b>매칭 중</b></div>
+                     <div class="col-md-3 mx-auto"><%= B %></div>
+                 </div>
+                 <hr>
+                 <div class="row my-3 ml-1">
+                     <div class="col-md-3"><b>매칭완료</b></div>
+                     <div class="col-md-3 mx-auto"><%= C %></div>
+                 </div>
+                 <hr>
+                 <div class="row my-3 ml-1">
+                     <div class="col-md-3"><b>외주완료</b></div>
+                     <div class="col-md-3 mx-auto"><%= D %></div>
+                 </div>
+                 <hr class="my-1 bg-dark">
+                 <div align="center" class="my-3">
+                     <a class="btn btn-primary" href="/ordered_list">발주내역 확인</a>
+                 </div>
+              <% } %>
           </div>
        </div>
        <div class="row">
-          <div class="col-md-5">
-
+          <div class="col-md-11 mRow">
+              <h2>알림</h2>
+              <hr class="my-1 bg-dark">
+              <div class="row my-3">
+                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                           <th>No.</th>
+                           <th>내용</th>
+                           <th>날짜</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <% for(var i=0; i<noti.length; i++) { %>
+                          <tr>
+                             <td><%= i+1 %></td>
+                             <td><%if(noti[i].Status == '0') {%><i class="fa fa-fw  fa-bell" style="color: #fb0;"></i> <%} %>
+                                <a id="<%= noti[i]._NID %>" data-toggle="modal" data-target="#notice" href=""><%= noti[i].Title%></a>
+                             </td>
+                             <td><%=dates[i]%></td>
+                          </tr>
+                       <% } %>
+                    </tbody>
+                </table>
+              </div>
           </div>
-          <div class="col-md-5">
-
+          <div class="col-md-11 mRow">
+              <h2>이력서</h2>
+              <hr class="my-1 bg-dark">
+              <% if (resume) { %>
+                <div class="row ml-1 my-3">
+                    <div class="col-md-3 mr-1" style="border-right:solid 1px #aaa"><b>대학구분</b>&nbsp;&nbsp;&nbsp;<%= resume.Course %></div>
+                    <div class="col-md-3 mr-1" style="border-right:solid 1px #aaa"><b>학 부</b>&nbsp;&nbsp;&nbsp;<%= resume.Colleage %></div>
+                    <div class="col-md-3"><b>학 과</b>&nbsp;&nbsp;&nbsp;<%= resume.Major %></div>
+                </div>
+                <hr>
+                <div class="row ml-1 my-3">
+                    <div class="col-md-2 my-auto"><b>자격증</b></div>
+                    <div class="col-md-10">
+                        <% var license = resume.License.split('%&');
+                            for (var i = 0; i < license.length; i++) { %>
+                              <% if (license[i]) { %>
+                              <button class="btn btn-primary btn-sm m-1"><%= license[i] %></button>
+                              <% } %>
+                        <% } %>
+                    </div>
+                </div>
+                <hr>
+                <div class="row ml-1 my-3">
+                    <div class="col-md-2 my-auto"><b>자기소개</b></div>
+                    <div class="col-md-10">
+                        <textarea rows="4" style="background:white;border:none;width:100%" disabled><%= resume.Content %></textarea>
+                    </div>
+                </div>
+                <hr>
+                <div class="row ml-1 my-3">
+                    <div class="col-md-2 my-auto"><b>사진</b></div>
+                    <div class="col-md-10">
+                      <% var imgUrls = resume.imageUrl.split('%&');
+                      if(imgUrls[0]) {
+                         for (var i = 0; i < imgUrls.length; i++) { %>
+                           <img src="uploads/<%= imgUrls[i] %>" alt="">
+                      <% }
+                      } %>
+                    </div>
+                </div>
+              <% } %>
+              <hr class="my-1 bg-dark">
+              <div align="center" class="my-3">
+                  <a class="btn btn-primary" href="/resume">
+                    <% if (resume) { %>이력서 수정<% } %>
+                    <% if (!resume) { %>이력서 작성<% } %>
+                  </a>
+              </div>
           </div>
        </div>
-       <table class="table">
-          <tbody>
-              <tr>
-                 <td style="width: 45%;">
-                    <div class="card">
-                       <div class="card-block">
-                          <h1 class="card-title mb-5">회원정보</h1>
-                          <table class="table mb-5">
-                             <tr>
-                                <th>이름</th>
-                                <td><%= user.Name %></td>
-                             </tr>
-                             <tr>
-                                <th>생년월일</th>
-                                <td><%= user.Birth %></td>
-                             </tr>
-                             <tr>
-                                <th>전화번호</th>
-                                <td><%= user.Tel %></td>
-                             </tr>
-                          </table>
-                          <div align="center">
-                              <a class="btn btn-primary mr-5" href="/changeinfo">개인정보 수정</a>
-                              <a class="btn btn-primary ml-5" href="/changepwd">비밀번호 변경</a>
-                          </div>
-                       </div>
-                    </div>
-                 </td>
-                 <td style="width: 45%;">
-                    <div class="card">
-                       <div class="card-block">
-                          <h1 class="card-title mb-5">외주 정보</h1>
-                           <% if(user.UserType == 'EE') { %>
-                          <table class="table mb-5">
-                            <% var A = 0,
-                                B= 0,
-                                C = 0;
-                                for (var i = 0; i < app.length; i++) {
-                                if (app[i].Status == 'A')
-                                    A++;
-                                else if (app[i].Status == 'B')
-                                    B++;
-                                else if (app[i].Status == 'C')
-                                    C++;
-                            } %>
-                             <tr>
-                                <th>매칭대기</th>
-                                <td><%= A %></td>
-                             </tr>
-                             <tr>
-                                <th>매칭완료</th>
-                                <td><%= B %></td>
-                             </tr>
-                             <tr>
-                                <th>외주완료</th>
-                                <td><%= C %></td>
-                             </tr>
-                          </table>
-                          <div align="center">
-                              <a class="btn btn-primary" href="/ordered_list" style="margin-right:40px;">수주내역 확인</a>
-                          </div>
-                           <% } else { %>
-                          <table class="table">
-                            <% var A = 0,
-                                   B = 0,
-                                   C = 0,
-                                   D = 0;
-                               for (var i = 0; i < order.length; i++) {
-                                  if (order[i].Status == 'A')
-                                      A++;
-                                  else if (order[i].Status == 'B')
-                                      B++;
-                                  else if (order[i].Status == 'C')
-                                      C++;
-                                  else if (order[i].Status == 'D')
-                                      D++;
-                               } %>
-                             <tr>
-                                <th>모집 중</th>
-                                <td><%= A %></td>
-                             </tr>
-                             <tr>
-                                <th>매칭 중</th>
-                                <td><%= B %></td>
-                             </tr>
-                             <tr>
-                                <th>매칭완료</th>
-                                <td><%= C %></td>
-                             </tr>
-                             <tr>
-                                <th>외주완료</th>
-                                <td><%= D %></td>
-                             </tr>
-                          </table>
-                          <div align="center">
-                              <a class="btn btn-primary" href="/ordered_list">발주내역 확인</a>
-                          </div>
-                           <% }%>
-                       </div>
-                    </div>
-                 </td>
-              </tr>
-              <tr>
-                 <td style="width: 45%;">
-                    <div class="card" style="height:100%">
-                       <div class="card-block">
-                          <h1 class="card-title">알림</h1><br>
-                          <table class="table" id="dataTable" width="100%" cellspacing="0">
-                              <thead>
-                                  <tr>
-                                     <th>No.</th>
-                                     <th>내용</th>
-                                     <th>날짜</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                <% for(var i=0; i<noti.length; i++) { %>
-                                    <tr>
-                                       <td><%= i+1 %></td>
-                                       <td><%if(noti[i].Status == '0') {%><i class="fa fa-fw  fa-bell" style="color: #fb0;"></i> <%} %>
-                                          <a id="<%= noti[i]._NID %>" data-toggle="modal" data-target="#notice" href=""><%= noti[i].Title%></a>
-                                       </td>
-                                       <td><%=dates[i]%></td>
-                                    </tr>
-                                 <% } %>
-                              </tbody>
-                          </table>
-                       </div>
-                    </div>
-                 </td>
-                <% if(user.UserType == 'EE') { %>
-                 <td style="width: 45%;">
-                    <div class="card" style="height:100%">
-                       <div class="card-block">
-                          <h1 class="mb-5">이력서</h1>
-                          <% if (resume) { %>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>대학구분</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <p><%= resume.Course %></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>학 부</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <p><%= resume.Colleage %></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>학 과</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <p><%= resume.Major %></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>대학구분</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <p><%= resume.Course %></p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>자격증</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <% var license = resume.License.split('%&');
-                                        for (var i = 0; i < license.length; i++) { %>
-                                          <% if (license[i]) { %>
-                                          <button class="btn btn-primary btn-sm m-1"><%= license[i] %></button><br>
-                                          <% } %>
-                                    <% } %>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>자기소개</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <textarea rows="4" style="background:white;border:none;width:100%" disabled><%= resume.Content %></textarea>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>사진</b>
-                                </div>
-                                <div class="col-md-9">
-                                  <% var imgUrls = resume.imageUrl.split('%&');
-                                  if(imgUrls[0]) {
-                                     for (var i = 0; i < imgUrls.length; i++) { %>
-                                       <img src="uploads/<%= imgUrls[i] %>" alt="">
-                                  <% }
-                                  } %>
-                                </div>
-                            </div>
-                          <% } %>
-                          <hr>
-                          <div align="center">
-                              <a class="btn btn-primary" href="/resume">
-                                <% if (resume) { %>이력서 수정<% } %>
-                                <% if (!resume) { %>이력서 작성<% } %>
-                              </a>
-                          </div>
-                       </div>
-                    </div>
-                 </td>
-                <% } %>
-              </tr>
-          </tbody>
-       </table>
     </div>
 </body>
 </html>
