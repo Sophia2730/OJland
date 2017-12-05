@@ -4,7 +4,6 @@ var pool = require('../../config.js').pool;
 var async = require('async');
 
 router.get('/:id', function(req, res, next) {
-
     pool.getConnection(function(err, connection) {
         async.series([
             function(callback) {

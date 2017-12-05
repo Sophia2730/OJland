@@ -27,6 +27,11 @@
               <h2>회원정보</h2>
               <hr class="my-1 bg-dark">
               <div class="row my-3 ml-1">
+                  <div class="col-md-3"><b>이메일</b><br></div>
+                  <div class="col-md-6 mx-auto"><%= user.Email %></div>
+              </div>
+              <hr>
+              <div class="row my-3 ml-1">
                   <div class="col-md-3"><b>이름</b><br></div>
                   <div class="col-md-6 mx-auto"><%= user.Name %></div>
               </div>
@@ -41,7 +46,7 @@
                   <div class="col-md-6 mx-auto"><%= user.Tel %></div>
               </div>
               <hr class="mt-1 bg-dark">
-              <div align="center" class="my-3">
+              <div align="center" class="my-auto">
                     <a class="btn btn-primary mr-3" href="/changeinfo">개인정보 수정</a>
                     <a class="btn btn-primary" href="/changepwd">비밀번호 변경</a>
               </div>
@@ -72,6 +77,11 @@
                 <div class="row my-3 ml-1">
                     <div class="col-md-3"><b>외주완료</b></div>
                     <div class="col-md-3 mx-auto"><%= C %></div>
+                </div>
+                <hr>
+                <div class="row my-3 ml-1">
+                    <div class="col-md-3">&nbsp;
+                    </div>
                 </div>
                 <hr class="my-1 bg-dark">
                 <div align="center" class="my-3">
