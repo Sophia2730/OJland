@@ -21,7 +21,6 @@ router.get('/', function(req, res, next) {
                 connection.release();
             });
         } else if(req.session.UserType == 'EE'){
-            // queryStr = "SELECT * FROM user as U RIGHT JOIN orders as O ON U._UID = O._UID RIGHT JOIN application as A ON O._OID = A._OID WHERE A._UID = " + req.session._UID;
             queryStr = "SELECT O._OID,O._UID,O.Category,O.Title,O.Cost,O.Status,U.Name,U.Email,U.Tel"
                   + " FROM orders AS O JOIN user as U ON U._UID=O._UID"
                   + " WHERE O._OID IN (SELECT _OID FROM application WHERE _UID=?);"
@@ -41,6 +40,17 @@ router.get('/', function(req, res, next) {
 router.get('/check/:id', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         connection.query("SELECT Status FROM orders WHERE _OID=?", req.params.id, function (err, rows) {
+            if(err) console.log("err: ", err);
+            res.send(rows[0].Status);
+            connection.release();
+        });
+    });
+});
+
+// 해당 지원의 상태를 리턴
+router.get('/status/:id', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        connection.query("SELECT Status FROM application WHERE _OID=? AND _UID=?", [req.params.id, req.session._UID], function (err, rows) {
             if(err) console.log("err: ", err);
             res.send(rows[0].Status);
             connection.release();

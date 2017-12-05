@@ -86,20 +86,10 @@
                       <tr>
                           <td><%= i+1 %></td>
                           <td><%= data[i].Category %></td>
-                          <td>
-                              <a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a>
-                          </td>
+                          <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
                           <td><%= data[i].Cost %></td>
                           <td><a id="<%= data[i]._UID %>" data-toggle="modal" data-target="#myModal" href=""><%= data[i].Name %></a></td>
-                          <% if(data[i].Status == 'A' ) { %>
-                          <td>매칭대기</td>
-                          <% } else if(data[i].Status == 'B'){ %>
-                          <td>매칭대기</td>
-                          <% } else if(data[i].Status == 'C'){ %>
-                          <td>매칭완료</td>
-                          <% } else if(data[i].Status == 'D'){ %>
-                          <td>외주완료</td>
-                          <% } %>
+                          <td></td>
                       </tr>
                     <% } } %>
                     </tbody>
@@ -114,5 +104,25 @@
   <% include ../match/info_EE.ejs %>
   <% include ../match/evaluate.ejs %>
   <% include ../progress/modal_list.ejs %>
+  <script>
+      <% if (session.UserType == 'EE') {
+          for (var i = 0; i < data.length; i++) { %>
+            $.get('/ordered_list/status/<%= data[i]._OID %>', function(data) {
+                console.log(data);
+                var status;
+                if (data == 'A')
+                    status = '매칭대기';
+                else if (data =='B')
+                    status = '매칭완료';
+                else if (data =='C')
+                    status = '외주완료';
+                else if (data =='F')
+                    status = '매칭실패';
+
+                $("a[id=<%= data[i]._UID %>]").parent().next().text(status);
+            });
+      <% }
+      } %>
+  </script>
   </body>
 </html>
