@@ -1,0 +1,87 @@
+<div class="modal fade" id="progress_detail" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">진척도 세부조회</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form>
+                  <div class="text-left">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <b>제목:</b><br><p id="Ptitle"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <b>등록일자:</b><br><p><%= date[0] %></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b>진척 내용:</b><br><textarea id="Content" style="width:100%" rows="4" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 m-img">
+                            <b>사진:</b><br><div id="Img"></div>
+                        </div>
+                    </div>
+                  </div>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+
+        var title = $("#Ptitle");
+        var content = $("#Content");
+        var img = $("#Img");
+
+
+        var apps, imgs, checkPres;
+        var oid, max;
+
+        $('#progress_detail').click(function() {
+            $('body').addClass('modal-open');
+        });
+
+        $("#prog").on('click', function() {
+            $.get('/progress_list', {oid: oid, uid: $(this).attr('id')}, function(data) {
+                  window.location.replace('/progress_list');
+            });
+        });
+
+        var index = 0;
+
+        $("a[data-target='#progress_detail']").on('click', function(e) {
+            oid = $(this).attr('id');
+            getInfo(index);
+        });
+
+        var getInfo = function(index) {
+            // 모든 요소를 초기화 한다
+
+            $.get('/progress_detail/' + oid, function(data) {
+              apps = data.apps;
+
+
+              title.text(apps[0].Title);
+              content.text(apps[0].Content);
+
+
+              imgs = (apps[0].ImageUrl) ? apps[0].ImageUrl.split('%&') : '';
+              if (Array.isArray(imgs)) {
+                  for (var k = 0; k < imgs.length; k++) {
+                      img.append("<img src='uploads/" + imgs[k] + "' class='mr-3'></img>");
+                  }
+              } else if (imgs)
+                  img.append("<img src='uploads/" + imgs + "' class='mr-3'></img>");
+
+            });
+        }
+    });
+</script>

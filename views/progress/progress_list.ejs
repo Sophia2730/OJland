@@ -9,6 +9,12 @@
         td {
             vertical-align: middle !important;
         }
+        #Img img {
+            width: 200px;
+            height: 150px;
+            margin: 10px;
+            border: solid 1px black;
+        }
     </style>
 </head>
 <body class="fixed-nav" id="page-top">
@@ -31,7 +37,7 @@
               <% for(var i = 0; i < data.length; i++) { if (data[i].Title) { %>
                   <tr class="text-center">
                       <td><%= i+1 %></td>
-                      <td><%= data[i].Title %></td>
+                      <td ><a id="<%= data[i]._PID %>" data-toggle="modal" data-target="#progress_detail" href=""><%= data[i].Title %></a></td>
                       <td><%= date[i] %></td>
                       <td><%= data[i].Content %></td>
                   </tr>
@@ -42,5 +48,7 @@
       </div>
   </div>
 </div>
+
+<% include ../progress/progress_detail.ejs %>
 </body>
 </html>
