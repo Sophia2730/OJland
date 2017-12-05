@@ -15,7 +15,7 @@
               $('#check').on('click', function() {
                   if (Email.val() && Email.val().indexOf("@") != -1 && Email.val().indexOf(".") != -1) {
                       $.get('/register/check/' + Email.val(), function(data) {
-                            if(data) {
+                            if(data || Email.val() == 'admin@gmail.com') {
                                 $("#result").text('이미 존재하는 이메일입니다.');
                                 $("#result").css('color', '#f44');
                             } else {
@@ -53,6 +53,10 @@
                       e.preventDefault();
                       alert('8자리의 생년월일을 입력해주세요!');
                       Birth.focus();
+                  } else if (Email.val() == "admin@gmail.com") {
+                      e.preventDefault();
+                      alert('해당 이메일은 사용 불가능합니다!');
+                      Email.focus();
                   } else if (UserType.val() == 'EE' && Email.val().indexOf("ac.kr") == -1) {
                       e.preventDefault();
                       alert('(~ac.kr)형식의 학교 이메일을 입력해 주세요!');
