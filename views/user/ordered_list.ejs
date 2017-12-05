@@ -53,8 +53,10 @@
                             <% } else if(data[i].Status == 'D'){ %>
                                 <td>외주완료</td>
                             <% } %>
-                            <% if (data[i].Status != 'A') { %>
-                            <td><a id="<%= data[i]._OID %>" data-toggle="modal" data-target="#info_EE" href="">수주자 조회</a></td>
+                            <% if (data[i].Status == 'B' || data[i].Status == 'C') { %>
+                                <td><a id="<%= data[i]._OID %>" data-toggle="modal" data-target="#info_EE" href="">수주자 조회</a></td>
+                            <% } else { %>
+                                <td></td>
                             <% } %>
                         </tr>
                     <% } } %>
