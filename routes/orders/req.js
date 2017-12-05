@@ -4,21 +4,33 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 var async = require('async');
 
-router.get('/:colleage', function(req, res, next) {
+router.get('/check/:colleage', function(req, res, next) {
       pool.getConnection(function(err, connection) {
           connection.query('SELECT * FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
-                if(err) console.log(err);
-                console.log(rows);
-                console.log(req.params.colleage);
-
-                if(req.params.colleage != rows[0].Colleage && req.params.colleage != "무관")
-                    res.send(true);
-                else
-                    res.send(false);
-                connection.release();
+              if(err) console.log(err);
+                  if(req.params.colleage != rows[0].Colleage && req.params.colleage != "무관")
+                      res.send(true);
+                  else
+                      res.send(false);
+              connection.release();
           });
       });
 });
+
+router.get('/resume', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        connection.query('SELECT * FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
+              if(err) console.log(err);
+              console.log('resume: ', rows);
+              if(rows[0])
+                  res.send(true);
+              else
+                  res.send(false);
+              connection.release();
+        });
+    });
+});
+
 router.post('/:id', function(req, res, next) {
     var body = req.body;
     var total = 0;  // 총 점수을 저장할 변수

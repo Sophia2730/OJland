@@ -76,12 +76,4 @@ router.get('/:id', function(req, res, next) {
     res.redirect('/category');
 });
 
-router.get('/select', function(req, res, next) {
-
-});
-
-router.post('/select', function(req, res, next) {
-
-});
-
 module.exports = router;

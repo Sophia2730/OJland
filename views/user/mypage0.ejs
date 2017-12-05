@@ -3,7 +3,7 @@
 <head>
     <% include ../nav/header.ejs %>
     <style>
-      .card .row img {
+      .card .table img {
           margin: 5px 10px;
           display: inline-block;
           width: 120px;
@@ -25,70 +25,6 @@
     <% include ../nav/nav-login.ejs %>
     <div class="container-fluid bg-header">
        <% include ./notice.ejs %>
-       <div class="row">
-          <div class="col-md-5 bg-white mx-auto my-3">
-              <h2>회원정보</h2>
-              <hr class="my-1 bg-dark">
-              <div class="row my-3">
-                  <div class="col-md-3 ml-2"><b>이름</b><br></div>
-                  <div class="col-md-6 mx-auto"><%= user.Name %></div>
-              </div>
-              <hr>
-              <div class="row my-3">
-                  <div class="col-md-3 ml-2"><b>생년월일</b><br></div>
-                  <div class="col-md-6 mx-auto"><%= user.Birth %></div>
-              </div>
-              <hr>
-              <div class="row my-3">
-                  <div class="col-md-3 ml-2"><b>전화번호</b><br></div>
-                  <div class="col-md-6 mx-auto"><%= user.Tel %></div>
-              </div>
-              <hr class="mt-1 bg-dark">
-              <div align="center" class="my-3">
-                    <a class="btn btn-primary" href="/changeinfo">개인정보 수정</a>
-                    <a class="btn btn-primary" href="/changepwd">비밀번호 변경</a>
-              </div>
-          </div>
-          <div class="col-md-5 bg-white mx-auto my-3">
-              <h2>외주정보</h2>
-              <hr class="mt-1 bg-dark">
-              <% var A = 0, B = 0,C = 0;
-                  for (var i = 0; i < app.length; i++) {
-                  if (app[i].Status == 'A')
-                      A++;
-                  else if (app[i].Status == 'B')
-                      B++;
-                  else if (app[i].Status == 'C')
-                      C++;
-                  } %>
-              <div class="row my-3 ml-2">
-                  <div class="col-md-3"><b>매칭대기</b></div>
-                  <div class="col-md-3 mx-auto"><%= A %></div>
-              </div>
-              <hr>
-              <div class="row my-3 ml-2">
-                  <div class="col-md-3"><b>매칭완료</b></div>
-                  <div class="col-md-3 mx-auto"><%= B %></div>
-              </div>
-              <hr>
-              <div class="row my-3 ml-2">
-                  <div class="col-md-3"><b>외주완료</b></div>
-                  <div class="col-md-3 mx-auto"><%= C %></div>
-              </div>
-              <hr class="my-1 bg-dark">
-              <div align="center" class="my-3">
-                  <a class="btn btn-primary" href="/ordered_list" style="margin-right:40px;">수주내역 확인</a>
-              </div>
-          </div>
-       </div>
-       <div class="row">
-          <div class="col-md-5">
-
-          </div>
-          <div class="col-md-5">
-
-          </div>
-       </div>
        <table class="table">
           <tbody>
               <tr>
@@ -225,77 +161,47 @@
                        <div class="card-block">
                           <h1 class="mb-5">이력서</h1>
                           <% if (resume) { %>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>대학구분</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <p><%= resume.Course %></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>학 부</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <p><%= resume.Colleage %></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>학 과</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <p><%= resume.Major %></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>대학구분</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <p><%= resume.Course %></p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>자격증</b>
-                                </div>
-                                <div class="col-md-9">
+                          <table class="table mb-5">
+                             <tr>
+                                <th>대학구분</th>
+                                <td><%= resume.Course %></td>
+                             </tr>
+                             <tr>
+                                <th>학부</th>
+                                <td><%= resume.Colleage %></td>
+                             </tr>
+                             <tr>
+                                <th>학과</th>
+                                <td><%= resume.Major %></td>
+                             </tr>
+                             <tr>
+                                <th>자격증</th>
+                                <td>
                                     <% var license = resume.License.split('%&');
                                         for (var i = 0; i < license.length; i++) { %>
                                           <% if (license[i]) { %>
-                                          <button class="btn btn-primary btn-sm m-1"><%= license[i] %></button><br>
+                                          <button class="btn m-2"><%= license[i] %></button><br>
                                           <% } %>
                                     <% } %>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>자기소개</b>
-                                </div>
-                                <div class="col-md-9">
-                                    <textarea rows="4" style="background:white;border:none;width:100%" disabled><%= resume.Content %></textarea>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <b>사진</b>
-                                </div>
-                                <div class="col-md-9">
-                                  <% var imgUrls = resume.imageUrl.split('%&');
-                                  if(imgUrls[0]) {
-                                     for (var i = 0; i < imgUrls.length; i++) { %>
-                                       <img src="uploads/<%= imgUrls[i] %>" alt="">
-                                  <% }
-                                  } %>
-                                </div>
-                            </div>
+                                </td>
+                             </tr>
+                             <tr>
+                                <th>자기소개</th>
+                                <td><%= resume.Content %></td>
+                             </tr>
+                             <tr>
+                                <th>사진</th>
+                                <td>
+                                    <% var imgUrls = resume.imageUrl.split('%&');
+                                    if(imgUrls[0]) {
+                                       for (var i = 0; i < imgUrls.length; i++) { %>
+                                         <img src="uploads/<%= imgUrls[i] %>" alt="">
+                                    <% }
+                                    } %>
+                                </td>
+                             </tr>
+                          </table>
                           <% } %>
-                          <hr>
                           <div align="center">
                               <a class="btn btn-primary" href="/resume">
                                 <% if (resume) { %>이력서 수정<% } %>

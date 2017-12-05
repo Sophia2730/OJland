@@ -31,7 +31,7 @@
           <div id="user" class="col-md-4 mx-auto">
               <div class="card mb-3">
                   <div class="card-header">
-                      <i class="fa fa-pie-chart"></i> 회원 수</div>
+                      <i class="fa fa-pie-chart"></i> 가입회원</div>
                   <div class="card-body">
                       <canvas id="myPieChart" width="100%" height="100%"></canvas>
                   </div>
@@ -40,7 +40,7 @@
           <div id="order" class="col-md-8 mx-auto mt-3">
               <div class="card mb-3">
                   <div class="card-header">
-                      <i class="fa fa-bar-chart"></i> 외주 수</div>
+                      <i class="fa fa-bar-chart"></i> 월별 외주 등록</div>
                   <div class="card-body">
                       <canvas id="myBarChart" width="100" height="46%"></canvas>
                   </div>
@@ -49,5 +49,8 @@
         </div>
         <% include charts.ejs %>
       </div>
+      <script>
+          $("span:contains('통 계')").parent().css('background', '#8491af');
+      </script>
   </body>
 </html>

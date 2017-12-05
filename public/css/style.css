@@ -115,6 +115,7 @@
   }
   .nav-link {
       padding: 0.5em !important;
+      color: white !important;
   }
   .nav-link img {
       width: 35px;
