@@ -91,7 +91,7 @@
                     <ul class="prefer text-white" style="list-style:none;margin: 0 !important;padding:0 !important;">
                       <% if (!preference[0]) { %>
                         <li style="margin-bottom:5px;">
-                          <input type="text" name="Preference" style="width: 90%;" placeholder="ex) 정보처리기능사 자격증 보유" />
+                          <input type="text" name="Preference" style="width: 80%;" placeholder="ex) 정보처리기능사 자격증 보유" />
                           <a class="btn btn-primary btn-sm">+</a>
                         </li>
                       <% } %>
@@ -115,7 +115,7 @@
     <script>
       var count = <%= preference.length %>;
       var liHtml = '<li style="margin-bottom:5px;">'
-                + '<input type="text" name="Preference" style="width: 90%;" placeholder="ex) 정보처리기능사 자격증 보유" />'
+                + '<input type="text" name="Preference" style="width: 80%;" placeholder="ex) 정보처리기능사 자격증 보유" />'
                 + ' <a class="btn btn-primary btn-sm">+</a></li>'
       console.log(count);
       console.log('<%= preference%>');
