@@ -1,5 +1,12 @@
+<style>
+    #files div a {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+    }
+</style>
 <div class="modal fade" id="myProgress" role="dialog">
-    <div class="modal-dialog modal-lg" style="width:350px">
+    <div class="modal-dialog modal-lg" style="width:450px">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">진척도 작성</h4>
@@ -20,7 +27,7 @@
                </div>
                <div class="row" id="files">
                  <div class="col-md-12">
-                     <label for="File"><b>사진첨부</b></label>
+                     <label for="File"><b>사진첨부</b></label><br>
                      <input type="file" name="File" style="width:80%" accept=".jpg,.jpeg,.png,.gif,.bmp" />
                      <a class="btn btn-primary" href="">+</a>
                  </div>
@@ -37,7 +44,7 @@
     <script>
         var count = 1;
         var mHtml = '<div class="col-md-12"><input type="file" name="File" style="width:80%" accept=".jpg,.jpeg,.png,.gif,.bmp" />'
-                  + '<a class="btn btn-primary" href="">+</a></div>';
+                  + ' <a class="btn btn-primary" href="">+</a></div>';
 
         $('#files').on('click', 'div a', function(e) {  // 클릭 리스너 등록
             e.preventDefault();

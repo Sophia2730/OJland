@@ -134,9 +134,14 @@
                      <% } %>
                  <% } else if (session.UserType == 'EE') { %>
                    <% if (!isReq && data.Status == 'A') { %>
-                         <a class="btn btn-success mr-3" data-toggle="modal" data-target="#myModal" href="">수주요청</a>
+                         <a id="req" class="btn btn-success mr-3">수주요청</a>
                    <% } else if (data.Status == 'C') { %>
-                         <a class="btn btn-danger mr-3"data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
+                        <form action="progress_list" method="post" style="display:inline">
+                            <input name="ooid" type="text" value="<%= data._OID %>" style="display:none;">
+                            <input name="uuid" type="text" value="<%= session._UID %>" style="display:none;">
+                            <input type="submit" class="btn btn-success" value="진척도 조회" style="display:inline">
+                        </form>
+                        <a class="btn btn-danger mx-3" data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
                    <% } else if (isReq && data.Status == 'A'){ %>
                          <a id="cancel" class="btn btn-danger mr-3">요청취소</a>
                    <% } %>
@@ -160,7 +165,7 @@
             }
         }
         var req = <%= reqNum %>;
-         $("a[data-target='#myModal']").on('click', function(e) {
+         $("#req").on('click', function(e) {
              $.get('/req/resume', function(data) {
                  if (!data) {
                      location.href = '/resume';
@@ -168,11 +173,10 @@
                  } else {
                      $.get('/req/check/<%= data.Colleage %>', function(data) {
                          if (data) {
-                           setTimeout(function() {
-                               $("#myModal").modal('hide');
-                               alert('학부조건을 만족하지 못합니다!');
-                           }, 480);
+                           alert('학부조건을 만족하지 못합니다!');
                            return;
+                         } else {
+                            $("#myModal").modal();
                          }
                      });
                  }

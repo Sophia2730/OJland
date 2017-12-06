@@ -10,7 +10,10 @@ router.get('/:id', function(req, res, next) {
       queryStr = "SELECT * FROM progress WHERE _PID=?";
       connection.query(queryStr, req.params.id , function (err, rows) {
           if(err) console.log("err: ", err);
-          dates[0] = moment(rows[0].Time).format('YYYY/MM/DD');
+          var dates = [];
+          for (var i = 0; i < rows.length; i++) {
+              dates[i] = moment(rows[i].Time).format('YYYY/MM/DD');
+          }
           res.send({
               apps: rows,
               date: dates,
