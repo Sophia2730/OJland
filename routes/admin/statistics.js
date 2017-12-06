@@ -44,23 +44,50 @@ router.get('/', function(req, res, next) {
                     if(err) callback(err);
                     callback(null, rows);
                 });
+            },
+            function(callback) {
+                connection.query("SELECT Status, count(*) as cnt FROM orders GROUP BY Status;", function(err, rows) {
+                    if(err) callback(err);
+                    callback(null, rows);
+                });
             }
         ], function(err, results) {
             if (err) console.log('err: ', err);
-            console.log("res2", results[2], "d1", d1);
-            console.log("res3", results[3], "d2", d2);
             date = [0,0,0,0,0,0,0,0,0,0,0,0,0];
             for (var i = 0; i < results[1].length; i++) {
                 var a = parseInt(moment(results[1][i].Time).format('MM'))
                 date[a] += 1;
             }
-            console.log(results);
+            orders = [0,0,0,0,0,0];
+            console.log(results[4]);
+            for(var i=0; i< results[4].length; i++){
+                switch(results[4][i].Status){
+                    case 'A':
+                        orders[0] = results[4][0].cnt;
+                        break;
+                    case 'B':
+                        orders[1] = results[4][1].cnt;
+                        break;
+                    case 'C':
+                        orders[2] = results[4][2].cnt;
+                        break;
+                    case 'D':
+                        orders[3] = results[4][3].cnt;
+                        break;
+                    case 'F':
+                        orders[4] = results[4][4].cnt;
+                        break;
+                }
+                orders[5] += orders[i];
+            }
+            console.log(orders, results);
             res.render('admin/statistics', {
                 user: results[0],
                 ojcnt: date,
                 session: req.session,
                 d1: results[3],
-                d2: results[2]
+                d2: results[2],
+                orders: orders
             });
             connection.release();
         });
