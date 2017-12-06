@@ -21,7 +21,7 @@
                <div class="row" id="files">
                  <div class="col-md-12">
                      <label for="File"><b>사진첨부</b></label>
-                     <input type="file" name="File" style="width:80%" />
+                     <input type="file" name="File" style="width:80%" accept=".jpg,.jpeg,.png,.gif,.bmp" />
                      <a class="btn btn-primary" href="">+</a>
                  </div>
                </div>
@@ -36,7 +36,7 @@
     </div>
     <script>
         var count = 1;
-        var mHtml = '<div class="col-md-12"><input type="file" name="File" style="width:80%" />'
+        var mHtml = '<div class="col-md-12"><input type="file" name="File" style="width:80%" accept=".jpg,.jpeg,.png,.gif,.bmp" />'
                   + '<a class="btn btn-primary" href="">+</a></div>';
 
         $('#files').on('click', 'div a', function(e) {  // 클릭 리스너 등록

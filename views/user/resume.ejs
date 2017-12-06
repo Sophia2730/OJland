@@ -116,7 +116,7 @@
                     <% } %>
                   <% } else { %>
                         <li class="mb-3">
-                            <input type='file' name='File' class="mb-2">
+                            <input type='file' name='File' class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">
                             <a class="btn btn-primary text-white">+</a>
                         </li>
                   <% } %>
@@ -168,7 +168,8 @@
            }
        });
        var count = <%= (imageUrls) ? imageUrls.length : 1 %>;
-       var fHtml = '<li class="mb-3"><input type="file" name="File" class="mb-2"> <a class="btn btn-primary text-white">+</a></li>';
+       var fHtml = '<li class="mb-3"><input type="file" name="File" class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">'
+                  + ' <a class="btn btn-primary text-white">+</a></li>';
        $('.file').on('click', 'a', function(e) {
             if ($(this).text() == '+' && count < 3) {
                 if ($(this).siblings().val() != '') {
