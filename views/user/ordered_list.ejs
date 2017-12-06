@@ -25,14 +25,14 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>카테고리</th>
+                        <th width="10%">No.</th>
+                        <th width="10%">카테고리</th>
                         <th>제목</th>
-                        <th>급여</th>
-                        <th>등록일</th>
-                        <th>인원</th>
-                        <th>상태</th>
-                        <th>수주자</th>
+                        <th width="10%">급여</th>
+                        <th width="10%">등록일</th>
+                        <th width="10%">인원</th>
+                        <th width="10%">상태</th>
+                        <th width="10%">수주자</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,12 +75,12 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
-                          <th>No.</th>
-                          <th>카테고리</th>
+                          <th width="10%">No.</th>
+                          <th width="10%">카테고리</th>
                           <th>제목</th>
-                          <th>급여</th>
-                          <th>발주자</th>
-                          <th>상태</th>
+                          <th width="10%">급여</th>
+                          <th width="10%">발주자</th>
+                          <th width="10%">상태</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -105,7 +105,6 @@
   <% include ./modal_ER.ejs %>
   <% include ../match/info_EE.ejs %>
   <% include ../match/evaluate.ejs %>
-  <% include ../progress/modal_list.ejs %>
   <script>
       <% if (session.UserType == 'EE') {
           for (var i = 0; i < data.length; i++) { %>

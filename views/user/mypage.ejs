@@ -130,16 +130,16 @@
               <h2>알림</h2>
               <hr class="my-1 bg-dark">
               <div class="row my-3">
-                <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                           <th>No.</th>
-                           <th>내용</th>
-                           <th>날짜</th>
+                           <th width="15%">No.</th>
+                           <th>제목</th>
+                           <th width="20%">날짜</th>
                         </tr>
                     </thead>
                     <tbody>
-                      <% for(var i=0; i<noti.length; i++) { %>
+                      <% for(var i = 0; i < noti.length; i++) { %>
                           <tr>
                              <td><%= i+1 %></td>
                              <td><%if(noti[i].Status == '0') {%><i class="fa fa-fw  fa-bell" style="color: #fb0;"></i> <%} %>
@@ -178,7 +178,7 @@
                 <div class="row ml-1 my-3">
                     <div class="col-md-2 my-auto"><b>자기소개</b></div>
                     <div class="col-md-10">
-                        <textarea rows="4" style="background:white;border:none;width:100%" disabled><%= resume.Content %></textarea>
+                        <textarea rows="4" class="form-control" style="background:white;border:none;width:100%" disabled><%= resume.Content %></textarea>
                     </div>
                 </div>
                 <hr>

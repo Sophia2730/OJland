@@ -10,10 +10,13 @@
             vertical-align: middle !important;
         }
         #Img img {
-            width: 200px;
-            height: 150px;
+            width: 150px;
+            height: 120px;
             margin: 10px;
             border: solid 1px black;
+        }
+        .br {
+            border-right: solid 0.5px #aaa;
         }
     </style>
 </head>
@@ -27,10 +30,9 @@
           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
               <tr>
-                  <th>No.</th>
+                  <th width="10%">No.</th>
                   <th>제목</th>
-                  <th>등록일</th>
-                  <th>내용</th>
+                  <th width="20%">등록일</th>
               </tr>
               </thead>
               <tbody>
@@ -39,7 +41,6 @@
                       <td><%= i+1 %></td>
                       <td ><a id="<%= data[i]._PID %>" data-toggle="modal" data-target="#progress_detail" href=""><%= data[i].Title %></a></td>
                       <td><%= date[i] %></td>
-                      <td><%= data[i].Content %></td>
                   </tr>
                   <% } } %>
               </tbody>
