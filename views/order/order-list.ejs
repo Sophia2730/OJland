@@ -40,20 +40,20 @@
                     </thead>
                     <tbody>
                       <% if(data) { %>
-                      <% for(var i = 0; i < data.length; i++) { %>
-                      <tr>
-                        <td><%= i + 1 %></td>
-                        <td><%= data[i].Category %></td>
-                        <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
-                        <td><%= data[i].Cost %></td>
-                        <td><%= date[i] %></td>
-                        <td><%= reqNum[i] %>/<%= data[i].MaxNum %></td>
-                        <td>
-                          <%if(data[i].Status == 'A'){ %>모집중  <% } %>
-                          <%if(data[i].Status != 'A'){ %>마감    <% } %>
-                        </td>
-                      </tr>
-                      <% } %>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                          <tr>
+                            <td><%= i + 1 %></td>
+                            <td><%= data[i].Category %></td>
+                            <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
+                            <td><%= data[i].Cost %></td>
+                            <td><%= date[i] %></td>
+                            <td><%= reqNum[i] %>/<%= data[i].MaxNum %></td>
+                            <td>
+                              <%if(data[i].Status == 'A'){ %>모집중<% } %>
+                              <%if(data[i].Status != 'A'){ %>마감  <% } %>
+                            </td>
+                          </tr>
+                        <% } %>
                       <% } %>
                     </tbody>
                   </table>

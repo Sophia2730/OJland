@@ -2,8 +2,14 @@
 <html>
 <head>
     <% include ../nav/header.ejs %>
+    <style>
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+    </style>
 </head>
-
 <body class="fixed-nav" id="page-top">
   <% include ../nav/nav-login.ejs %>
   <div class="container-fluid bg-header fit">
@@ -41,13 +47,13 @@
                      </div>
                      <div class="col-md-6">
                       <label for="exampleInputLastName">생년월일</label>
-                      <input class="form-control" name="Birth" type="text" value="<%= data.Birth %>">
+                      <input class="form-control" name="Birth" type="number" value="<%= data.Birth %>">
                      </div>
                    </div>
                  </div>
                  <div class="form-group">
                    <label for="exampleInputEmail1">전화번호</label>
-                   <input class="form-control" name="Tel" type="text" value="<%= data.Tel %>">
+                   <input class="form-control" name="Tel" maxlength="20" type="number" value="<%= data.Tel %>">
                  </div>
                  <div align="center">
                      <input type="submit" class="btn btn-primary mr-3" value="수정" />

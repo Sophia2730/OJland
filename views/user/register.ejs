@@ -77,6 +77,13 @@
               });
           });
       </script>
+      <style>
+          input[type="number"]::-webkit-outer-spin-button,
+          input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+      </style>
   </head>
   <body class="fixed-nav" id="page-top">
     <% include ../nav/nav.ejs %>
@@ -102,7 +109,7 @@
                     </div>
                     <div class="col-md-6">
                      <label for="Birth">생년월일</label>
-                     <input class="form-control" name="Birth" type="text" maxlength="8" placeholder="ex)19940101">
+                     <input class="form-control" name="Birth" type="number" maxlength="8" placeholder="ex)19940101">
                     </div>
                   </div>
                 </div>
@@ -114,7 +121,7 @@
                 </div>
                 <div class="form-group">
                   <label for="Tel">전화번호</label>
-                  <input class="form-control" name="Tel" type="tel" placeholder="ex) 010-1234-5678">
+                  <input class="form-control" name="Tel" type="number" maxlength="20" placeholder="ex) 010-1234-5678">
                 </div>
                 <div class="form-group">
                   <label for="Password">비밀번호</label>
