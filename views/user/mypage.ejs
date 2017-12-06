@@ -16,6 +16,9 @@
           margin: 1rem auto;
           border: solid 2px #aaa;
       }
+      #dataTable td {
+          text-align: center;
+      }
     </style>
     <script>
         $(document).ready(function() {
@@ -150,10 +153,13 @@
                       <% for(var i = 0; i < noti.length; i++) { %>
                           <tr>
                              <td><%= i+1 %></td>
-                             <td><%if(noti[i].Status == '0') {%><i class="fa fa-fw  fa-bell" style="color: #fb0;"></i> <%} %>
-                                <a id="<%= noti[i]._NID %>" data-toggle="modal" data-target="#notice" href=""><%= noti[i].Title%></a>
+                             <td>
+                               <% if(noti[i].Status == '0') { %>
+                                 <i class="fa fa-fw  fa-bell" style="color: #fb0;"></i>
+                               <% } %>
+                                <a id="<%= noti[i]._NID %>" data-toggle="modal" data-target="#notice" href=""><%= noti[i].Title %></a>
                              </td>
-                             <td><%=dates[i]%></td>
+                             <td><%= dates[i] %></td>
                           </tr>
                        <% } %>
                     </tbody>

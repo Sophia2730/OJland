@@ -41,7 +41,7 @@
                       <% if(data) { %>
                       <% for(var i = 0; i < data.length; i++) { %>
                       <tr>
-                        <td><%= data.length - i %></td>
+                        <td><%= i + 1 %></td>
                         <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
                         <td><%= data[i].Cost %></td>
                         <td><%= date[i] %></td>

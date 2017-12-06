@@ -47,7 +47,7 @@ router.get('/', function(req, res, next) {
             }
         ], function(err, results) {
             if (err) console.log('err: ', err);
-            dates = [];
+            var dates = [];
             for (var i = 0; i < results[4].length; i++) {
                 dates[i] = moment(results[4][i].Time).format('YYYY/MM/DD HH:MM');
             }
@@ -57,6 +57,7 @@ router.get('/', function(req, res, next) {
                 resume: results[2][0],
                 app: results[3],
                 noti: results[4],
+                dates: dates,
                 session: req.session
             });
             connection.release();
