@@ -37,6 +37,7 @@
         </div>
     </div>
 </div>
+<% include ../lightBox.ejs %>
 <script>
     $(document).ready(function() {
         var title = $("#Ptitle");
@@ -51,6 +52,11 @@
         $("a[data-target='#progress_detail']").on('click', function(e) {
             oid = $(this).attr('id');
             getInfo();
+        });
+
+        $("#Img").on('click', 'img', function() {
+            $("#lightBox").modal();
+            $("#lightBox #curImg").attr('src', $(this).attr('src'));
         });
 
         var getInfo = function() {

@@ -17,10 +17,18 @@
           border: solid 2px #aaa;
       }
     </style>
+    <script>
+        $(document).ready(function() {
+            $("#mImgs").on('click', 'img', function() {
+                $("#lightBox").modal();
+                $("#curImg").attr('src', $(this).attr('src'));
+            });
+        });
+    </script>
 </head>
-<body class="fixed-nav" id="page-top">
+<body class="fixed-nav bg-header" id="page-top">
     <% include ../nav/nav-login.ejs %>
-    <div class="container-fluid bg-header">
+    <div class="container-fluid">
        <% include ./notice.ejs %>
        <div class="row">
           <div class="col-md-5 mRow">
@@ -184,7 +192,7 @@
                 <hr>
                 <div class="row ml-1 my-3">
                     <div class="col-md-2 my-auto"><b>사진</b></div>
-                    <div class="col-md-10">
+                    <div id="mImgs" class="col-md-10">
                       <% var imgUrls = resume.imageUrl.split('%&');
                       if(imgUrls[0]) {
                          for (var i = 0; i < imgUrls.length; i++) { %>
@@ -205,5 +213,6 @@
           <% } %>
        </div>
     </div>
+    <% include ../lightBox.ejs %>
 </body>
 </html>

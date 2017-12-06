@@ -67,6 +67,7 @@
         </div>
     </div>
 </div>
+<% include ../lightBox.ejs %>
 <script>
     $(document).ready(function() {
         var name = $("#Name");
@@ -93,6 +94,11 @@
             $.get('/progress_list', {oid: oid, uid: $(this).attr('id')}, function(data) {
                   window.location.replace('/progress_list');
             });
+        });
+
+        $("#Img").on('click', 'img', function() {
+              $("#lightBox").modal();
+              $("#curImg").attr('src', $(this).attr('src'));
         });
 
         var index = 0;

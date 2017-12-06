@@ -20,7 +20,7 @@
           }
       </style>
   </head>
-  <body class="fixed-nav" id="page-top">
+  <body class="fixed-nav bg-header" id="page-top">
     <% include ../nav/nav-login.ejs %>
     <div class="container-fluid">
       <div class="card card-register mx-auto mt-3 mb-3">
@@ -102,13 +102,13 @@
                     <% for (var i = 0; i < imageUrls.length; i++) { %>
                         <% if (i == imageUrls.length - 1) { %>
                           <li class="mb-3">
-                            <input type="text" name="curFile" value="<%= imageUrls[i] %>" readonly>
+                            <input type="text" name="curFile" value="<%= imageUrls[i] %>" style="width:47%" readonly>
                             <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
                             <a class="btn btn-primary text-white">+</a>
                           </li>
                         <% } else { %>
                           <li class="mb-3">
-                            <input type="text" name="curFile" value="<%= imageUrls[i] %>" readonly>
+                            <input type="text" name="curFile" value="<%= imageUrls[i] %>" style="width:47%" readonly>
                             <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
                             <a class="btn btn-primary text-white">-</a>
                           </li>
