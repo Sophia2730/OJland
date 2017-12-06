@@ -74,7 +74,6 @@ router.post('/:id', function(req, res, next) {
             // application Table에 지원 정보를 추가
             connection.query('INSERT INTO application(_AID,_OID,_UID,CheckPre,TotalScore) VALUES(?,?,?,?,?)', inputs, function(err) {
                 if(err) console.log("err: ", err);
-                res.redirect('/info/' + req.params.id); // 해당 발주 페이지로 이동
                 connection.release();
             });
         });

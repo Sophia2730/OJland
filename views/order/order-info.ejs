@@ -141,7 +141,7 @@
                          <a id="cancel" class="btn btn-danger mr-3">요청취소</a>
                    <% } %>
                  <% } %>
-                 <a class="btn btn-info" onclick="location.href=document.referrer">목록</a>
+                 <a class="btn btn-info" onclick="back();">목록</a>
               </div>
           </div>
      </div>
@@ -152,6 +152,13 @@
        <% include ../match/match.ejs %>
      <% } %>
      <script>
+        function back() {
+            if( ((document.referrer).indexOf("put") != -1) || ((document.referrer).indexOf("post") != -1) ) {
+                location.href = '/list';
+            } else {
+                location.href = document.referrer;
+            }
+        }
         var req = <%= reqNum %>;
          $("a[data-target='#myModal']").on('click', function(e) {
              $.get('/req/resume', function(data) {
