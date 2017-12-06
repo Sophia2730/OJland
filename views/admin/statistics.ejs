@@ -23,20 +23,32 @@
       <div class="container-fluid bg-header fit">
         <div class="row">
           <div class="col-md-3 mx-auto mt-3">
-              <input type="radio" name="type" value="A" checked>회원 통계
-              <input type="radio" name="type" class="ml-3" value="B">외주 통계
+              <input type="radio" name="type" value="A" checked> 회원 통계
+              <input type="radio" name="type" class="ml-3" value="B"> 외주 통계
           </div>
         </div>
         <div class="row mt-3">
-          <div id="user" class="col-md-4 mx-auto">
-              <div class="card mb-3">
-                  <div class="card-header">
-                      <i class="fa fa-pie-chart"></i> 가입회원</div>
-                  <div class="card-body">
-                      <canvas id="myPieChart" width="100%" height="100%"></canvas>
-                  </div>
-              </div>
+          <div id="user" class="col-md-8 mx-auto">
+              <div class="card mb-3 col-md-12">
+                <div class="card-header">
+                  <i class="fa fa-pie-chart"></i> 가입회원</div>
+                <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                          <canvas id="myPieChart" width="100%" height="100%"></canvas>
+                          <br><p style="text-align: center">수주자 : <%= user[0].cnt%> 명&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;발주자 : <%= user[1].cnt%> 명</p>
+                      </div>
+                      <div class="col-md-4">
+                          <br><br><h3>오늘의 가입자</h3>
+                          <p><%= d1[0].cnt %> 명</p>
+                          <br><br><h3>이번달 가입자</h3>
+                          <p><%= d2[0].cnt %> 명</p>
+                      </div>
+                    </div>
+                </div>
+            </div>
           </div>
+
           <div id="order" class="col-md-8 mx-auto mt-3">
               <div class="card mb-3">
                   <div class="card-header">
