@@ -71,6 +71,7 @@ router.post('/', function(req, res, next) {
                     if (error) return console.log(error);
                     console.log('Message %s sent: %s', info.messageId, info.response);
                 });
+                sendMsg(newId, body.Name);
                 res.redirect('/register/success');
                 connection.release();
             });
@@ -78,15 +79,9 @@ router.post('/', function(req, res, next) {
     });
 });
 
-var sendMsg = function(uid) {
+var sendMsg = function(uid, name) {
   pool.getConnection(function(err, connection) {
       async.series([
-          function(callback) {
-              connection.query("SELECT Title FROM orders WHERE _OID=?", oid, function(err, rows) {
-                  if(err) callback(err);
-                  callback(null, rows[0].Title);
-              });
-          },
           function(callback) {
               connection.query("SELECT _NID FROM notice ORDER BY _NID DESC limit 1", function(err, rows) {
                   if(err) callback(err);
@@ -96,14 +91,14 @@ var sendMsg = function(uid) {
           }
       ], function(err, results) {
           if(err) console.log(err);
-          var mTitle = "매칭 완료 알림";
-          var mContent = "[" + results[0] + "]에 대한 매칭이 완료되었습니다!";
+          var mTitle = "회원 가입 완료";
+          var mContent = "[" + name + "]님, 회원가입을 축하드립니다!";
           queryStr = "INSERT INTO notice(_NID,_UID,Title,Content) VALUES(?,?,?,?)";
-          inputs = [results[1], uid, mTitle, mContent];
+          inputs = [results[0], uid, mTitle, mContent];
           connection.query(queryStr, inputs, function(err) {
               if(err) {
                   console.log(err);
-                  sendComplete(uid, oid);
+                  sendMsg(uid, name);
               }
               connection.release();
           });

@@ -67,6 +67,7 @@ router.post('/', function(req, res, next) {
                 queryStr = "UPDATE application SET Status='C' WHERE _UID=? AND _OID=?";
                 connection.query(queryStr, [body.uid, body.oid], function(err) {
                     if(err) callback(err);
+                    sendEnd_EE(body.uid, body.oid);
                     callback(null);
                 });
             },
@@ -86,6 +87,7 @@ router.post('/', function(req, res, next) {
                     queryStr = "UPDATE orders SET Status='D' WHERE _OID=?";
                     connection.query(queryStr, body.oid, function(err, rows) {
                         if(err) callback(err);
+                        sendEnd_ER(body.oid);
                     });
                 }
                 callback(null, true);
@@ -98,4 +100,69 @@ router.post('/', function(req, res, next) {
     });
 });
 
+var sendEnd_EE = function(uid, oid) {
+    pool.getConnection(function(err, connection) {
+        async.series([
+            function(callback) {
+                connection.query("SELECT Title FROM orders WHERE _OID=?", oid, function(err, rows) {
+                    if(err) callback(err);
+                    callback(null, rows[0].Title);
+                });
+            },
+            function(callback) {
+                connection.query("SELECT _NID FROM notice ORDER BY _NID DESC limit 1", function(err, rows) {
+                    if(err) callback(err);
+                    var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._NID) + 1;
+                    callback(null, newId);
+                });
+            }
+        ], function(err, results) {
+            if(err) console.log(err);
+            var mTitle = "외주 완료 알림";
+            var mContent = "회원님의 [" + results[0] + "] 외주가 완료되었습니다!";
+            queryStr = "INSERT INTO notice(_NID,_UID,Title,Content) VALUES(?,?,?,?)";
+            inputs = [results[1], uid, mTitle, mContent];
+            connection.query(queryStr, inputs, function(err) {
+                if(err) {
+                    console.log(err);
+                    sendEnd_EE(oid);
+                }
+                connection.release();
+            });
+        });
+    });
+}
+
+var sendEnd_ER = function(oid) {
+    pool.getConnection(function(err, connection) {
+        async.series([
+            function(callback) {
+                connection.query("SELECT Title, _UID FROM orders WHERE _OID=?", oid, function(err, rows) {
+                    if(err) callback(err);
+                    callback(null, rows[0]);
+                });
+            },
+            function(callback) {
+                connection.query("SELECT _NID FROM notice ORDER BY _NID DESC limit 1", function(err, rows) {
+                    if(err) callback(err);
+                    var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._NID) + 1;
+                    callback(null, newId);
+                });
+            }
+        ], function(err, results) {
+            if(err) console.log(err);
+            var mTitle = "외주 완료 알림";
+            var mContent = "[" + results[0].Title + "] 외주가 완료되었습니다!";
+            queryStr = "INSERT INTO notice(_NID,_UID,Title,Content) VALUES(?,?,?,?)";
+            inputs = [results[1], results[0]._UID, mTitle, mContent];
+            connection.query(queryStr, inputs, function(err) {
+                if(err) {
+                    console.log(err);
+                    sendEnd_ER(oid);
+                }
+                connection.release();
+            });
+        });
+    });
+}
 module.exports = router;

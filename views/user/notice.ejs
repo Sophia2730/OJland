@@ -3,9 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">알림 정보</h4>
-                <form action="/mypage" method="get">
-                    <button type="submit" class="close">&times;</button>
-                </form>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <form>
@@ -29,9 +27,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <!--<form action="/mypage" method="get">-->
                 <a id="btn_delete" class="btn btn-danger" href="">삭제하기</a>
-                <!--</form>-->
             </div>
         </div>
     </div>
@@ -40,6 +36,7 @@
     $(document).ready(function() {
         var idx = 0;
         $("a[data-target]").on('click', function() {
+            $(this).siblings().remove();
             $.post('/mypage?_method=PUT', {nid: $(this).attr('id')});
             <% for (i = 0; i < noti.length; i++) { %>
                 if ($(this).attr('id') == <%= noti[i]._NID %>) {
@@ -49,8 +46,8 @@
                     idx = $(this).attr('id');
                 }
             <% } %>
-//            $("#put_nid").on("action", "/mypage/"+ nid +"?_method=PUT");
         });
+
         $("#btn_delete").on('click', function () {
             if (confirm ("정말로 삭제하시겠습니까?")) {
                 $.post('/mypage?_method=DELETE', {nid: String(idx)});

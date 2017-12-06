@@ -29,31 +29,31 @@
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
-                        <th>No.</th>
-                        <th>카테고리</th>
+                        <th width="10%">No.</th>
+                        <th width="10%">카테고리</th>
                         <th>제목</th>
-                        <th>급여</th>
-                        <th>등록일</th>
-                        <th>인원</th>
-                        <th>상태</th>
+                        <th width="10%">급여</th>
+                        <th width="10%">등록일</th>
+                        <th width="10%">인원</th>
+                        <th width="10%">상태</th>
                       </tr>
                     </thead>
                     <tbody>
                       <% if(data) { %>
-                      <% for(var i = 0; i < data.length; i++) { %>
-                      <tr>
-                        <td><%= i + 1 %></td>
-                        <td><%= data[i].Category %></td>
-                        <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
-                        <td><%= data[i].Cost %></td>
-                        <td><%= date[i] %></td>
-                        <td><%= reqNum[i] %>/<%= data[i].MaxNum %></td>
-                        <td>
-                          <%if(data[i].Status == 'A'){ %>모집중  <% } %>
-                          <%if(data[i].Status != 'A'){ %>마감    <% } %>
-                        </td>
-                      </tr>
-                      <% } %>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                          <tr>
+                            <td><%= i + 1 %></td>
+                            <td><%= data[i].Category %></td>
+                            <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
+                            <td><%= data[i].Cost %></td>
+                            <td><%= date[i] %></td>
+                            <td><%= reqNum[i] %>/<%= data[i].MaxNum %></td>
+                            <td>
+                              <%if(data[i].Status == 'A'){ %>모집중<% } %>
+                              <%if(data[i].Status != 'A'){ %>마감  <% } %>
+                            </td>
+                          </tr>
+                        <% } %>
                       <% } %>
                     </tbody>
                   </table>
