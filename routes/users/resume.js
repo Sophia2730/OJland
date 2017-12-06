@@ -79,7 +79,7 @@ router.post('/', upload.array('File', 3), function(req, res){
                 connection.query('SELECT _RID FROM resume ORDER BY _RID DESC limit 1', function(err, rows) {
                       if(err) callback(err);
                       if(!rows[0])
-                          callback(null, 2017000001);
+                          callback(null, 1000000001);
                       else
                           callback(null, Number(rows[0]._RID) + 1);
                 });

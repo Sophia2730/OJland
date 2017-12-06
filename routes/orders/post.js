@@ -40,7 +40,7 @@ router.post('/', function(req, res, next) {
             function(callback) {
                 connection.query('SELECT _OID FROM orders ORDER BY _OID DESC limit 1', function(err, rows) {
                     if(err) callback(err);
-                    var newId = (!rows[0]._OID) ? 2017000001 : Number(rows[0]._OID) + 1; // 최근 _OID 값 + 1 저장
+                    var newId = (!rows[0]._OID) ? 1000000001 : Number(rows[0]._OID) + 1; // 최근 _OID 값 + 1 저장
                     callback(null, newId);
                 });
             },

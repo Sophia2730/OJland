@@ -25,7 +25,7 @@ router.post('/:id', upload.array('File'), function(req, res, next) {
             function(callback) {
                 connection.query("SELECT _PID FROM progress ORDER BY _PID DESC limit 1", function(err, rows) {
                     if(err) callback(err);
-                    var newId = (!rows[0]) ? 2017000001 : Number(rows[0]._PID) + 1; // 최근 _PID 값 + 1 저장
+                    var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._PID) + 1; // 최근 _PID 값 + 1 저장
                     callback(null, newId);
                 });
             },

@@ -55,7 +55,7 @@ router.post('/', function(req, res, next) {
                 return;
             }
 
-            var newId = (!results[1]) ? 2017000001 : Number(results[1]._UID) + 1;
+            var newId = (!results[1]) ? 1000000001 : Number(results[1]._UID) + 1;
             var inputs = [newId, body.Email, encrypt(body.Password), body.Name, body.Birth, body.Tel, body.UserType];
             queryStr = 'INSERT INTO user(_UID, Email, Password, Name, Birth, Tel, UserType) VALUES(?,?,?,?,?,?,?);';
             connection.query(queryStr, inputs, function(err, rows) {
@@ -78,4 +78,36 @@ router.post('/', function(req, res, next) {
     });
 });
 
+var sendMsg = function(uid) {
+  pool.getConnection(function(err, connection) {
+      async.series([
+          function(callback) {
+              connection.query("SELECT Title FROM orders WHERE _OID=?", oid, function(err, rows) {
+                  if(err) callback(err);
+                  callback(null, rows[0].Title);
+              });
+          },
+          function(callback) {
+              connection.query("SELECT _NID FROM notice ORDER BY _NID DESC limit 1", function(err, rows) {
+                  if(err) callback(err);
+                  var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._NID) + 1;
+                  callback(null, newId);
+              });
+          }
+      ], function(err, results) {
+          if(err) console.log(err);
+          var mTitle = "매칭 완료 알림";
+          var mContent = "[" + results[0] + "]에 대한 매칭이 완료되었습니다!";
+          queryStr = "INSERT INTO notice(_NID,_UID,Title,Content) VALUES(?,?,?,?)";
+          inputs = [results[1], uid, mTitle, mContent];
+          connection.query(queryStr, inputs, function(err) {
+              if(err) {
+                  console.log(err);
+                  sendComplete(uid, oid);
+              }
+              connection.release();
+          });
+      });
+  });
+}
 module.exports = router;
