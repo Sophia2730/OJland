@@ -153,7 +153,7 @@
      <% } %>
      <script>
         function back() {
-            if( ((document.referrer).indexOf("put") != -1) || ((document.referrer).indexOf("post") != -1) ) {
+            if( ((document.referrer).indexOf("put") != -1) || ((document.referrer).indexOf("post") != -1) || ((document.referrer).indexOf("info") != -1)) {
                 location.href = '/list';
             } else {
                 location.href = document.referrer;

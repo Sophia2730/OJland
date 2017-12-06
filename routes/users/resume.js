@@ -78,33 +78,29 @@ router.post('/', upload.array('File', 3), function(req, res){
             function(callback) {
                 connection.query('SELECT _RID FROM resume ORDER BY _RID DESC limit 1', function(err, rows) {
                       if(err) callback(err);
-                      if(!rows[0])
-                          callback(null, 1000000001);
-                      else
-                          callback(null, Number(rows[0]._RID) + 1);
+                      var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._RID) + 1;
+                      callback(null, newId);
                 });
             },
-            function(arg1, callback) {
+            function(newId, callback) {
                 connection.query('SELECT _RID FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
                       if(err) callback(err);
-                      callback(null, arg1, rows[0]);
+                      callback(null, newId, rows[0]);
                 });
             },
-            function(arg1, arg2, callback) {
-                if(!arg2) {
-                    var inputs = [arg1, req.session._UID, body.Course, body.Colleage, body.Major, licenses, body.Content, imgUrl];
+            function(newId, resume, callback) {
+                if(!resume) {
+                    var inputs = [newId, req.session._UID, body.Course, body.Colleage, body.Major, licenses, body.Content, imgUrl];
                     var queryStr = 'INSERT INTO resume(_RID, _UID, Course,  Colleage , Major , License , Content , imageUrl) VALUES(?,?,?,?,?,?,?,?)';
                     connection.query(queryStr, inputs, function(err, rows) {
                           if(err) callback(err);
-                          callback(null, arg1, arg2);
                     });
-                } else {
-                    callback(null, arg1, arg2);
                 }
+                callback(null, resume);
             },
-            function(arg1, arg2, callback) {
-                if(arg2) {
-                    var inputs = [req.session._UID, body.Course, body.Colleage, body.Major, licenses, body.Content, imgUrl, arg2._RID];
+            function(resume, callback) {
+                if(resume) {
+                    var inputs = [req.session._UID, body.Course, body.Colleage, body.Major, licenses, body.Content, imgUrl, resume._RID];
                     var queryStr = 'UPDATE resume SET _UID=?, Course=?, Colleage=?, Major=?, License=?, Content=?, imageUrl=? WHERE _RID=?';
                     connection.query(queryStr, inputs, function(err) {
                           if(err) callback(err);

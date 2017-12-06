@@ -45,18 +45,17 @@ router.post('/', function(req, res, next) {
             function(callback) {
                 connection.query('SELECT _UID FROM user ORDER BY _UID DESC limit 1', function(err, rows) {
                     if(err) callback(err);
-                    callback(null, rows[0]);
+                    var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._UID) + 1;
+                    callback(null, newId);
                 });
             }
         ], function(err, results) {
-            console.log(results);
             if (results[0]) { // 이미 존재하는 이메일이면
                 res.redirect('/register/exist');
                 return;
             }
 
-            var newId = (!results[1]) ? 1000000001 : Number(results[1]._UID) + 1;
-            var inputs = [newId, body.Email, encrypt(body.Password), body.Name, body.Birth, body.Tel, body.UserType];
+            var inputs = [results[1], body.Email, encrypt(body.Password), body.Name, body.Birth, body.Tel, body.UserType];
             queryStr = 'INSERT INTO user(_UID, Email, Password, Name, Birth, Tel, UserType) VALUES(?,?,?,?,?,?,?);';
             connection.query(queryStr, inputs, function(err, rows) {
                 if(err) console.log("err: ", err);
@@ -65,13 +64,15 @@ router.post('/', function(req, res, next) {
                     to: body.Email,
                     subject: '[외주랜드]인증 메일',
                     html: '<h1>아래의 인증을 클릭해 주세요.</h1><br><a style="font-size:2em;" href="http://' + req.get('host')
-                    + '/confirm/' + encrypt(newId.toString()) + '">인증</a>'
+                    + '/confirm/' + encrypt(results[1].toString()) + '">인증</a>'
                 };
+
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) return console.log(error);
                     console.log('Message %s sent: %s', info.messageId, info.response);
                 });
-                sendMsg(newId, body.Name);
+                sendMsg(results[1], body.Name);
+
                 res.redirect('/register/success');
                 connection.release();
             });

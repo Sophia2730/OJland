@@ -6,16 +6,11 @@ var moment = require('moment');
 
 router.get('/:id', function(req, res, next) {
   var body = req.body;
-  console.log('Uid: '+ req.params.id);
-
   pool.getConnection(function(err, connection) {
       queryStr = "SELECT * FROM progress WHERE _PID=?";
       connection.query(queryStr, req.params.id , function (err, rows) {
           if(err) console.log("err: ", err);
-          console.log(rows);
-
           dates[0] = moment(rows[0].Time).format('YYYY/MM/DD');
-
           res.send({
               apps: rows,
               date: dates,
@@ -24,11 +19,6 @@ router.get('/:id', function(req, res, next) {
           connection.release();
       });
   });
-
-
-
-
 });
-
 
 module.exports = router;

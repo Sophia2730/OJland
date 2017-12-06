@@ -40,14 +40,13 @@ router.post('/', function(req, res, next) {
             function(callback) {
                 connection.query('SELECT _OID FROM orders ORDER BY _OID DESC limit 1', function(err, rows) {
                     if(err) callback(err);
-                    var newId = (!rows[0]._OID) ? 1000000001 : Number(rows[0]._OID) + 1; // 최근 _OID 값 + 1 저장
+                    var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._OID) + 1; // 최근 _OID 값 + 1 저장
                     callback(null, newId);
                 });
             },
             function(newId, callback) {
                 var inputs = [newId, req.session._UID, body.Category, body.Title, body.Colleage, body.Cost,
                             body.Content, prefer, body.Period, body.MaxNum];  // orders Table에 저장할 값들
-                            console.log(inputs);
                 var queryStr = 'INSERT INTO orders(_OID,_UID,Category,Title,Colleage,Cost,Content,Preference,Period,MaxNum)'
                               + ' VALUES(?,?,?,?,?,?,?,?,?,?)'; // orders Table에 데이터를 삽입
                 connection.query(queryStr, inputs, function(err) {

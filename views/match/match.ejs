@@ -60,6 +60,7 @@
         </div>
     </div>
 </div>
+<% include ../lightBox.ejs %>
 <script>
     $(document).ready(function() {
         var name = $("#Name");
@@ -77,6 +78,11 @@
 
         var apps, users, licenses, imgs, checkPres;
         var needNum, reqNum; // 필요 인원 수, 남은 지원자 수
+
+        $("#Img").on('click', 'img', function() {
+            $("#lightBox").modal();
+            $("#curImg").attr('src', $(this).attr('src'));
+        });
 
         $(".btns").on('click', '#match', function(e) {
             doMatch();
