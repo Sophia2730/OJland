@@ -45,7 +45,7 @@ router.get('/:id', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var body = req.body;
-
+    console.log('body: ', body);
     pool.getConnection(function(err, connection) {
         async.waterfall([
             function(callback) {
@@ -72,10 +72,10 @@ router.post('/', function(req, res, next) {
                 });
             },
             function(callback) {
-                queryStr = "SELECT count(*) AS cnt FROM application WHERE _OID=? AND Status='B'";
+                queryStr = "SELECT * FROM application WHERE _OID=? AND Status='B'";
                 connection.query(queryStr, body.oid, function(err, rows) {
                     if(err) callback(err);
-                    if(rows[0].cnt == 0) {
+                    if(!rows[0]) {
                         callback(null, true);
                     } else {
                         callback(null, false);

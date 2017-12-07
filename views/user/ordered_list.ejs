@@ -35,7 +35,7 @@
                         <th width="10%">수주자</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tb">
                     <% for(var i = 0; i < data.length; i++) { if (data[i].Title) { %>
                         <tr class="text-center">
                             <td><%= i+1 %></td>
@@ -58,7 +58,7 @@
                                 <td>매칭실패</td>
                             <% } %>
                             <% if (data[i].Status == 'B' || data[i].Status == 'C') { %>
-                                <td><a id="<%= data[i]._OID %>" data-toggle="modal" data-target="#info_EE" href="">수주자 조회</a></td>
+                                <td id="read"><a id="<%= data[i]._OID %>" class="btn btn-primary text-white">조회</a></td>
                             <% } else { %>
                                 <td></td>
                             <% } %>

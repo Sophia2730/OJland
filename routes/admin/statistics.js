@@ -55,7 +55,7 @@ router.get('/', function(req, res, next) {
             if (err) console.log('err: ', err);
             date = [0,0,0,0,0,0,0,0,0,0,0,0,0];
             for (var i = 0; i < results[1].length; i++) {
-                var a = parseInt(moment(results[1][i].Time).format('MM'))
+                var a = parseInt(moment(results[1][i].Time).format('MM'));
                 date[a] += 1;
             }
             orders = [0,0,0,0,0,0];
@@ -63,21 +63,23 @@ router.get('/', function(req, res, next) {
             for(var i=0; i< results[4].length; i++){
                 switch(results[4][i].Status){
                     case 'A':
-                        orders[0] = results[4][0].cnt;
+                        orders[0] = (results[4][i]) ? results[4][i].cnt : 0;
                         break;
                     case 'B':
-                        orders[1] = results[4][1].cnt;
+                        orders[1] = (results[4][i]) ? results[4][i].cnt : 0;
                         break;
                     case 'C':
-                        orders[2] = results[4][2].cnt;
+                        orders[2] = (results[4][i]) ? results[4][i].cnt : 0;
                         break;
                     case 'D':
-                        orders[3] = results[4][3].cnt;
+                        orders[3] = (results[4][i]) ? results[4][i].cnt : 0;
                         break;
                     case 'F':
-                        orders[4] = results[4][4].cnt;
+                        orders[4] = (results[4][i]) ? results[4][i].cnt : 0;
                         break;
                 }
+            }
+            for(var i = 0; i < 5; i++) {
                 orders[5] += orders[i];
             }
             console.log(orders, results);

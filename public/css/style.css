@@ -12,7 +12,13 @@
 }
 #dataTable th, #dataTable td {
     text-align: center;
+    font-size: 0.1rem;
 }
+body > .container-fluid {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+
 .bg-header {
     position: relative;
     width: 100%;
@@ -22,10 +28,6 @@
 }
 .fit {
     height: calc(100vh - 66px);
-}
-.container {
-    padding-top: 25px;
-    max-width: 100%;
 }
 .navbar {
     padding-left: 10px;
@@ -58,7 +60,7 @@
     width: 200px !important;
 }
 .navbar-sidenav > .nav-item, .sidenav-toggler > .nav-item {
-    width: 130px !important;
+    width: 100% !important;
 }
 .sidenav-toggled .navbar-sidenav {
     width: 100% !important;
@@ -67,6 +69,7 @@
     width: 100px !important;
 }
 .nav-link {
+    color: white !important;
     margin-top: 2px;
     padding: 0.2em !important;
 }
@@ -76,7 +79,10 @@
     padding: 0.5px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 600px) {
+  .modal-dialog {
+     width: 50vh !important;
+  }
 }
 @media (min-width: 992px) {
   #header {
@@ -88,6 +94,9 @@
   #header a {
     padding: 0.8em 1.6em !important;
     font-size: 1em !important;
+  }
+  #dataTable th, #dataTable td {
+      font-size: 1rem;
   }
   body > .container-fluid {
       margin-left: 160px !important;

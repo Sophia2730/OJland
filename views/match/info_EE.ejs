@@ -105,7 +105,7 @@
                 getInfo(--index);
         });
 
-        $("a[data-target='#info_EE']").on('click', function(e) {
+        $("#tb").on('click', '#read a', function(e) {
             oid = $(this).attr('id');
             $.get('/ordered_list/check/' + oid, function(data) {
                 if(data != 'C') {
@@ -127,10 +127,9 @@
                 max = apps.length;
                 if(!apps[0]) {
                     alert('조회 가능한 수주자가 없습니다!');
-                    setTimeout(function() {
-                      $("#info_EE").modal('hide');
-                    }, 450);
+                    return;
                 }
+                $("#info_EE").modal();
 
                 for (var i = 0; i < apps.length; i++) {
                     for (var j = 0; j < users.length; j++) {

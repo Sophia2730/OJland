@@ -4,6 +4,7 @@
       <% include ../nav/header.ejs %>
       <script>
           $(document).ready(function() {
+              var isChecked = false;
               var Name = $('input[name=Name]');
               var Birth = $('input[name=Birth]');
               var Email = $('input[name=Email]');
@@ -21,11 +22,17 @@
                             } else {
                                 $("#result").text('사용 가능한 이메일입니다.');
                                 $("#result").css('color', '#0af');
+                                isChecked = true;
                             }
                       });
                   } else {
                       alert('이메일을 입력해 주세요!');
                   }
+              });
+
+              Email.on('keydown', function() {
+                  $("#result").text('');
+                  isChecked = false;
               });
 
               $('input[type=radio]').on('change', function(e) {
@@ -73,6 +80,9 @@
                       e.preventDefault();
                       alert('비밀번호가 서로 다릅니다.');
                       Pwd.focus();
+                  } else if (!isChecked) {
+                      e.preventDefault();
+                      alert('아이디 중복 체크를 해주세요!');
                   }
               });
           });

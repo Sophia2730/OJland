@@ -36,7 +36,7 @@
 </div>
 <script>
     var oid;
-    $("a[data-target='#info_EE']").on('click', function(e) {
+    $("#tb").on('click', '#read a', function() {
         oid = $(this).attr('id');
     });
     $("#mEvaluation .modal-footer button:first-child").on('click', function(e) {

@@ -49,8 +49,12 @@ router.get('/', function(req, res, next) {
             if (err) console.log('err: ', err);
             var dates = [];
             for (var i = 0; i < results[4].length; i++) {
-                dates[i] = moment(results[4][i].Time).format('YYYY/MM/DD HH:MM');
+                console.log('time: ', results[4][i].Time);
+                dates[i] = moment(results[4][i].Time).format('YYYY-MM-DD HH:mm');
+                console.log('i: ', dates[i]);
             }
+            console.log('dates: ',dates);
+
             res.render('user/mypage', {
                 user: results[0][0],
                 order: results[1],
