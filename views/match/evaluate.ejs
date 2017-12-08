@@ -41,9 +41,10 @@
     });
     $("#mEvaluation .modal-footer button:first-child").on('click', function(e) {
           e.preventDefault();
-          $.post('/info_EE', {uid: $(this).attr('id'), oid: oid, score: $("input[name=evaluation]:checked").val()}, function(data) {
+          var score = $("input[name=evaluation]:checked").val();
+          $.post('/match/info', {uid: $(this).attr('id'), oid: oid, score: score}, function(data) {
               if(data)
-                window.location.replace('/ordered_list');
+                window.location.replace('/user/orders');
           });
     });
 </script>

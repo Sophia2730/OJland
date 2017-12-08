@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <% include ../nav/header.ejs %>
+      <% include ../config/header.ejs %>
       <script>
           $(document).ready(function() {
               var isChecked = false;
@@ -15,7 +15,7 @@
 
               $('#check').on('click', function() {
                   if (Email.val() && Email.val().indexOf("@") != -1 && Email.val().indexOf(".") != -1) {
-                      $.get('/register/check/' + Email.val(), function(data) {
+                      $.get('/user/register/check/' + Email.val(), function(data) {
                             if(data || Email.val() == 'admin@gmail.com') {
                                 $("#result").text('이미 존재하는 이메일입니다.');
                                 $("#result").css('color', '#f44');
@@ -89,15 +89,15 @@
       </script>
   </head>
   <body class="fixed-nav bg-header" id="page-top">
-    <% include ../nav/nav.ejs %>
+    <% include ../config/nav.ejs %>
     <div class="container-fluid">
       <div class="row">
           <div class="card card-register col-md-7 p-0 mx-auto mt-3 mb-3">
             <div class="card-header">회원가입</div>
             <div class="card-body">
-              <form action="register" method="post">
+              <form action="/user/register" method="post">
                 <div class="text-center mb-1">
-                   <label class="radio-inline" style="margin-right:30px;">
+                   <label class="radio-inline mr-3">
                      <input type="radio" name="UserType" value="ER" checked> 발주자(기업)
                    </label>
                    <label class="radio-inline">

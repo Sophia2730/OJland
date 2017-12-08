@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <% include ../nav/header.ejs %>
+    <% include ../config/header.ejs %>
+    <script>
+        var Name = $("input[name=Name]");
+        var Birth = $("input[name=Birth]");
+        var Tel = $("input[name=Tel]");
+
+        $("input[type=submit]").on('click', function(e) {
+              if(Name.val().length < 2 || Name.val().length > 6) {
+                  e.preventDefault();
+                  alert('2~6자리의 이름을 입력해주세요!');
+                  Name.focus();
+              } else if (Birth.val().length != 8) {
+                  e.preventDefault();
+                  alert('8자리의 생년월일을 입력해주세요!');
+                  Birth.focus();
+              } else if (Tel.val().length < 12 || Tel.val().indexOf('-') == -1) {
+                  e.preventDefault();
+                  alert('전화번호를 다시 한번 확인해 주세요!');
+                  Tel.focus();
+              }
+        });
+    </script>
 </head>
 <body class="fixed-nav" id="page-top">
-  <% include ../nav/nav-login.ejs %>
+  <% include ../config/nav.ejs %>
   <div class="container-fluid bg-header fit">
       <div class="row">
           <div class="card card-register col-md-6 p-0 mx-auto mt-3">
             <div class="card-header">개인정보 수정 %></div>
             <div class="card-body">
-              <form method="POST" action="/changeinfo?_method=PUT">
+              <form method="POST" action="/user/changeinfo?_method=PUT">
                  <div class="text-center mb-3">
                        <% if(data.UserType == 'EE') { %>
                          <label class="radio-inline" style="margin-right: 20px;">
@@ -50,35 +71,14 @@
                    <input class="form-control" name="Tel" maxlength="20" type="text" value="<%= data.Tel %>"
                     onKeyPress="if ((event.keyCode<45)||(event.keyCode>57)||(event.keyCode==47)) event.returnValue=false;">
                  </div>
-                 <div align="center">
+                 <div class="text-white" align="center">
                      <input type="submit" class="btn btn-primary mr-3" value="수정" />
-                     <a class="btn btn-danger" href="/mypage">취소</a>
+                     <a class="btn btn-danger" onclick="history.go(-1);">취소</a>
                  </div>
               </form>
             </div>
           </div>
       </div>
   </div>
-  <script>
-      var Name = $("input[name=Name]");
-      var Birth = $("input[name=Birth]");
-      var Tel = $("input[name=Tel]");
-
-      $("input[type=submit]").on('click', function(e) {
-            if(Name.val().length < 2 || Name.val().length > 6) {
-                e.preventDefault();
-                alert('2~6자리의 이름을 입력해주세요!');
-                Name.focus();
-            } else if (Birth.val().length != 8) {
-                e.preventDefault();
-                alert('8자리의 생년월일을 입력해주세요!');
-                Birth.focus();
-            } else if (Tel.val().length < 12 || Tel.val().indexOf('-') == -1) {
-                e.preventDefault();
-                alert('전화번호를 다시 한번 확인해 주세요!');
-                Tel.focus();
-            }
-      });
-  </script>
 </body>
 </html>

@@ -11132,7 +11132,7 @@
 		 * feature enabled (`lengthChange`) then the end user will be able to override
 		 * this to a custom setting using a pop-up menu.
 		 *  @type int
-		 *  @default 5	// 우상 10 -> 5
+		 *  @default 10	// 우상 10 -> 5 _> 10
 		 *
 		 *  @dtopt Options
 		 *  @name DataTable.defaults.pageLength
@@ -11144,7 +11144,7 @@
 		 *      } );
 		 *    } )
 		 */
-		"iDisplayLength": 5,	// 우상 10 -> 5
+		"iDisplayLength": 10,	// 우상 10 -> 5 -> 10
 
 
 		/**

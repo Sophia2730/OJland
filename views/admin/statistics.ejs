@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <% include ../nav/header.ejs %>
+      <% include ../config/header.ejs %>
       <script>
           $(document).ready(function() {
               $("#order").css('display', 'none');
@@ -15,11 +15,13 @@
                       $("#order").css('display', 'block');
                   }
               });
+
+              $("span:contains('통 계')").parent().css('background', '#8491af');
           });
       </script>
   </head>
   <body class="fixed-nav bg-header" id="page-top">
-      <% include ../nav/nav-admin.ejs %>
+      <% include ../config/nav.ejs %>
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-4 mx-auto mt-3">
@@ -106,8 +108,5 @@
         </div>
         <% include charts.ejs %>
       </div>
-      <script>
-          $("span:contains('통 계')").parent().css('background', '#8491af');
-      </script>
   </body>
 </html>

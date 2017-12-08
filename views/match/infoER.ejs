@@ -1,0 +1,47 @@
+<script>
+    $(document).ready(function() {
+        $("a[data-target]").on('click', function() {
+            <% for (var i = 0; i < data.length; i++) { %>
+                if ($(this).attr('id') == <%= data[i]._UID %>) {
+                    $('.modal-body form p').eq(0).text("<%= data[i].Name %>");
+                    $('.modal-body form p').eq(1).text("<%= data[i].Email %>");
+                    $('.modal-body form p').eq(2).text("<%= data[i].Tel %>");
+                }
+            <% } %>
+        });
+    });
+</script>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg mx-auto" style="width:50vh">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">발주자 정보</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="text-left">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>이름:</b><p></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>이메일:</b><p></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b>전화번호:</b><p></p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">돌아가기</button>
+            </div>
+        </div>
+    </div>
+</div>

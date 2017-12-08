@@ -5,10 +5,6 @@ var pool = require('../../config.js').pool;
 var async = require('async');
 
 router.get('/', function(req, res, next) {
-    if (!req.session.Name) {  // 로그인 여부 체크
-        res.redirect('/');  // 세션이 없으면 메인 페이지로 이동
-        return;
-    }
     pool.getConnection(function(err, connection) {
         async.parallel([
             function(callback) {
@@ -54,19 +50,19 @@ router.get('/', function(req, res, next) {
                 data: results[1], // orders Table 데이터
                 reqNum: reqNums,  // 지원자 수
                 date: dates,  // 발주날짜
-                name: names   // 발주자 이름
+                name: names,   // 발주자 이름
+                session: req.session
             });
             connection.release();
         });
     });
 });
 
-router.delete('/:id', function(req, res, next) {
+router.delete('/', function(req, res, next) {
     var queryStr = "DELETE FROM orders WHERE _OID=?"; // orders Table에서 파라미터로 받은 발주를 삭제
     pool.getConnection(function(err, connection) {
-        connection.query(queryStr, req.params.id, function(err, rows) {
+        connection.query(queryStr, req.body.oid, function(err, rows) {
             if(err) console.log("err: ", err);
-            res.redirect('/orders');  // 발주관리 페이지로 이동
             connection.release();
         });
     });

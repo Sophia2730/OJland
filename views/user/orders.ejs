@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <% include ../config/header.ejs %>
+      <style>
+          td {
+              vertical-align: middle !important;
+          }
+          #Img img {
+              width: 200px;
+              height: 150px;
+              margin: 10px;
+              border: solid 1px black;
+          }
+      </style>
+      <script>
+          $(document).ready(function() {
+              <% if (session.UserType == 'EE') {
+                  for (var i = 0; i < data.length; i++) { %>
+                    $.get('/user/orders/status/<%= data[i]._OID %>', function(data) {
+                        var status;
+                        if (data == 'A')
+                            status = '매칭대기';
+                        else if (data =='B')
+                            status = '매칭완료';
+                        else if (data =='C')
+                            status = '외주완료';
+                        else if (data =='F')
+                            status = '매칭실패';
+
+                        $("a[id=<%= data[i]._UID %>]").parent().next().text(status);
+                    });
+              <% }} %>
+              <% if (session.UserType == 'ER') {
+                    for (var i = 0; i < data.length; i++) { %>
+                        $.get('/user/orders/num/<%= data[i]._OID %>', function(data) {
+                            $("#num_<%= i %>").text(data.cnt + '/<%= data[i].MaxNum %>');
+                        });
+              <% }} %>
+
+              $(".card-body").on('click', function() {
+                  <% if (session.UserType == 'ER') {
+                        for (var i = 0; i < data.length; i++) { %>
+                            $.get('/user/orders/num/<%= data[i]._OID %>', function(data) {
+                                $("#num_<%= i %>").text(data.cnt + '/<%= data[i].MaxNum %>');
+                            });
+                  <% }} %>
+              });
+          });
+      </script>
+  </head>
+  <body class="fixed-nav" id="page-top">
+    <% include ../config/nav.ejs %>
+    <div class="container-fluid">
+      <div class="card mb-3 mt-3">
+          <% if(session.UserType == 'ER') { %>
+              <div class="card-header"><h3>발주내역</h3></div>
+              <div class="card-body">
+                  <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                      <tr>
+                          <th width="10%">No.</th>
+                          <th width="10%">카테고리</th>
+                          <th>제목</th>
+                          <th width="10%">급여</th>
+                          <th width="10%">등록일</th>
+                          <th width="10%">인원</th>
+                          <th width="10%">상태</th>
+                          <th width="10%">수주자</th>
+                      </tr>
+                      </thead>
+                      <tbody id="tb">
+                      <% for(var i = 0; i < data.length; i++) { if (data[i].Title) { %>
+                          <tr class="text-center">
+                              <td><%= i+1 %></td>
+                              <td><%= data[i].Category %></td>
+                              <td>
+                                  <a href="/order/info/<%= data[i]._OID %>"><%= data[i].Title %></a>
+                              </td>
+                              <td><%= data[i].Cost %></td>
+                              <td><%= date[i] %></td>
+                              <td id="num_<%= i %>">0/<%= data[i].MaxNum %></td>
+                              <% if(data[i].Status == 'A' ) { %>
+                                  <td>모집 중</td>
+                              <% } else if(data[i].Status == 'B'){ %>
+                                  <td>매칭 중</td>
+                              <% } else if(data[i].Status == 'C'){ %>
+                                  <td>매칭완료</td>
+                              <% } else if(data[i].Status == 'D'){ %>
+                                  <td>외주완료</td>
+                              <% } else if(data[i].Status == 'F'){ %>
+                                  <td>매칭실패</td>
+                              <% } %>
+                              <% if (data[i].Status == 'B' || data[i].Status == 'C') { %>
+                                  <td id="read"><a id="<%= data[i]._OID %>" class="btn btn-primary text-white">조회</a></td>
+                              <% } else { %>
+                                  <td></td>
+                              <% } %>
+                          </tr>
+                      <% } } %>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+          <% } else if(session.UserType == 'EE') { %>
+              <div class="card-header"><h3>수주내역</h3></div>
+              <div class="card-body">
+                  <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                            <th width="10%">No.</th>
+                            <th width="10%">카테고리</th>
+                            <th>제목</th>
+                            <th width="10%">급여</th>
+                            <th width="10%">발주자</th>
+                            <th width="10%">상태</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <% for(var i = 0; i < data.length; i++) {  if (data[i].Title) { %>
+                        <tr>
+                            <td><%= i+1 %></td>
+                            <td><%= data[i].Category %></td>
+                            <td><a href="/order/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
+                            <td><%= data[i].Cost %></td>
+                            <td><a id="<%= data[i]._UID %>" data-toggle="modal" data-target="#myModal" href=""><%= data[i].Name %></a></td>
+                            <td></td>
+                        </tr>
+                      <% } } %>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+          <% } %>
+          <a class="btn btn-primary text-white mb-3 mx-auto" onclick="history.go(-1)">돌아가기</a>
+      </div>
+    </div>
+    <% include ../match/infoER.ejs %>
+    <% include ../match/infoEE.ejs %>
+    <% include ../match/evaluate.ejs %>
+  </body>
+</html>

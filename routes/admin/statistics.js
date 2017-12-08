@@ -12,13 +12,7 @@ if(d.getDate() < 10){
 } else {
     d2 = d1 + "-" + d.getDate();
 }
-
 router.get('/', function(req, res, next) {
-    if (req.session.UserType != 'AD') {  // 관리자 로그인 여부 체크
-        res.redirect('/');  // 세션이 없으면 메인 페이지로 이동
-        return;
-    }
-
     pool.getConnection(function(err, connection) {
         async.series([
             function(callback) {
@@ -86,10 +80,10 @@ router.get('/', function(req, res, next) {
             res.render('admin/statistics', {
                 user: results[0],
                 ojcnt: date,
-                session: req.session,
                 d1: results[3],
                 d2: results[2],
-                orders: orders
+                orders: orders,
+                session: req.session
             });
             connection.release();
         });

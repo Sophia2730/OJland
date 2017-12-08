@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../config/header.ejs %>
+    <style>
+        #Img img {
+            width: 200px;
+            height: 150px;
+            margin: 10px;
+            border: solid 1px black;
+        }
+        .row img {
+            width: 60px;
+            height: 60px;
+        }
+        .row p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+        .pa {
+            font-size: 0.8rem !important;
+            color: gray;
+            display: inline;
+        }
+        .pb {
+            font-size: 0.8rem !important;
+            color: black;
+            display: inline;
+        }
+        .container-fluid hr {
+            width: 95% !important;
+            border: solid 0.5px #555;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            // 목록 버튼을 누르면 호출
+            $("#back").on('click', function() {
+                var refer = document.referrer; // 이전 페이지의 URL
+                if( (refer.indexOf("/put") != -1) || (refer.indexOf("/post") != -1) || (refer.indexOf("/info") != -1)) {
+                    location.href = '/order/list/all';  // 이전 페이지가 put or post or info이면 list로 이동
+                } else {
+                    location.href = refer;
+                }
+            });
+
+            // 해당 발주의 지원자 수를 가져온다
+            $.get('/order/info/num/<%= data._OID %>', function(data) {
+                if(data.cnt) {  // 지원자가 존재하연
+                    $("#delete").remove();  // 삭제 버튼 제거
+                    $("#update").remove();  // 수정 버튼 제거
+                } else {  // 지원자가 없으면
+                    $("#close").remove(); // 마감 버튼 제거
+                }
+                $("#reqNum").text(data.cnt + '/' + <%= data.MaxNum %>);  // 인원 표시
+            });
+            // 사용자가 해당 발주에 수주 요청을 했는지 여부를 가져온다
+            $.get('/order/info/check/<%= data._OID %>', function(data) {
+                if(data) {  // 수주 요청을 했으면
+                    $("#req").remove(); // 요청 버튼 제거
+                } else {
+                    $("#cancel").remove();  // 취소 버튼 제거
+                    $("#progs").remove();  // 진척도 버튼 제거
+                }
+            });
+            // 수주 요청 버튼 클릭 시
+            $("#req").on('click', function(e) {
+                $.get('/match/request/resume', function(resume) {
+                   if (!resume) { // 이력서가 없으면
+                       alert('이력서가 없습니다!');
+                       location.href = '/user/resume';
+                   }
+                   $.get('/match/request/colleage', function(colleage) {
+                       if (colleage != '<%= data.Colleage %>' && '<%= data.Colleage %>' != '무관') {
+                           alert('학부조건을 만족하지 못합니다!');
+                           return;
+                       } else {
+                          $("#myModal").modal();
+                       }
+                   });
+                });
+            });
+            // 취소 버튼 클릭 시
+            $(".btns").on('click', '#cancel', function(e) {
+               if (confirm('정말로 취소하시겠습니까?')) {
+                   $.post("/match/request/<%= data._OID %>?_method=DELETE");
+                   $(this).parent().prepend('<a class="btn btn-success mr-3" data-toggle="modal" data-target="#myModal">수주요청</a>');
+                   $(this).remove();
+                   $.get('/order/info/num/<%= data._OID %>', function(reqNum) {
+                       $("#reqNum").text(reqNum + "/" + <%= data.MaxNum %>);
+                   });
+               }
+            });
+            // 마감 버튼 클릭 시
+            $("#close").on('click', function() {
+               if (confirm('정말로 마감하시겠습니까?'))
+                   $.post('/match/close/<%= data._OID %>?_method=PUT', function(data) {
+                       if(data) {
+                           $("#close").parent().prepend('<a id="match" class="btn btn-primary mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>');
+                           $("#close").remove();
+                           $("#stat").text('[마감]');
+                           alert('마감되었습니다!');
+                       }
+                   });
+            });
+            // 삭제 버튼 클릭 시
+            $("#delete").on('click', function() {
+               if (confirm('정말로 삭제하시겠습니까?'))
+                   $.post("/order/info/<%= data._OID %>?_method=DELETE", function(data) {
+                       if(data)
+                           location.href = '/order/list/all';
+                   });
+            });
+        });
+    </script>
+  </head>
+  <body class="fixed-nav" id="page-top">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+          <% include ../config/nav.ejs %>
+      </nav>
+      <div class="container-fluid">
+          <div class="row mt-5 ml-5">
+              <h4>발주정보 상세보기</h4><small class="mx-3 mt-2">등록일: <%= date %></small>
+              <%if(data.Status == 'A'){ %><h5 id="stat">[모집 중]</h5><% } %>
+              <%if(data.Status != 'A'){ %><h5>[마감]</h5><% } %>
+          </div>
+          <hr>
+          <div class="row my-4">
+              <h3 class="mx-auto my-auto">
+                <%= data.Title %>
+              </h3>
+          </div>
+          <hr style="border: 0.5px solid #bbb">
+          <div class="row my-4">
+              <div class="col-md-8">
+                  <div class="row">
+                      <div class="col-md-2 text-center ml-auto">
+                          <img src="imgs/icons-info/category.png" alt="">
+                          <p><%= data.Category %></p>
+                      </div>
+                      <div class="col-md-2 text-center">
+                          <img src="imgs/icons-info/cost.png" alt="">
+                          <p><%= data.Cost %>원</p>
+                      </div>
+                      <div class="col-md-2 text-center">
+                          <img src="imgs/icons-info/maxNum.png" alt="">
+                          <p id="reqNum"></p>
+                      </div>
+                      <div class="col-md-2 text-center">
+                          <img src="imgs/icons-info/period.png" alt="">
+                          <p><%= data.Period %></p>
+                      </div>
+                      <div class="col-md-2 text-center mr-auto">
+                          <img src="imgs/icons-info/colleage.png" alt="">
+                          <p><%= data.Colleage %></p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-4" style="border-left:1px solid #bbb">
+                  <h4>발주자 정보</h5>
+                  <p class="pa">발주자:</p> <p class="pb"><%= user.Name %></p><br>
+                  <p class="pa">전화:</p> <p class="pb"><%= user.Tel %></p><br>
+                  <p class="pa">이메일:</p> <p class="pb"><%= user.Email %></p>
+              </div>
+          </div>
+          <hr style="border: 0.5px solid #bbb">
+          <div class="row my-4">
+              <div class="col-md-2 ml-5 my-auto">
+                  <h4>우대조건</h4>
+              </div>
+              <div class="col-md-6 mr-auto" style="border-left:1px solid #bbb">
+                  <ul class="prefer" style="list-style:none;margin: 0 !important;padding:0 !important;">
+                      <li style="margin-bottom: 5px;text-align:left;">
+                        <% for (var i = 0; i < preference.length; i++) { %>
+                          <% if (preference[i] != '') { %>
+                              <input type="checkbox" disabled /> <%= preference[i] %><br>
+                          <% } %>
+                        <% } %>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          <hr>
+          <div class="row my-4">
+              <div class="col-md-2 ml-5 my-auto">
+                  <h4>내용</h4>
+              </div>
+              <div class="col-md-8 mr-auto" style="border-left:1px solid #bbb">
+                  <textarea class="form-control" style="width:100%;height:100%;" readonly><%= data.Content %></textarea>
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="btns text-white my-5 mx-auto">
+                 <% if (data._UID == session._UID && session.UserType == 'ER') { %>
+                     <% if (data.Status == 'A') { %>
+                           <a id="close" class="btn btn-success mr-3">마감</a>
+                           <a id="update" class="btn btn-primary mr-3" href="/order/put/<%= data._OID %>">수정</a>
+                           <a id="delete" class="btn btn-danger mr-3">삭제</a>
+                     <% } else if (data.Status == 'B') { %>
+                        <a id="match" class="btn btn-primary mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>
+                     <% } %>
+                 <% } else if (session.UserType == 'EE') { %>
+                     <% if (data.Status == 'A') { %>
+                        <a id="req" class="btn btn-success mr-3">수주요청</a>
+                        <a id="cancel" class="btn btn-danger mr-3">요청취소</a>
+                     <% } else if (data.Status == 'C') { %>
+                        <span id="progs">
+                            <form action ="/progress/list" method="post" style="display:inline">
+                                <input name="oid" type="text" style="display:none;" value="<%= data._OID %>">
+                                <input name="uid" type="text" style="display:none;" value="<%= session._UID %>">
+                                <input type="submit" class="btn btn-success" value="진척도 조회" />
+                                <a class="btn btn-danger mx-3" data-toggle="modal" data-target="#myProgress" href="">진척도 작성</a>
+                            </form>
+                        </span>
+                     <% } %>
+                 <% } %>
+                 <a id="back" class="btn btn-info">목록</a>
+              </div>
+          </div>
+     </div>
+     <% if (session.UserType == 'EE') { %>
+       <% include ../match/request.ejs %>
+       <% include ../progress/post.ejs %>
+     <% } else if(session.UserType == 'ER') { %>
+       <% include ../match/match.ejs %>
+     <% } %>
+  </body>
+</html>

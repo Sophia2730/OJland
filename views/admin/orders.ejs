@@ -1,71 +1,69 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <% include ../nav/header.ejs %>
+      <% include ../config/header.ejs %>
       <style>
-          tr {
-            text-align: center;
-          }
-          td {
+          tr, td {
+              text-align: center;
               vertical-align: middle !important;
           }
       </style>
+      <script>
+          $(document).ready(function() {
+              $("span:contains('외주관리')").parent().css('background', '#8491af');
+
+              $(".card-body").on('click', 'button', function() {
+                  if (confirm('정말로 삭제하시겠습니까?')) {
+                    $.post("/admin/orders?_method=DELETE", {oid: $(this).attr('id')});
+                    $(this).parent().parent().remove();
+                  }
+              });
+          });
+      </script>
   </head>
   <body class="fixed-nav" id="page-top">
-      <% include ../nav/nav-admin.ejs %>
+      <% include ../config/nav.ejs %>
       <div class="container-fluid">
           <div class="card mb-3 mt-3">
-              <div class="card-header"><h3>발주관리</h3></div>
+              <div class="card-header"><h3>외주관리</h3></div>
               <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                      <tr>
-                        <th>No.</th>
-                        <th>카테고리</th>
-                        <th>제목</th>
-                        <th>발주자</th>
-                        <th>상태</th>
-                        <th>인원</th>
-                        <th>게시일</th>
-                        <th>관리</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% for(var i = 0; i < data.length; i++) { %>
-                      <tr>
-                        <td><%= i + 1 %></td>
-                        <td><%= data[i].Category %></td>
-                        <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
-                        <td><%= name[i] %></td>
-                        <td>
-                            <%if(data[i].Status == 'A'){ %>모집중<% } %>
-                            <%if(data[i].Status == 'B'){ %>매칭중<% } %>
-                            <%if(data[i].Status == 'C'){ %>매칭완료<% } %>
-                            <%if(data[i].Status == 'D'){ %>외주완료<% } %>
-                        </td>
-                        <td><%= reqNum[i] %>/<%= data[i].MaxNum %></td>
-                        <td><%= date[i] %></td>
-                        <td class="p-0">
-                            <form action="/orders/<%= data[i]._OID %>?_method=DELETE" method="post">
-                                <input type="submit" class="btn btn-danger" value="삭제" />
-                            </form>
-                        </td>
-                      </tr>
-                      <% } %>
-                    </tbody>
-                  </table>
-                </div>
+                  <div class="table-responsive">
+                      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                          <thead>
+                              <tr>
+                                  <th>No.</th>
+                                  <th>카테고리</th>
+                                  <th>제목</th>
+                                  <th>발주자</th>
+                                  <th>상태</th>
+                                  <th>인원</th>
+                                  <th>게시일</th>
+                                  <th>관리</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <% for(var i = 0; i < data.length; i++) { %>
+                              <tr>
+                                  <td><%= i + 1 %></td>
+                                  <td><%= data[i].Category %></td>
+                                  <td><a href="/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
+                                  <td><%= name[i] %></td>
+                                  <td>
+                                      <%if(data[i].Status == 'A'){ %>모집중<% } %>
+                                      <%if(data[i].Status == 'B'){ %>매칭중<% } %>
+                                      <%if(data[i].Status == 'C'){ %>매칭완료<% } %>
+                                      <%if(data[i].Status == 'D'){ %>외주완료<% } %>
+                                  </td>
+                                  <td><%= reqNum[i] %>/<%= data[i].MaxNum %></td>
+                                  <td><%= date[i] %></td>
+                                  <td class="p-0"><button id="<%= data[i]._OID %>" class="btn btn-danger text-white">삭제</button></td>
+                              </tr>
+                              <% } %>
+                          </tbody>
+                      </table>
+                  </div>
               </div>
           </div>
       </div>
-      <script>
-          $("input[type=submit]").on('click', function(e) {
-              var answer = confirm('정말로 삭제하시겠습니까?');
-              if (!answer)
-                e.preventDefault();
-          });
-          $("span:contains('외주관리')").parent().css('background', '#8491af');
-      </script>
   </body>
 </html>

@@ -5,6 +5,28 @@
         padding: 0;
     }
 </style>
+<script>
+    $(document).ready(function() {
+        var Title = $("input[name=Title]");
+        var Content = $("textarea[name=Content]");
+
+        $("#myProgress input[type=submit]").on('click', function(e) {
+            if(Title.val() == '') {
+                e.preventDefault();
+                Title.focus();
+                alert('제목을 입력해주세요!');
+            } else if (Content.val() == '') {
+                console.log(Content);
+                e.preventDefault();
+                Content.focus();
+                alert('내용을 입력해주세요!');
+            } else {
+                $("#myProgress").modal('hide');
+                alert('진척도를 작성하였습니다!');
+            }
+        });
+    });
+</script>
 <div class="modal fade" id="myProgress" role="dialog">
     <div class="modal-dialog modal-lg mx-auto" style="width:50vh">
       <div class="modal-content">
@@ -13,7 +35,7 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <form method="POST" action="progress/<%= data._OID %>" enctype="multipart/form-data">
+          <form method="POST" action="/progress/post/<%= data._OID %>" enctype="multipart/form-data">
              <div class="text-left">
                <div class="row">
                    <div class="col-md-12 mb-3">

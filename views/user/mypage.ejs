@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <% include ../nav/header.ejs %>
+    <% include ../config/header.ejs %>
     <style>
       .row img {
           margin: 5px 10px;
@@ -16,9 +16,6 @@
           margin: 1rem auto;
           border: solid 2px #aaa;
       }
-      #dataTable td {
-          text-align: center;
-      }
     </style>
     <script>
         $(document).ready(function() {
@@ -30,9 +27,8 @@
     </script>
 </head>
 <body class="fixed-nav bg-header" id="page-top">
-    <% include ../nav/nav-login.ejs %>
+    <% include ../config/nav.ejs %>
     <div class="container-fluid">
-       <% include ./notice.ejs %>
        <div class="row">
           <div class="col-md-5 mRow">
               <h2>회원정보</h2>
@@ -58,8 +54,8 @@
               </div>
               <hr class="mt-1 bg-dark">
               <div align="center" class="my-auto">
-                    <a class="btn btn-primary mr-3" href="/changeinfo">개인정보 수정</a>
-                    <a class="btn btn-primary" href="/changepwd">비밀번호 변경</a>
+                    <a class="btn btn-primary mr-3" href="/user/changeinfo">개인정보 수정</a>
+                    <a class="btn btn-primary" href="/user/changepwd">비밀번호 변경</a>
               </div>
           </div>
           <div class="col-md-5 mRow">
@@ -96,7 +92,7 @@
                 </div>
                 <hr class="my-1 bg-dark">
                 <div align="center" class="my-3">
-                    <a class="btn btn-primary" href="/ordered_list">수주내역 확인</a>
+                    <a class="btn btn-primary" href="/user/orders">수주내역 확인</a>
                 </div>
               <% } else if (user.UserType == 'ER'){ %>
                 <% var A = 0, B = 0, C = 0, D = 0;
@@ -131,7 +127,7 @@
                  </div>
                  <hr class="my-1 bg-dark">
                  <div align="center" class="my-3">
-                     <a class="btn btn-primary" href="/ordered_list">발주내역 확인</a>
+                     <a class="btn btn-primary" href="/user/orders">발주내역 확인</a>
                  </div>
               <% } %>
           </div>
@@ -210,7 +206,7 @@
               <% } %>
               <hr class="my-1 bg-dark">
               <div align="center" class="my-3">
-                  <a class="btn btn-primary" href="/resume">
+                  <a class="btn btn-primary" href="/user/resume">
                     <% if (resume) { %>이력서 수정<% } %>
                     <% if (!resume) { %>이력서 작성<% } %>
                   </a>
@@ -219,6 +215,7 @@
           <% } %>
        </div>
     </div>
-    <% include ../lightBox.ejs %>
+    <% include ./notice.ejs %>
+    <% include ../config/lightBox.ejs %>
 </body>
 </html>

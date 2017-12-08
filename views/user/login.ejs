@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <% include ../nav/header.ejs %>
+      <% include ../config/header.ejs %>
       <script>
           $(document).ready(function() {
               var Email = $('input[name=Email]');
               var Pwd = $('input[name=Password]');
-
-              $('input[type=submit]').on('click', function(e) {
-                  console.log('click');
+              Email.focus();
+              
+              $("#login").on('click', function(e) {
+                  e.preventDefault();
                   if (Email.val() == '') {
-                      e.preventDefault();
                       alert('이메일을 입력해주세요!');
                       Email.focus();
                   } else if (Pwd.val() == '') {
-                      e.preventDefault();
                       alert('비밀번호를 입력해주세요!');
                       Pwd.focus();
+                  } else {
+                    $.post('/user/login/check', {Email: Email.val()}, function(data) {
+                        if(!data) {
+                            alert('아이디가 존재하지 않습니다!');
+                            Email.focues();
+                        } else if (Pwd.val() != data[0]){
+                            alert('비밀번호를 확인해주세요!');
+                            Pwd.focues();
+                        } else if (data[1] == '0') {
+                            alert('인증메일을 확인해주세요!');
+                        } else {
+                              $.post("/user/login", {Email: Email.val(), Password: Pwd.val()}, function(data) {
+                                  location.href = '/user/main';
+                              });
+                        }
+                    });
                   }
               });
           });
       </script>
   </head>
   <body class="fixed-nav" id="page-top">
-     <% include ../nav/nav.ejs%>
+     <% include ../config/nav.ejs%>
      <div class="container-fluid bg-header fit">
        <div class="row">
          <div class="card card-login col-md-4 p-0 mx-auto mt-3">
            <div class="card-header">로그인</div>
              <div class="card-body">
-                 <form action="/login" method="post">
+                 <form>
                    <div class="form-group">
                      <label for="Email">이메일</label>
                      <input class="form-control" name="Email" type="email" aria-describedby="emailHelp" placeholder="이메일을 입력하세요.">
@@ -38,11 +53,11 @@
                      <label for="Password">비밀번호</label>
                      <input class="form-control" name="Password" type="password" placeholder="비밀번호를 입력하세요.">
                    </div>
-                   <input type="submit" class="btn btn-primary btn-block" value="로그인">
+                   <input id="login" type="submit" class="btn btn-primary btn-block" value="로그인">
                  </form>
                  <div class="text-center">
-                   <a class="d-block small mt-3" href="/register">회원가입</a>
-                   <a class="d-block small" href="/forgot">아이디/비밀번호 찾기</a>
+                   <a class="d-block small mt-3" href="/user/register">회원가입</a>
+                   <a class="d-block small" href="/user/forgot">아이디/비밀번호 찾기</a>
                  </div>
              </div>
          </div>

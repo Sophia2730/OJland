@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <% include ../nav/header.ejs %>
+      <% include ../config/header.ejs %>
       <style>
           ul {
               list-style: none;
@@ -19,175 +19,177 @@
               visibility: hidden;
           }
       </style>
+      <script>
+          $(document).ready(function() {
+              var colleage = $("select[name=Colleage]");
+              var major = $("select[name=Major]");
+              $("input[type=submit]").on('click', function(e) {
+                  if (colleage.val() == '' || major.val() == '') {
+                     e.preventDefault();
+                     alert('학부와 학과를 입력해 주십시오!');
+                  }
+              });
+              colleage.change(function() {
+                  var col = colleage.val();
+                  major.html('<option></option>');
+                  <% for (var key in major) { %>
+                    <% for (var i = 0; i < major[key].length; i++) { %>
+                        if (col == "<%= key %>")
+                             major.append("<option value='<%= major[key][i] %>'><%= major[key][i] %></option>");
+                    <% } %>
+                  <% } %>
+              });
+              var mHtml = '<li class="mb-3"><input type="text" name="License" style="width: 90%;" maxlength="30" />'
+                                   + ' <a class="btn btn-primary text-white">+</a></li>';
+              $('.license').on('click', 'li a', function(e) {  // 클릭 리스너 등록
+                  e.preventDefault();
+                  if ($(this).text() == '+') {  // +버튼이고 input에 값이 있으면
+                      if ($(this).prev().val() != '') {
+                          $(this).text('-');  // 버튼 텍스트를 -로 변경
+                          $(this).prev().attr('readonly', true);
+                          $('.license').append(mHtml);
+                      } else {
+                          alert('내용이 없습니다!');
+                      }
+                  } else if ($(this).text() == '-'){
+                      $(this).parent().prev().eq(1).attr('readonly', false);  // 이전 li의 input을 수정가능으로 변경
+                      $(this).parent().prev().eq(2).text('+');  // 이전 li의 버튼 텍스트를 +로 변경
+                      $(this).parent().remove();  // 버튼이 속해있는 li 제거
+                  }
+              });
+              var count = <%= (imageUrls) ? imageUrls.length : 1 %>;
+              var fHtml = '<li class="mb-3"><input type="file" name="File" class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">'
+                         + ' <a class="btn btn-primary text-white">+</a></li>';
+              $('.file').on('click', 'a', function(e) {
+                   if ($(this).text() == '+' && count < 3) {
+                       if ($(this).siblings().val() != '') {
+                           count++;
+                           $(this).text('-');  // 버튼 텍스트를 -로 변경
+                           $(this).prev().attr('readonly', true);
+                           $('.file').append(fHtml);
+                       } else {
+                           alert('내용이 없습니다!');
+                       }
+                   } else if ($(this).text() == '-' && count > 1) {
+                       count--;
+                       $(this).parent().prev().children("input").last().attr('readonly', false);  // 이전  input을 수정가능으로 변경
+                       if ($(this).parent().next().children("a").text() != '+')  // 다음 버튼이 '+'이 아니면
+                           $(this).parent().prev().children("a").text('+');  // 이전 버튼 텍스트를 +로 변경
+                       $(this).parent().remove();
+                   }
+              });
+          });
+      </script>
   </head>
   <body class="fixed-nav bg-header" id="page-top">
-    <% include ../nav/nav-login.ejs %>
-    <div class="container-fluid">
-      <div class="card card-register mx-auto mt-3 mb-3">
-        <div class="card-header">이력서 작성</div>
-        <div class="card-body">
-           <form action="resume" enctype="multipart/form-data" method="post">
-              <div class="text-center mb-3">
-                 <label class="radio-inline mx-auto">
-                   <% if(resume) { %>
-                      <% if(resume.Course == '2/3년제') { %>
-                          <input type="radio" name="Course" value="2/3년제" checked>2/3년제
-                          <input type="radio" name="Course" value="4년제" class="ml-4">4년제
-                      <% } else { %>
-                          <input type="radio" name="Course" value="2/3년제">2/3년제
-                          <input type="radio" name="Course" value="4년제" class="ml-4" checked>4년제
-                      <% } %>
-                   <% } else { %>
-                       <input type="radio" name="Course" value="2/3년제" checked=>2/3년제
-                       <input type="radio" name="Course" value="4년제" class="ml-4">4년제
-                   <% } %>
-                 </label>
-              </div>
-              <div class="form-group">
-                  <div class="form-row">
-                      <div class="col-md-6">
-                       <label for="Colleage">학부</label>
-                       <select class="form-control" name="Colleage">
-                         <% if(resume) { %>
-                           <option value="<%= resume.Colleage %>"><%= resume.Colleage %></option>
-                         <% } %>
-                            <option value="">선택</option>
-                         <% for (var key in major) { %>
-                            <option value="<%= key %>"><%= key %></option>
-                         <% } %>
-                       </select>
-                      </div>
-                      <div class="col-md-6">
-                         <label for="Major">학과</label>
-                         <select class="form-control" name="Major">
-                           <% if(resume) { %>
-                             <option value="<%= resume.Major %>"><%= resume.Major %></option>
-                           <% } %>
-                           <option value="">선택</option>
-                         </select>
-                      </div>
-                  </div>
-              </div>
-              <div class="form-group">
-                <label for="License">보유 자격증</label>
-                <ul class="license">
-                  <% if (resume && resume.License[0]) { %>
-                    <% var licenses = resume.License.split('%&'); %>
-                    <% for (var i = 0; i < licenses.length; i++) { %>
-                      <li class="mb-3">
-                        <input type="text" name="License" style="width: 90%;" value="<%= licenses[i] %>" />
-                        <a class="btn btn-primary text-white">-</a>
-                      </li>
-                    <% } %>
-                  <% } %>
-                    <li class="mb-3">
-                      <input type="text" name="License" style="width: 90%;" maxlength="30" placeholder="ex) 정보처리기능사 자격증 보유" />
-                      <a class="btn btn-primary text-white">+</a>
-                    </li>
-                </ul>
-              </div>
-              <div class="form-group">
-                 <label for="Content">자기소개:</label>
-                 <% if (resume) { %>
-                   <textarea name="Content" class="form-control" rows="4" style="width:100%"><%= resume.Content %></textarea>
-                 <% } else { %>
-                   <textarea name="Content" class="form-control" rows="4" style="width:100%" placeholder="자기소개를 입력하세요."></textarea>
-                 <% } %>
-              </div>
-              <div class="form-group">
-                <label for="File">사진첨부</label><br>
-                <ul class="file">
-                  <% if (resume && resume.imageUrl[0]) { %>
-                    <% var imageUrls = resume.imageUrl.split('%&'); %>
-                    <% for (var i = 0; i < imageUrls.length; i++) { %>
-                        <% if (i == imageUrls.length - 1) { %>
-                          <li class="mb-3">
-                            <input type="text" name="curFile" value="<%= imageUrls[i] %>" style="width:47%" readonly>
-                            <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
-                            <a class="btn btn-primary text-white">+</a>
-                          </li>
+      <% include ../config/nav.ejs %>
+      <div class="container-fluid">
+        <div class="card card-register mx-auto mt-3 mb-3">
+          <div class="card-header">이력서 작성</div>
+          <div class="card-body">
+             <form action="/user/resume" enctype="multipart/form-data" method="post">
+                <div class="text-center mb-3">
+                   <label class="radio-inline mx-auto">
+                     <% if(resume) { %>
+                        <% if(resume.Course == '2/3년제') { %>
+                            <input type="radio" name="Course" value="2/3년제" checked>2/3년제
+                            <input type="radio" name="Course" value="4년제" class="ml-4">4년제
                         <% } else { %>
-                          <li class="mb-3">
-                            <input type="text" name="curFile" value="<%= imageUrls[i] %>" style="width:47%" readonly>
-                            <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
-                            <a class="btn btn-primary text-white">-</a>
-                          </li>
+                            <input type="radio" name="Course" value="2/3년제">2/3년제
+                            <input type="radio" name="Course" value="4년제" class="ml-4" checked>4년제
                         <% } %>
-                    <% } %>
-                  <% } else { %>
+                     <% } else { %>
+                         <input type="radio" name="Course" value="2/3년제">2/3년제
+                         <input type="radio" name="Course" value="4년제" class="ml-4" checked>4년제
+                     <% } %>
+                   </label>
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                         <label for="Colleage">학부</label>
+                         <select class="form-control" name="Colleage">
+                           <% if(resume) { %>
+                             <option value="<%= resume.Colleage %>"><%= resume.Colleage %></option>
+                           <% } %>
+                              <option value="">선택</option>
+                           <% for (var key in major) { %>
+                              <option value="<%= key %>"><%= key %></option>
+                           <% } %>
+                         </select>
+                        </div>
+                        <div class="col-md-6">
+                           <label for="Major">학과</label>
+                           <select class="form-control" name="Major">
+                             <% if(resume) { %>
+                               <option value="<%= resume.Major %>"><%= resume.Major %></option>
+                             <% } %>
+                             <option value="">선택</option>
+                           </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="License">보유 자격증</label>
+                  <ul class="license">
+                    <% if (resume && resume.License[0]) { %>
+                      <% var licenses = resume.License.split('%&'); %>
+                      <% for (var i = 0; i < licenses.length; i++) { %>
                         <li class="mb-3">
-                            <input type='file' name='File' class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">
-                            <a class="btn btn-primary text-white">+</a>
+                          <input type="text" name="License" style="width: 90%;" value="<%= licenses[i] %>" />
+                          <a class="btn btn-primary text-white">-</a>
                         </li>
-                  <% } %>
-                </ul>
-              </div>
-              <div align="center" class="text-white">
-                  <input type="submit" class="btn btn-primary mr-3" value="완료">
-                  <a class="btn btn-danger" onclick="history.go(-1);">취소</a>
-              </div>
-           </form>
+                      <% } %>
+                    <% } %>
+                      <li class="mb-3">
+                        <input type="text" name="License" style="width: 90%;" maxlength="30" placeholder="ex) 정보처리기능사 자격증 보유" />
+                        <a class="btn btn-primary text-white">+</a>
+                      </li>
+                  </ul>
+                </div>
+                <div class="form-group">
+                   <label for="Content">자기소개:</label>
+                   <% if (resume) { %>
+                     <textarea name="Content" class="form-control" rows="4" style="width:100%"><%= resume.Content %></textarea>
+                   <% } else { %>
+                     <textarea name="Content" class="form-control" rows="4" style="width:100%" placeholder="자기소개를 입력하세요."></textarea>
+                   <% } %>
+                </div>
+                <div class="form-group">
+                  <label for="File">사진첨부</label><br>
+                  <ul class="file">
+                    <% if (resume && resume.imageUrl[0]) { %>
+                      <% var imageUrls = resume.imageUrl.split('%&'); %>
+                      <% for (var i = 0; i < imageUrls.length; i++) { %>
+                          <% if (i == imageUrls.length - 1) { %>
+                            <li class="mb-3">
+                              <input type="text" name="curFile" value="<%= imageUrls[i] %>" style="width:47%" readonly>
+                              <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
+                              <a class="btn btn-primary text-white">+</a>
+                            </li>
+                          <% } else { %>
+                            <li class="mb-3">
+                              <input type="text" name="curFile" value="<%= imageUrls[i] %>" style="width:47%" readonly>
+                              <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
+                              <a class="btn btn-primary text-white">-</a>
+                            </li>
+                          <% } %>
+                      <% } %>
+                    <% } else { %>
+                          <li class="mb-3">
+                              <input type='file' name='File' class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">
+                              <a class="btn btn-primary text-white">+</a>
+                          </li>
+                    <% } %>
+                  </ul>
+                </div>
+                <div align="center" class="text-white">
+                    <input type="submit" class="btn btn-primary mr-3" value="완료">
+                    <a class="btn btn-danger" onclick="history.go(-1);">취소</a>
+                </div>
+             </form>
+          </div>
         </div>
       </div>
-    </div>
-    <script>
-       var colleage = $("select[name=Colleage]");
-       var major = $("select[name=Major]");
-       $("input[type=submit]").on('click', function(e) {
-           if (colleage.val() == '' || major.val() == '') {
-              e.preventDefault();
-              alert('학부와 학과를 입력해 주십시오!');
-           }
-       });
-       colleage.change(function() {
-           var col = colleage.val();
-           major.html('<option></option>');
-           <% for (var key in major) { %>
-             <% for (var i = 0; i < major[key].length; i++) { %>
-                 if (col == "<%= key %>")
-                      major.append("<option value='<%= major[key][i] %>'><%= major[key][i] %></option>");
-             <% } %>
-           <% } %>
-       });
-       var mHtml = '<li class="mb-3"><input type="text" name="License" style="width: 90%;" maxlength="30" />'
-                            + ' <a class="btn btn-primary text-white">+</a></li>';
-       $('.license').on('click', 'li a', function(e) {  // 클릭 리스너 등록
-           e.preventDefault();
-           if ($(this).text() == '+') {  // +버튼이고 input에 값이 있으면
-               if ($(this).prev().val() != '') {
-                   $(this).text('-');  // 버튼 텍스트를 -로 변경
-                   $(this).prev().attr('readonly', true);
-                   $('.license').append(mHtml);
-               } else {
-                   alert('내용이 없습니다!');
-               }
-           } else if ($(this).text() == '-'){
-               $(this).parent().prev().eq(1).attr('readonly', false);  // 이전 li의 input을 수정가능으로 변경
-               $(this).parent().prev().eq(2).text('+');  // 이전 li의 버튼 텍스트를 +로 변경
-               $(this).parent().remove();  // 버튼이 속해있는 li 제거
-           }
-       });
-       var count = <%= (imageUrls) ? imageUrls.length : 1 %>;
-       var fHtml = '<li class="mb-3"><input type="file" name="File" class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">'
-                  + ' <a class="btn btn-primary text-white">+</a></li>';
-       $('.file').on('click', 'a', function(e) {
-            if ($(this).text() == '+' && count < 3) {
-                if ($(this).siblings().val() != '') {
-                    count++;
-                    $(this).text('-');  // 버튼 텍스트를 -로 변경
-                    $(this).prev().attr('readonly', true);
-                    $('.file').append(fHtml);
-                } else {
-                    alert('내용이 없습니다!');
-                }
-            } else if ($(this).text() == '-' && count > 1) {
-                count--;
-                $(this).parent().prev().children("input").last().attr('readonly', false);  // 이전  input을 수정가능으로 변경
-                if ($(this).parent().next().children("a").text() != '+')  // 다음 버튼이 '+'이 아니면
-                    $(this).parent().prev().children("a").text('+');  // 이전 버튼 텍스트를 +로 변경
-                $(this).parent().remove();
-            }
-       });
-    </script>
   </body>
 </html>

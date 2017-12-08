@@ -1,3 +1,26 @@
+<script>
+    $(document).ready(function() {
+        var idx = 0;
+        $("a[data-target]").on('click', function() {
+            $(this).siblings().remove();
+            $.post('/user/mypage?_method=PUT', {nid: $(this).attr('id')});
+            <% for (i = 0; i < noti.length; i++) { %>
+                if ($(this).attr('id') == <%= noti[i]._NID %>) {
+                    $('.modal-body form p').eq(0).text("<%= noti[i].Title %>");
+                    $('.modal-body form p').eq(1).text("<%= dates[i] %>");
+                    $('.modal-body form textarea').eq(0).text("<%= noti[i].Content %>");
+                    idx = $(this).attr('id');
+                }
+            <% } %>
+        });
+
+        $("#btn_delete").on('click', function () {
+            if (confirm ("정말로 삭제하시겠습니까?")) {
+                $.post('/user/mypage?_method=DELETE', {nid: String(idx)});
+            }
+        });
+    });
+</script>
 <div class="modal fade" id="notice" role="dialog">
     <div class="modal-dialog modal-lg mx-auto" style="width:50vh">
         <div class="modal-content">
@@ -32,26 +55,3 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        var idx = 0;
-        $("a[data-target]").on('click', function() {
-            $(this).siblings().remove();
-            $.post('/mypage?_method=PUT', {nid: $(this).attr('id')});
-            <% for (i = 0; i < noti.length; i++) { %>
-                if ($(this).attr('id') == <%= noti[i]._NID %>) {
-                    $('.modal-body form p').eq(0).text("<%= noti[i].Title %>");
-                    $('.modal-body form p').eq(1).text("<%= dates[i] %>");
-                    $('.modal-body form textarea').eq(0).text("<%= noti[i].Content %>");
-                    idx = $(this).attr('id');
-                }
-            <% } %>
-        });
-
-        $("#btn_delete").on('click', function () {
-            if (confirm ("정말로 삭제하시겠습니까?")) {
-                $.post('/mypage?_method=DELETE', {nid: String(idx)});
-            }
-        });
-    });
-</script>

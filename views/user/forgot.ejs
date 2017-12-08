@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <% include ../nav/header.ejs %>
+      <% include ../config/header.ejs %>
+      <script>
+          $(document).ready(function() {
+              $("#getEmail").on('click', function(e) {
+                  input = [ $("input[name=IName]").val(), $("input[name=IBirth]").val(), $("input[name=ITel]").val() ];
+                  if (input[0] == '' || input[1] == '' || input[2] == '') {
+                      alert('입력하지 않은 정보가 있습니다!');
+                      e.preventDefault();
+                  }
+              });
+
+              $("#getPassword").on('click', function(e) {
+                  input = [ $("input[name=PName]").val(), $("input[name=PEmail]").val(), $("input[name=PTel]").val() ];
+                  if(input[0] == '' || input[1] == '' || input[2] == '') {
+                      alert('입력하지 않은 정보가 있습니다!');
+                      e.preventDefault();
+                  }
+              });
+          });
+
+      </script>
   </head>
   <body class="fixed-nav" id="page-top">
-      <% include ../nav/nav.ejs%>
+      <% include ../config/nav.ejs%>
       <div class="container-fluid bg-header fit">
           <div class="row">
               <div class="card card-login mx-auto mt-3">
@@ -14,7 +34,7 @@
                        <h4>이메일을 잊어버리셨나요?</h4>
                        <p>회원님의 정보를 입력해서 이메일을 찾을 수 있습니다!</p>
                     </div>
-                    <form id="id" method="post" action="forgot/id">
+                    <form id="id" method="post" action="/user/forgot/id">
                        <div class="form-group">
                           <span class="nav-link-text">이름</span>
                           <input class="form-control" name="IName" type="text" placeholder="이름을 입력해주세요."><br>
@@ -34,7 +54,7 @@
                         <h4>비밀번호를 잊어버리셨나요?</h4>
                         <p>가입하신 이메일로 임시 비밀번호를 보내드립니다!</p>
                      </div>
-                     <form id="pwd" method="post" action="forgot/pwd">
+                     <form id="pwd" method="post" action="/user/forgot/pwd">
                         <div class="form-group">
                           <span class="nav-link-text">이름</span>
                           <input class="form-control" name="PName" type="text" placeholder="이름을 입력해주세요."><br>
@@ -49,23 +69,5 @@
               </div>
           </div>
       </div>
-
-      <script>
-          $("#getEmail").on('click', function(e) {
-              var input = [ $("input[name=IName]").val(), $("input[name=IBirth]").val(), $("input[name=ITel]").val() ];
-              if (input[0] == '' || input[1] == '' || input[2] == '') {
-                  alert('입력하지 않은 정보가 있습니다!');
-                  e.preventDefault();
-              }
-          });
-
-          $("#getPassword").on('click', function(e) {
-              var input = [ $("#input[name=PName]").val(), $("#input[name=PEmail]").val(), $("#input[name=PTel]").val() ];
-              if(input[0] == '' || input[1] == '' || input[2] == '') {
-                  alert('입력하지 않은 정보가 있습니다!');
-                  e.preventDefault();
-              }
-          });
-      </script>
   </body>
 </html>

@@ -41,19 +41,6 @@ exports.transporter = nodemailer.createTransport(smtpTransport({
         }
 }));
 
-// multer 파일 업로드
-// exports.upload = multer({
-//     storage:  multer.diskStorage({
-//         destination: function (req, file, callback) {
-//           callback(null, 'public/uploads/');
-//         },
-//         filename: function (req, file, callback) {
-//            var ext = path.extname(file.originalname);
-//            var filename = path.basename(file.originalname, ext);
-//            callback(null, new Date().valueOf() + filename + ext);
-//        }
-//    })
-// });
 exports.upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
