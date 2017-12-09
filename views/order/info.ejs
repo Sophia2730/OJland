@@ -40,7 +40,7 @@
                 if( (refer.indexOf("/put") != -1) || (refer.indexOf("/post") != -1) || (refer.indexOf("/info") != -1)) {
                     location.href = '/order/list/all';  // 이전 페이지가 put or post or info이면 list로 이동
                 } else {
-                    location.href = refer;
+                    history.go(-1);
                 }
             });
 
@@ -64,7 +64,7 @@
                 }
             });
             // 수주 요청 버튼 클릭 시
-            $("#req").on('click', function(e) {
+            $(".btns").on('click', '#req', function() {
                 $.get('/match/request/resume', function(resume) {
                    if (!resume) { // 이력서가 없으면
                        alert('이력서가 없습니다!');
@@ -81,13 +81,13 @@
                 });
             });
             // 취소 버튼 클릭 시
-            $(".btns").on('click', '#cancel', function(e) {
+            $(".btns").on('click', '#cancel', function() {
                if (confirm('정말로 취소하시겠습니까?')) {
                    $.post("/match/request/<%= data._OID %>?_method=DELETE");
-                   $(this).parent().prepend('<a class="btn btn-success mr-3" data-toggle="modal" data-target="#myModal">수주요청</a>');
+                   $(this).parent().prepend('<a id="req" class="btn btn-success mr-3">수주요청</a>');
                    $(this).remove();
                    $.get('/order/info/num/<%= data._OID %>', function(reqNum) {
-                       $("#reqNum").text(reqNum + "/" + <%= data.MaxNum %>);
+                       $("#reqNum").text((reqNum.cnt) + "/" + <%= data.MaxNum %>);
                    });
                }
             });

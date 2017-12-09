@@ -37,9 +37,9 @@ router.get('/', function(req, res, next) {
 });
 
 // 해당 발주의 상태를 리턴
-router.get('/check/:id', function(req, res, next) {
+router.get('/check/:oid', function(req, res, next) {
     pool.getConnection(function(err, connection) {
-        connection.query("SELECT Status FROM orders WHERE _OID=?", req.params.id, function (err, rows) {
+        connection.query("SELECT Status FROM orders WHERE _OID=?", req.params.oid, function (err, rows) {
             if(err) console.log("err: ", err);
             res.send(rows[0].Status);
             connection.release();
@@ -48,9 +48,9 @@ router.get('/check/:id', function(req, res, next) {
 });
 
 // 해당 지원의 상태를 리턴
-router.get('/status/:id', function(req, res, next) {
+router.get('/status/:oid', function(req, res, next) {
     pool.getConnection(function(err, connection) {
-        connection.query("SELECT Status FROM application WHERE _OID=? AND _UID=?", [req.params.id, req.session._UID], function (err, rows) {
+        connection.query("SELECT Status FROM application WHERE _OID=? AND _UID=?", [req.params.oid, req.session._UID], function (err, rows) {
             if(err) console.log("err: ", err);
             res.send(rows[0].Status);
             connection.release();

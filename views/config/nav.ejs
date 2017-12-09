@@ -1,3 +1,14 @@
+<script>
+    $(document).ready(function() {
+        $("#exampleAccordion li").on('click', function(e) {
+            <% if (!session.Name ) { %>
+                e.preventDefault();
+                alert('로그인이 필요합니다!');
+                window.location.replace('/user/login');
+            <% } %>
+        });
+    });
+</script>
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="/user/main"><img src="imgs/logo.png"></a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,12 +152,3 @@
     <script src="js/sb-admin-datatables.min.js"></script>
     <script src="js/sb-admin-charts.min.js"></script>
 </nav>
-<script type="text/javascript">
-    $("#exampleAccordion li").on('click', function(e) {
-        <% if (!session.Name ) { %>
-            e.preventDefault();
-            alert('로그인이 필요합니다!');
-            window.location.replace('/user/login');
-        <% } %>
-    });
-</script>

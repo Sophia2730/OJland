@@ -36,15 +36,15 @@ router.post('/', function(req, res, next) {
             if (body.Email == results[0].id && body.Password == decrypt(results[0].password)) {
                 req.session.Name = '관리자';
                 req.session.UserType = 'AD';
-                res.sendStatus(200);
+                res.send(true);
                 return;
             }
             // 로그인
             req.session.Name = results[1].Name;
             req.session._UID = results[1]._UID;
             req.session.UserType = results[1].UserType;
-            res.sendStatus(200);
             connection.release();
+            res.send(true);
         });
     });
 });

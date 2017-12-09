@@ -1,11 +1,14 @@
 var express = require('express');
-var post = require('./post');
-var list = require('./list');
-var info = require('./info');
 var router = express.Router();
 
-router.use('/post', post);
-router.use('/list', list);
-router.use('/info', info);
+router.get('*', function(req, res, next) {
+    if(!req.session.Name)
+        res.redirect('/');  // 메인화면으로 이동
+    else
+        next();
+});
+router.use('/post', require('./post'));
+router.use('/list', require('./list'));
+router.use('/info', require('./info'));
 
 module.exports = router;

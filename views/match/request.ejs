@@ -1,11 +1,11 @@
 <script>
     $(document).ready(function() {
-        $("#myModal #req").on('click', function(e) {
+        $("#myModal #req2").on('click', function() {
             $("#myModal").modal('hide');
-            $("req").remove();
+            $("#req").remove();
             $(".btns").prepend('<a id="cancel" class="btn btn-danger mr-3">요청취소</a>');
             $.get('/order/info/num/<%= data._OID %>', function(reqNum) {
-                $("#reqNum").text(reqNum + "/" + <%= data.MaxNum %>);
+                $("#reqNum").text((reqNum.cnt + 1) + "/" + <%= data.MaxNum %>);
             });
         });
     });
@@ -44,7 +44,7 @@
                    </div>
               </div>
               <div class="modal-footer text-white">
-                  <input id="req" type="submit" class="btn btn-success ml-auto mr-3" value="요청">
+                  <input id="req2" type="submit" class="btn btn-success ml-auto mr-3" value="요청">
                   <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">취소</button>
               </div>
           </form>

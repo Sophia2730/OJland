@@ -1,6 +1,22 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
-<script>
-    location.href = '/'
-</script>
+<% include config/header.ejs %>
+<body class="bg-header">
+    <div class="bg-dark" style="margin:10vh">
+        <div class="row p-3">
+            <div class="mx-auto">
+                <h3 class="text-white">오류가 발생했습니다.</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 mx-auto text-white">
+              <h1><%= message %></h1>
+              <h2><%= error.status %></h2>
+              <textarea class="form-control" rows="5" style="width:100%">
+                  <%= error.stack %>
+              </textarea>
+            </div>
+        </div>
+        <div class="row p-5">
+            <a class="btn btn-info btn-lg mx-auto" href="/">메인으로</a>
+        </div>
+    </div>
+</body>

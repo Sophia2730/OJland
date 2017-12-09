@@ -18,7 +18,7 @@
               <% if (session.UserType == 'EE') {
                   for (var i = 0; i < data.length; i++) { %>
                     $.get('/user/orders/status/<%= data[i]._OID %>', function(data) {
-                        var status;
+                        console.log(data);
                         if (data == 'A')
                             status = '매칭대기';
                         else if (data =='B')
@@ -28,7 +28,7 @@
                         else if (data =='F')
                             status = '매칭실패';
 
-                        $("a[id=<%= data[i]._UID %>]").parent().next().text(status);
+                        $("a[id=<%= data[i]._UID %>]").eq(<%= data.length - i - 1 %>).parent().next().text(status);
                     });
               <% }} %>
               <% if (session.UserType == 'ER') {
