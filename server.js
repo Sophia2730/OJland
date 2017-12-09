@@ -1,19 +1,11 @@
 var express = require('express');
 var session = require('express-session');
-var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var path = require('path');
 var methodOverride = require('method-override');
-
-// Routers import
-var index = require('./routes/index');
-var user = require('./routes/user/index');
-var admin = require('./routes/admin/index');
-var order = require('./routes/order/index');
-var progress = require('./routes/progress/index');
-var match = require('./routes/match/index');
 
 var app = express();
 // view engine setup
@@ -36,12 +28,12 @@ app.use('/:a', express.static(path.join(__dirname, 'public')));
 app.use('/:a/:b', express.static(path.join(__dirname, 'public')));
 app.use('/:a/:b/:c', express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/user', user);
-app.use('/admin', admin);
-app.use('/order', order);
-app.use('/progress', progress);
-app.use('/match', match);
+app.use('/', require('./routes/index'));
+app.use('/user', require('./routes/user/index'));
+app.use('/admin', require('./routes/admin/index'));
+app.use('/order', require('./routes/order/index'));
+app.use('/progress', require('./routes/progress/index'));
+app.use('/match', require('./routes/match/index'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -12,7 +12,6 @@ router.get('/:uri', function(req, res, next) {
         next();
 });
 router.use('/login', require('./login'));
-router.use('/main', require('./main'));
 router.use('/register', require('./register'));
 router.use('/forgot', require('./forgot'));
 router.use('/confirm', require('./confirm'));

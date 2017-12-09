@@ -7,7 +7,7 @@
               var Email = $('input[name=Email]');
               var Pwd = $('input[name=Password]');
               Email.focus();
-              
+
               $("#login").on('click', function(e) {
                   e.preventDefault();
                   if (Email.val() == '') {
@@ -28,7 +28,7 @@
                             alert('인증메일을 확인해주세요!');
                         } else {
                               $.post("/user/login", {Email: Email.val(), Password: Pwd.val()}, function(data) {
-                                  location.href = '/user/main';
+                                  location.href = '/';
                               });
                         }
                     });

@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-md-8 mx-auto" style="margin-top:30vh">
           <h1><strong>당신의 재능을 빛내기 위한 무대<br>지금! 바로! 도전하세요!</strong></h1>
-          <a class="btn btn-primary" href="/order/list/all">시작하기</a>
+          <a class="btn btn-primary" href="<%= (session.Name) ? '/order/list/all' : '/user/login' %>">시작하기</a>
         </div>
       </div>
     </div>

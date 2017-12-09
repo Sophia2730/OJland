@@ -27,10 +27,9 @@
                         if(curPwd.val() != data) {
                             alert('현재 비밀번호를 확인해주세요!');
                         } else {
-                            $.post("/user/changepwd?_method=PUT", {curPwd: curPwd.val(), pwd1: pwd1.val()},function() {
-                                alert('비밀번호가 변경되었습니다!');
-                                location.href = '/user/mypage';
-                            });
+                            $.post("/user/changepwd?_method=PUT", {pwd: pwd1.val()});
+                            alert('비밀번호가 변경되었습니다!');
+                            location.href = '/user/mypage';
                         }
                     });
                 }

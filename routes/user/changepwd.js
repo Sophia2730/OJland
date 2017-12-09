@@ -26,7 +26,7 @@ router.put('/', function (req, res, next) {
     var body = req.body;
     pool.getConnection(function(err, connection) {
         var queryUpdate = "UPDATE user SET Password=? WHERE _UID=?";
-        connection.query(queryUpdate, [encrypt(body.pwd1), req.session._UID], function (err) {
+        connection.query(queryUpdate, [encrypt(body.pwd), req.session._UID], function (err) {
             if(err) console.log(err);
             connection.release();
         });
