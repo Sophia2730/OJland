@@ -3,6 +3,7 @@ var router = express.Router();
 var pool = require('../../config.js').pool;
 var async = require('async');
 
+// 수주자 정보 조회
 router.get('/:id', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.series([
@@ -42,6 +43,7 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
+// 외주 완료 처리
 router.post('/', function(req, res, next) {
     var body = req.body;
     pool.getConnection(function(err, connection) {
