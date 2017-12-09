@@ -40,7 +40,7 @@
                 if( (refer.indexOf("/put") != -1) || (refer.indexOf("/post") != -1) || (refer.indexOf("/info") != -1)) {
                     location.href = '/order/list/all';  // 이전 페이지가 put or post or info이면 list로 이동
                 } else {
-                    history.go(-1);
+                    location.href = refer;
                 }
             });
 
@@ -120,15 +120,13 @@
       </nav>
       <div class="container-fluid">
           <div class="row mt-5 ml-5">
-              <h4>발주정보 상세보기</h4><small class="mx-3 mt-2">등록일: <%= date %></small>
-              <%if(data.Status == 'A'){ %><h5 id="stat">[모집 중]</h5><% } %>
-              <%if(data.Status != 'A'){ %><h5>[마감]</h5><% } %>
+              <small class=" mt-2">등록일: <%= date %></small>
           </div>
           <hr>
-          <div class="row my-4">
-              <h3 class="mx-auto my-auto">
-                <%= data.Title %>
-              </h3>
+          <div class="row mx-auto">
+              <%if(data.Status == 'A'){ %><h4 id="stat" class="mx-auto">[모집 중] <% } %>
+              <%if(data.Status != 'A'){ %><h4 class="mx-auto">[마감]<% } %>
+              <%= data.Title %></h4>
           </div>
           <hr style="border: 0.5px solid #bbb">
           <div class="row my-4">
@@ -157,7 +155,7 @@
                   </div>
               </div>
               <div class="col-md-4" style="border-left:1px solid #bbb">
-                  <h4>발주자 정보</h5>
+                  <h4>발주자 정보</h4>
                   <p class="pa">발주자:</p> <p class="pb"><%= user.Name %></p><br>
                   <p class="pa">전화:</p> <p class="pb"><%= user.Tel %></p><br>
                   <p class="pa">이메일:</p> <p class="pb"><%= user.Email %></p>
@@ -186,7 +184,7 @@
                   <h4>내용</h4>
               </div>
               <div class="col-md-8 mr-auto" style="border-left:1px solid #bbb">
-                  <textarea class="form-control" style="width:100%;height:100%;" readonly><%= data.Content %></textarea>
+                  <textarea class="form-control" style="width:100%;height:100%;" rows="7"readonly><%= data.Content %></textarea>
               </div>
           </div>
           <hr>
@@ -194,11 +192,11 @@
               <div class="btns text-white my-5 mx-auto">
                  <% if (data._UID == session._UID && session.UserType == 'ER') { %>
                      <% if (data.Status == 'A') { %>
-                           <a id="close" class="btn btn-success mr-3">마감</a>
-                           <a id="update" class="btn btn-primary mr-3" href="/order/put/<%= data._OID %>">수정</a>
-                           <a id="delete" class="btn btn-danger mr-3">삭제</a>
+                           <a id="close" class="btn btn-success mr-3">마감하기</a>
+                           <a id="update" class="btn btn-primary mr-3" href="/order/put/<%= data._OID %>">수정하기</a>
+                           <a id="delete" class="btn btn-danger mr-3">삭제하기</a>
                      <% } else if (data.Status == 'B') { %>
-                        <a id="match" class="btn btn-primary mr-3" data-toggle="modal" data-target="#myMatch">매칭</a>
+                        <a id="match" class="btn btn-primary mr-3" data-toggle="modal" data-target="#myMatch">매칭하기</a>
                      <% } %>
                  <% } else if (session.UserType == 'EE') { %>
                      <% if (data.Status == 'A') { %>
@@ -215,7 +213,7 @@
                         </span>
                      <% } %>
                  <% } %>
-                 <a id="back" class="btn btn-info">목록</a>
+                 <a id="back" class="btn btn-info">목 록</a>
               </div>
           </div>
      </div>

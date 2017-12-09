@@ -67,7 +67,6 @@ router.put('/', function(req, res, next) {
                 }
             },
             function(aids, isEnd, callback) {
-                console.log('a');
                 if(isEnd) {
                     var len = aids.length;
                     for (var i = 0; i < aids.length; i++) {
@@ -96,8 +95,8 @@ router.delete('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.waterfall([
             function(callback) {
-                sendFail(body.id);
-                connection.query("UPDATE application SET Status='F' WHERE _AID=?", body.id, function(err) {
+                sendFail(body.aid);
+                connection.query("UPDATE application SET Status='F' WHERE _AID=?", body.aid, function(err) {
                     if(err) callback(err);
                     callback(null);
                 });
@@ -118,7 +117,7 @@ router.delete('/', function(req, res, next) {
                     connection.query("UPDATE orders SET Status='C' WHERE _OID=?", body.oid, function(err) {
                         if(err) callback(err);
                         queryStr = "SELECT _AID FROM application WHERE _OID=? AND Status='A'";
-                        connection.query(queryStr, [body.id, body.oid], function(err, rows) {
+                        connection.query(queryStr, [body.aid, body.oid], function(err, rows) {
                             if(err) callback(err);
                             for (var i = 0; i < rows.length; i++) {
                                 sendFail(rows[i]._AID);

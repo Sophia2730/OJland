@@ -58,10 +58,21 @@ router.get('/status/:oid', function(req, res, next) {
     });
 });
 
-// 수주 요청자의 수를 리턴
+// 지원자의 수를 리턴
 router.get('/num/:oid', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         connection.query("SELECT count(*) AS cnt FROM application WHERE _OID=? AND Status<>'F'", req.params.oid, function (err, rows) {
+            if(err) console.log("err: ", err);
+            res.send({cnt: rows[0].cnt});
+            connection.release();
+        });
+    });
+});
+
+// 매칭이 안된 지원자의 수를 리턴
+router.get('/remain/:oid', function(req, res, next) {
+    pool.getConnection(function(err, connection) {
+        connection.query("SELECT count(*) AS cnt FROM application WHERE _OID=? AND Status='A'", req.params.oid, function (err, rows) {
             if(err) console.log("err: ", err);
             res.send({cnt: rows[0].cnt});
             connection.release();

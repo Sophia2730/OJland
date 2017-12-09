@@ -17,6 +17,8 @@
         $("#btn_delete").on('click', function () {
             if (confirm ("정말로 삭제하시겠습니까?")) {
                 $.post('/user/mypage?_method=DELETE', {nid: String(idx)});
+                $("#" + idx).parent().parent().remove();
+                $("#notice").modal('hide');
             }
         });
     });
@@ -49,8 +51,8 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <a id="btn_delete" class="btn btn-danger" href="">삭제하기</a>
+            <div class="modal-footer text-white">
+                <a id="btn_delete" class="btn btn-danger">삭제하기</a>
             </div>
         </div>
     </div>

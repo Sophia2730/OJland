@@ -75,7 +75,6 @@ router.delete('/', function(req, res, next) {
         var queryStr = "DELETE FROM notice WHERE _NID='" + req.body.nid + "';";
         connection.query(queryStr, function(err, users) {
             if (err) console.log('error: ', err);
-            res.redirect('/user/mypage');
             connection.release();
         });
     });

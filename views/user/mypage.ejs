@@ -54,7 +54,7 @@
               </div>
               <hr class="mt-1 bg-dark">
               <div align="center" class="my-auto">
-                    <a class="btn btn-primary mr-3" href="/user/changeinfo">개인정보 수정</a>
+                    <a class="btn btn-success mr-3" href="/user/changeinfo">개인정보 수정</a>
                     <a class="btn btn-primary" href="/user/changepwd">비밀번호 변경</a>
               </div>
           </div>
@@ -92,7 +92,7 @@
                 </div>
                 <hr class="my-1 bg-dark">
                 <div align="center" class="my-3">
-                    <a class="btn btn-primary" href="/user/orders">수주내역 확인</a>
+                    <a class="btn btn-info" href="/user/orders">수주내역 확인</a>
                 </div>
               <% } else if (user.UserType == 'ER'){ %>
                 <% var A = 0, B = 0, C = 0, D = 0;
@@ -127,7 +127,7 @@
                  </div>
                  <hr class="my-1 bg-dark">
                  <div align="center" class="my-3">
-                     <a class="btn btn-primary" href="/user/orders">발주내역 확인</a>
+                     <a class="btn btn-info" href="/user/orders">발주내역 확인</a>
                  </div>
               <% } %>
           </div>
@@ -179,7 +179,7 @@
                         <% var license = resume.License.split('%&');
                             for (var i = 0; i < license.length; i++) { %>
                               <% if (license[i]) { %>
-                              <button class="btn btn-primary btn-sm m-1"><%= license[i] %></button>
+                              <button class="btn btn-warning btn-sm text-blue"><%= license[i] %></button>
                               <% } %>
                         <% } %>
                     </div>
@@ -188,7 +188,7 @@
                 <div class="row ml-1 my-3">
                     <div class="col-md-2 my-auto"><b>자기소개</b></div>
                     <div class="col-md-10">
-                        <textarea rows="4" class="form-control" style="background:white;border:none;width:100%" disabled><%= resume.Content %></textarea>
+                        <textarea rows="5" class="form-control" style="background:white;border:none;width:100%" disabled><%= resume.Content %></textarea>
                     </div>
                 </div>
                 <hr>

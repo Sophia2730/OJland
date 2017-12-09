@@ -29,8 +29,7 @@
             for (var i = 0; i < forms.length; i++) {
                 forms[i].html('');
             }
-
-            $.get('/user/orders/num/<%= data._OID %>', function(data) {
+            $.get('/user/orders/remain/<%= data._OID %>', function(data) {
                 reqNum = data.cnt;  // 남은 지원인원
             });
 
@@ -104,9 +103,9 @@
 
         $("#choice a:last-child").on('click', function() {
             if(confirm('정말로 거절하시겠습니까?')) {
-                $.post('/match/match?_method=DELETE', {id: $(this).attr('id'), oid: <%= data._OID %>, reqNum: reqNum-1});
+                $.post('/match/match?_method=DELETE', {aid: $(this).attr('id'), oid: <%= data._OID %>, reqNum: reqNum-1});
                 if (reqNum > 1) {
-                    $("#reqNum").text(--req + "/" + <%= data.MaxNum %>);
+                    $("#reqNum").text(--reqNum + "/" + <%= data.MaxNum %>);
                     doMatch();
                 } else {
                     alert('더 이상 지원자가 없습니다!');

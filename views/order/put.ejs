@@ -21,7 +21,7 @@
               var count = <%= preference.length %>;
               var liHtml = '<li style="margin-bottom:5px;">'
                         + '<input type="text" name="Preference" style="width: 70%;" maxlength="30" placeholder="ex) 정보처리기능사 자격증 보유" />'
-                        + ' <a class="btn btn-primary btn-sm">+</a></li>'
+                        + ' <a class="btn btn-info btn-sm">+</a></li>'
               <% for (var i = 0; i < preference.length; i++) { if (preference[0]) { %>
                   $(".prefer").append(liHtml);
                   $(".prefer li input").eq(<%= i %>).val("<%= preference[i] %>");
@@ -47,11 +47,21 @@
 
               var Category = $("select[name=Category]");
               var Title = $("input[name=Title]");
+              var Content = $("textarea[name=Content]");
               $("input[type=submit]").on('click', function(e) {
-                  if (Category.val() == '' || Title.val() == '') {
-                      e.preventDefault();
-                      alert('입력하지 않은 양식이 있습니다!');
-                  }
+                if (Title.val() == '') {
+                    e.preventDefault();
+                    alert('제목을 입력해주세요!');
+                    Title.focus();
+                } else if (Category.val() == '') {
+                    e.preventDefault();
+                    alert('카테고리를 선택해주세요!');
+                    Category.focus();
+                } else if (Content.val() == '') {
+                    e.preventDefault();
+                    alert('내용을 입력해주세요!');
+                    Content.focus();
+                }
               });
           });
       </script>
@@ -131,7 +141,7 @@
                       <% if (!preference[0]) { %>
                         <li style="margin-bottom:5px;">
                           <input type="text" name="Preference" style="width: 70%;" maxlength="30" placeholder="ex) 정보처리기능사 자격증 보유" />
-                          <a class="btn btn-primary btn-sm">+</a>
+                          <a class="btn btn-info btn-sm">+</a>
                         </li>
                       <% } %>
                     </ul>
@@ -146,8 +156,8 @@
               </div>
               <hr>
               <div class="my-5 text-white" align="center">
-                 <input type="submit" class="btn btn-success mr-3" value="수정"></input>
-                 <a class="btn btn-danger" onclick="history.go(-1);">취소</a>
+                 <input type="submit" class="btn btn-success mr-3" value="수정하기"></input>
+                 <a class="btn btn-danger" onclick="history.go(-1);">취소하기</a>
               </div>
           </form>
       </div>

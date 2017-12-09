@@ -20,7 +20,7 @@
               var count = 1;
               var liHtml = '<li style="margin-bottom:5px;">'
                         + '<input type="text" name="Preference" style="width: 70%;" maxlength="30" placeholder="ex) 정보처리기능사 자격증 보유" />'
-                        + ' <a class="btn btn-primary btn-sm">+</a></li>'
+                        + ' <a class="btn btn-info btn-sm">+</a></li>'
 
               $(".prefer").on('click', 'li a', function() {
                   if ($(this).text() == '+' && $(this).prev().val() != '' && count < 3) {
@@ -39,10 +39,20 @@
 
               var Category = $("select[name=Category]");
               var Title = $("input[name=Title]");
+              var Content = $("textarea[name=Content]");
               $("input[type=submit]").on('click', function(e) {
-                  if (Category.val() == '' || Title.val() == '') {
+                  if (Title.val() == '') {
                       e.preventDefault();
-                      alert('입력하지 않은 정보가 있습니다!');
+                      alert('제목을 입력해주세요!');
+                      Title.focus();
+                  } else if (Category.val() == '') {
+                      e.preventDefault();
+                      alert('카테고리를 선택해주세요!');
+                      Category.focus();
+                  } else if (Content.val() == '') {
+                      e.preventDefault();
+                      alert('내용을 입력해주세요!');
+                      Content.focus();
                   }
               });
           });
@@ -66,9 +76,9 @@
               </div>
               <hr>
               <div class="row ml-2 my-3">
-                  <div class="col-md-2 my-auto rb"><h4>분류</h4></div>
+                  <div class="col-md-2 my-auto rb"><h4><span class="check">*</span>분류</h4></div>
                   <div class="col-md-4">
-                      <b><span class="check">*</span>카테고리</b>
+                      <b>카테고리</b>
                       <select name="Category">
                           <option value="">선택</option>
                           <option value="기획">기획</option>
@@ -81,7 +91,7 @@
                       </select>
                   </div>
                   <div class="col-md-4">
-                      <b><span class="check">*</span>학부제한</b>
+                      <b>학부제한</b>
                       <select name="Colleage">
                           <option value="무관">무관</option>
                         <% for (var key in major) { %>
@@ -92,9 +102,9 @@
               </div>
               <hr>
               <div class="row ml-2 my-3">
-                  <div class="col-md-2 my-auto rb"><h4>외주조건</h4></div>
+                  <div class="col-md-2 my-auto rb"><h4><span class="check">*</span>외주조건</h4></div>
                   <div class="col-md-3">
-                      <b><span class="check">*</span>기간</b>
+                      <b>기간</b>
                       <select name="Period">
                           <option value="1주 이내">1주 이내</option>
                           <option value="1달 이내">1달 이내</option>
@@ -104,11 +114,11 @@
                       </select>
                   </div>
                   <div class="col-md-3">
-                      <b><span class="check">*</span>모집인원</b>
+                      <b>모집인원</b>
                       <input type="number" name="MaxNum" value="1" min="1" max="5" style="width:20%" />명
                   </div>
                   <div class="col-md-3">
-                      <b><span class="check">*</span>급여</b>
+                      <b>급여</b>
                       <input type="number" name="Cost" value="10000" min="10000" step="10000" style="width:40%" />원
                   </div>
               </div>
@@ -119,21 +129,21 @@
                     <ul class="prefer text-white" style="list-style:none;margin: 0 !important;padding:0 !important;">
                       <li style="margin-bottom:5px;">
                         <input type="text" name="Preference" style="width: 70%;" maxlength="30" placeholder="ex) 정보처리기능사 자격증 보유" />
-                        <a id="add" class="btn btn-primary btn-sm">+</a>
+                        <a id="add" class="btn btn-info btn-sm">+</a>
                     </ul>
                   </div>
               </div>
               <hr>
               <div class="row ml-2">
-                  <div class="col-md-2 my-auto rb"><h4>내용</h4></div>
+                  <div class="col-md-2 my-auto rb"><h4><span class="check">*</span>내용</h4></div>
                   <div class="col-md-9">
                       <textarea name="Content" style="width:100%;height:200px;" placeholder="내용을 입력하세요."></textarea>
                   </div>
               </div>
               <hr>
               <div class="my-5 text-white" align="center">
-                 <input type="submit" class="btn btn-success mr-3" value="등록"></input>
-                 <a class="btn btn-danger" onclick="history.go(-1)">취소</a>
+                 <input type="submit" class="btn btn-primary mr-3" value="작성하기"></input>
+                 <a class="btn btn-danger" onclick="history.go(-1)">취소하기</a>
               </div>
           </form>
       </div>

@@ -73,7 +73,7 @@
                       <tbody id="tb">
                       <% for(var i = 0; i < data.length; i++) { if (data[i].Title) { %>
                           <tr class="text-center">
-                              <td><%= i+1 %></td>
+                              <td height="40px"><%= i+1 %></td>
                               <td><%= data[i].Category %></td>
                               <td>
                                   <a href="/order/info/<%= data[i]._OID %>"><%= data[i].Title %></a>
@@ -93,7 +93,7 @@
                                   <td>매칭실패</td>
                               <% } %>
                               <% if (data[i].Status == 'B' || data[i].Status == 'C') { %>
-                                  <td id="read"><a id="<%= data[i]._OID %>" class="btn btn-primary text-white">조회</a></td>
+                                  <td id="read"><a id="<%= data[i]._OID %>" class="btn btn-info text-white">수주자 조회</a></td>
                               <% } else { %>
                                   <td></td>
                               <% } %>
@@ -134,7 +134,7 @@
                 </div>
               </div>
           <% } %>
-          <a class="btn btn-primary text-white mb-3 mx-auto" onclick="history.go(-1)">돌아가기</a>
+          <a class="btn btn-primary text-white mb-3 mx-auto" href="/user/mypage">돌아가기</a>
       </div>
     </div>
     <% include ../match/infoER.ejs %>

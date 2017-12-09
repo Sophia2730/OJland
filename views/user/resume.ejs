@@ -40,7 +40,7 @@
                   <% } %>
               });
               var mHtml = '<li class="mb-3"><input type="text" name="License" style="width: 90%;" maxlength="30" />'
-                                   + ' <a class="btn btn-primary text-white">+</a></li>';
+                                   + ' <a class="btn btn-info text-white">+</a></li>';
               $('.license').on('click', 'li a', function(e) {  // 클릭 리스너 등록
                   e.preventDefault();
                   if ($(this).text() == '+') {  // +버튼이고 input에 값이 있으면
@@ -59,7 +59,7 @@
               });
               var count = <%= (imageUrls) ? imageUrls.length : 1 %>;
               var fHtml = '<li class="mb-3"><input type="file" name="File" class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">'
-                         + ' <a class="btn btn-primary text-white">+</a></li>';
+                         + ' <a class="btn btn-info text-white">+</a></li>';
               $('.file').on('click', 'a', function(e) {
                    if ($(this).text() == '+' && count < 3) {
                        if ($(this).siblings().val() != '') {
@@ -92,15 +92,15 @@
                    <label class="radio-inline mx-auto">
                      <% if(resume) { %>
                         <% if(resume.Course == '2/3년제') { %>
-                            <input type="radio" name="Course" value="2/3년제" checked>2/3년제
-                            <input type="radio" name="Course" value="4년제" class="ml-4">4년제
+                            <input type="radio" name="Course" value="2/3년제" checked> 2/3년제
+                            <input type="radio" name="Course" value="4년제" class="ml-4"> 4년제
                         <% } else { %>
-                            <input type="radio" name="Course" value="2/3년제">2/3년제
-                            <input type="radio" name="Course" value="4년제" class="ml-4" checked>4년제
+                            <input type="radio" name="Course" value="2/3년제"> 2/3년제
+                            <input type="radio" name="Course" value="4년제" class="ml-4" checked> 4년제
                         <% } %>
                      <% } else { %>
-                         <input type="radio" name="Course" value="2/3년제">2/3년제
-                         <input type="radio" name="Course" value="4년제" class="ml-4" checked>4년제
+                         <input type="radio" name="Course" value="2/3년제"> 2/3년제
+                         <input type="radio" name="Course" value="4년제" class="ml-4" checked> 4년제
                      <% } %>
                    </label>
                 </div>
@@ -137,13 +137,13 @@
                       <% for (var i = 0; i < licenses.length; i++) { %>
                         <li class="mb-3">
                           <input type="text" name="License" style="width: 90%;" value="<%= licenses[i] %>" />
-                          <a class="btn btn-primary text-white">-</a>
+                          <a class="btn btn-info text-white">-</a>
                         </li>
                       <% } %>
                     <% } %>
                       <li class="mb-3">
                         <input type="text" name="License" style="width: 90%;" maxlength="30" placeholder="ex) 정보처리기능사 자격증 보유" />
-                        <a class="btn btn-primary text-white">+</a>
+                        <a class="btn btn-info text-white">+</a>
                       </li>
                   </ul>
                 </div>
@@ -165,26 +165,26 @@
                             <li class="mb-3">
                               <input type="text" name="curFile" value="<%= imageUrls[i] %>" style="width:47%" readonly>
                               <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
-                              <a class="btn btn-primary text-white">+</a>
+                              <a class="btn btn-info text-white">+</a>
                             </li>
                           <% } else { %>
                             <li class="mb-3">
                               <input type="text" name="curFile" value="<%= imageUrls[i] %>" style="width:47%" readonly>
                               <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
-                              <a class="btn btn-primary text-white">-</a>
+                              <a class="btn btn-info text-white">-</a>
                             </li>
                           <% } %>
                       <% } %>
                     <% } else { %>
                           <li class="mb-3">
                               <input type='file' name='File' class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">
-                              <a class="btn btn-primary text-white">+</a>
+                              <a class="btn btn-info text-white">+</a>
                           </li>
                     <% } %>
                   </ul>
                 </div>
                 <div align="center" class="text-white">
-                    <input type="submit" class="btn btn-primary mr-3" value="완료">
+                    <input type="submit" class="btn btn-primary mr-3" value="확인">
                     <a class="btn btn-danger" onclick="history.go(-1);">취소</a>
                 </div>
              </form>

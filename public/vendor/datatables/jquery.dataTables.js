@@ -11416,7 +11416,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "_START_ to _END_ of _TOTAL_",
+			"sInfo": "",
 			// 우상 "sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
 
 			/**
@@ -11459,7 +11459,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(총 _MAX_ 개 중에서 검색)",		// 우상 (filtered from _MAX_ total entries)
+			"sInfoFiltered": "",		// 우상 (총 _MAX_ 개 중에서 검색) -> (filtered from _MAX_ total entries)
 
 
 			/**
