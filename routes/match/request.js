@@ -4,6 +4,7 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 var async = require('async');
 
+// 수주자의 학부 정보를 전달한다
 router.get('/colleage', function(req, res, next) {
       pool.getConnection(function(err, connection) {
           connection.query('SELECT Colleage FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
@@ -13,7 +14,7 @@ router.get('/colleage', function(req, res, next) {
           });
       });
 });
-
+// 사용자의 이력서 존재 여부를 전달한다
 router.get('/resume', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         connection.query('SELECT * FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
@@ -26,7 +27,7 @@ router.get('/resume', function(req, res, next) {
         });
     });
 });
-
+// 특정 발주에 수주 요청을 한다
 router.post('/:id', function(req, res, next) {
     var body = req.body;
     var total = 0;  // 총 점수을 저장할 변수
@@ -75,7 +76,7 @@ router.post('/:id', function(req, res, next) {
         });
     });
 });
-
+// 특정 발주의 수주 요청을 취소한다
 router.delete('/:id', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         var queryStr = 'DELETE FROM application WHERE _OID=? AND _UID=?';

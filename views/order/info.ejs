@@ -123,10 +123,14 @@
               <small class=" mt-2">등록일: <%= date %></small>
           </div>
           <hr>
-          <div class="row mx-auto">
-              <%if(data.Status == 'A'){ %><h4 id="stat" class="mx-auto">[모집 중] <% } %>
-              <%if(data.Status != 'A'){ %><h4 class="mx-auto">[마감]<% } %>
-              <%= data.Title %></h4>
+          <div class="row">
+              <div class="mx-auto">
+                  <h4 id="stat" style="display:inline">
+                    <%if(data.Status == 'A'){ %>[모집 중]<% } %>
+                    <%if(data.Status != 'A'){ %>[마감]<% } %>
+                  </h4>
+                  <h4 style="display:inline"><%= data.Title %></h4>
+              </div>
           </div>
           <hr style="border: 0.5px solid #bbb">
           <div class="row my-4">

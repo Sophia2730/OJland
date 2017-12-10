@@ -3,6 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 var pool = require('../../config.js').pool;
 
+// 특정 발주를 수정하는 페이지를 불러온다
 router.get('/:oid', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         var queryStr = 'SELECT * FROM orders WHERE _OID=?'; // 파라미터로 전달받은 발주 조회
@@ -24,7 +25,7 @@ router.get('/:oid', function(req, res, next) {
         });
     });
 });
-
+// 특정 발주를 수정한다
 router.put('/:oid', function(req, res, next) {
     var body = req.body;
     var prefer = '';  // 우대조건을 저장할 변수

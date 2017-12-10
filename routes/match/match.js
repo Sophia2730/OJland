@@ -3,6 +3,7 @@ var router = express.Router();
 var pool = require('../../config.js').pool;
 var async = require('async');
 
+// 지원자의 정보를 제공
 router.get('/:id', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.series([
@@ -140,7 +141,7 @@ router.delete('/', function(req, res, next) {
         });
     });
 });
-
+// 매칭 성공 알림을 보낸다
 var sendSuccess = function(aid) {
     console.log("start Success: ", aid);
     pool.getConnection(function(err, connection) {
@@ -179,7 +180,7 @@ var sendSuccess = function(aid) {
         });
     });
 }
-
+// 매칭 실패 알림을 보낸다
 var sendFail = function(aid) {
     console.log("start Fail: ", aid);
     pool.getConnection(function(err, connection) {
@@ -219,7 +220,7 @@ var sendFail = function(aid) {
         });
     });
 }
-
+// 매칭 완료 알림을 보낸다
 var sendComplete = function(uid, oid) {
     console.log("start Com: ", uid);
     pool.getConnection(function(err, connection) {
@@ -253,7 +254,7 @@ var sendComplete = function(uid, oid) {
         });
     });
 }
-
+// 지원자 부재로 인한 매칭 실패 알림을 보낸다
 var sendNull = function(uid, oid) {
     console.log("start Null: ", uid);
     pool.getConnection(function(err, connection) {

@@ -4,9 +4,9 @@ var pool = require('../../config.js').pool;
 var moment = require('moment');
 var async = require('async');
 
+// 특정 카테고리의 발주 목록 페이지를 불러온다
 router.get('/:category', function(req, res, next) {
     var category = trans(req.params.category);
-
     pool.getConnection(function(err, connection) {
           async.waterfall([
               function(callback) {
@@ -48,7 +48,7 @@ router.get('/:category', function(req, res, next) {
     });
 });
 
-// 카테고리 값 한글로 변환
+// 카테고리 값을 한글로 변환한다
 var trans = function(str) {
   switch (str) {
       case 'all': return category = '전체';

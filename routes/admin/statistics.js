@@ -3,16 +3,13 @@ var router = express.Router();
 var pool = require('../../config.js').pool;
 var async = require('async');
 var moment = require('moment');
-var d = new Date();
 
-var d1 = d.getFullYear() + "-" + (d.getMonth() + 1);
-var d2 = d1 + "-" + d.getDate();
-if(d.getDate() < 10){
-    d2 = d1 + "-0" + d.getDate();
-} else {
-    d2 = d1 + "-" + d.getDate();
-}
+// 회원 및 외주 통계 페이지를 불러온다
 router.get('/', function(req, res, next) {
+    // 현재 날짜 정보를 저장한다
+    var d = new Date();
+    var d1 = d.getFullYear() + "-" + (d.getMonth() + 1);
+    var d2 = (d.getDate() < 10) ? d1 + "-0" + d.getDate() : d1 + "-" + d.getDate();
     pool.getConnection(function(err, connection) {
         async.series([
             function(callback) {

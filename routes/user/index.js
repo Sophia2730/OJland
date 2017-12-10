@@ -3,8 +3,9 @@ var router = express.Router();
 
 router.get('/:uri', function(req, res, next) {
     var uri = req.params.uri;
+    // 로그인 상태가 아니면 메인화면으로 이동
     if(!req.session.Name && uri != 'login' && uri != 'register' && uri != 'forgot' && uri != 'logout')
-        res.redirect('/');  // 메인화면으로 이동
+        res.redirect('/');
     else if(uri == 'logout') {  // 로그아웃
         req.session.destroy();
         res.redirect('/');

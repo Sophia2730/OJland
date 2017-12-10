@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var pool = require('../../config.js').pool;
 
+// 회원 정보 페이지를 불러온다
 router.get('/', function(req, res, next) {
     var queryStr = 'SELECT * FROM user';  // user Table 조회
     pool.getConnection(function(err, connection) {
@@ -22,7 +23,7 @@ router.get('/', function(req, res, next) {
         });
     });
 });
-
+// 특정 회원을 삭제한다
 router.delete('/', function(req, res, next) {
     var queryStr = "DELETE FROM user WHERE _UID=?"; // user Table에서 파라미터로 전달받은 유저 삭제
     pool.getConnection(function(err, connection) {

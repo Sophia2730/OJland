@@ -4,7 +4,9 @@ var pool = require('../../config.js').pool;
 var fs = require('fs');
 var async = require('async');
 
+// 신규 발주 등록 페이지를 불러온다
 router.get('/', function(req, res, next) {
+    // 학부 및 학과 정보를 읽어온다
     fs.readFile('public/data/major.json', 'utf-8', function(err, data) {
         if(err) console.log(err);
         res.render('order/post', {
@@ -14,7 +16,7 @@ router.get('/', function(req, res, next) {
     });
 
 });
-
+// 신규 발주를 등록한다
 router.post('/', function(req, res, next) {
     var body = req.body;
     var prefer = '';  // 우대조건을 저장할 변수

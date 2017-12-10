@@ -4,6 +4,7 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 var async = require('async');
 
+// 외주 정보 페이지를 불러온다
 router.get('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.parallel([
@@ -57,7 +58,7 @@ router.get('/', function(req, res, next) {
         });
     });
 });
-
+// 특정 외주를 삭제한다
 router.delete('/', function(req, res, next) {
     var queryStr = "DELETE FROM orders WHERE _OID=?"; // orders Table에서 파라미터로 받은 발주를 삭제
     pool.getConnection(function(err, connection) {

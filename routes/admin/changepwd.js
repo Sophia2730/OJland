@@ -4,6 +4,7 @@ var fs = require('fs');
 var encrypt = require('../../config.js').encrypt;
 var decrypt = require('../../config.js').decrypt;
 
+// 관리자 비밀번호 변경 페이지를 불러온다
 router.get('/', function(req, res, next) {
     // admin.json 파일을 읽어와서 admin에 저장
     fs.readFile('public/data/admin.json', 'utf-8', function(err, data) {
@@ -15,7 +16,7 @@ router.get('/', function(req, res, next) {
         });
     });
 });
-
+// 관리자의 변경된 비밀번호를 저장한다
 router.put('/', function (req, res, next) {
     var body = req.body;
     // 관리자 정보를 json 형식으로 받아옴

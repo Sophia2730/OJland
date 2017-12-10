@@ -4,7 +4,7 @@ var moment = require('moment');
 var pool = require('../../config.js').pool;
 var async = require('async');
 
-var isReq = false;
+// 특정 발주 정보 페이지를 불러온다
 router.get('/:oid', function(req, res, next) {
     var params = req.params;
     pool.getConnection(function(err, connection) {
@@ -40,7 +40,7 @@ router.get('/:oid', function(req, res, next) {
         });
     });
 });
-
+// 특정 발주에 대한 지원 여부를 전달한다
 router.get('/check/:oid', function(req, res, next) {
     // application Table에서 현재 접속한 사용자가 해당 발주를 지원했는지 조회
     var queryStr = "SELECT * FROM application WHERE _OID=? AND _UID=?";
@@ -53,7 +53,7 @@ router.get('/check/:oid', function(req, res, next) {
         });
     });
 });
-
+// 특정 발주에 대한 지원자 수를 전달한다
 router.get('/num/:oid', function(req, res, next) {
     // 해당 발주를 몇명이 지원했는지 조회
     var queryStr = "SELECT count(*) AS cnt FROM application WHERE _OID=? AND Status<>'F'";
@@ -66,7 +66,7 @@ router.get('/num/:oid', function(req, res, next) {
         });
     });
 });
-
+// 특정 발주를 삭제한다
 router.delete('/:oid', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         var queryStr = 'DELETE FROM orders WHERE _OID=?'; // orders Table에서 파라미터로 전달받은 발주 삭제

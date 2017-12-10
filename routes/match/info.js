@@ -99,7 +99,7 @@ router.post('/', function(req, res, next) {
         });
     });
 });
-
+// 발주자에게 외주 완료 알림을 보낸다
 var sendEnd_EE = function(uid, oid) {
     pool.getConnection(function(err, connection) {
         async.series([
@@ -132,7 +132,7 @@ var sendEnd_EE = function(uid, oid) {
         });
     });
 }
-
+// 수주자에게 외주 완료 알림을 보낸다
 var sendEnd_ER = function(oid) {
     pool.getConnection(function(err, connection) {
         async.series([
