@@ -7,6 +7,7 @@ var async = require('async');
 // 수주자의 학부 정보를 전달한다
 router.get('/colleage', function(req, res, next) {
       pool.getConnection(function(err, connection) {
+          // 특정 유저의 학부 조회
           connection.query('SELECT Colleage FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
               if(err) console.log(err);
               res.send(rows[0].Colleage);
@@ -17,6 +18,7 @@ router.get('/colleage', function(req, res, next) {
 // 사용자의 이력서 존재 여부를 전달한다
 router.get('/resume', function(req, res, next) {
     pool.getConnection(function(err, connection) {
+        // 특정 유저의 이력서 조회
         connection.query('SELECT * FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
               if(err) console.log(err);
               if(rows[0])
@@ -47,6 +49,7 @@ router.post('/:id', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.parallel([
             function(callback) {
+                // 특정 유저의 이력서 조회
                 connection.query('SELECT * FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
                     if(err) callback(err);
                     if (!rows[0]) {
@@ -59,6 +62,7 @@ router.post('/:id', function(req, res, next) {
                 });
             },
             function(callback) {
+                // 최근 지원번호 조회
                 connection.query('SELECT _AID FROM application ORDER BY _AID DESC limit 1;', req.session._UID, function(err, rows) {
                     if(err) callback(err);
                     var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._AID) + 1;  // 최근 _AID에 1한 값 저장
@@ -79,6 +83,7 @@ router.post('/:id', function(req, res, next) {
 // 특정 발주의 수주 요청을 취소한다
 router.delete('/:id', function(req, res, next) {
     pool.getConnection(function(err, connection) {
+        // 특정 지원 삭제
         var queryStr = 'DELETE FROM application WHERE _OID=? AND _UID=?';
         connection.query(queryStr, [req.params.id, req.session._UID], function(err, rows) {
             if(err) console.log("err: ", err);

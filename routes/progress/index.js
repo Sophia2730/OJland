@@ -8,8 +8,8 @@ router.get('*', function(req, res, next) {
     else
         next();
 });
-router.use('/post', require('./post'));
-router.use('/list', require('./list'));
-router.use('/info', require('./info'));
+router.use('/post', require('./post')); // 외주에 대한 진척도 등록
+router.use('/list', require('./list')); // 수주자가 등록한 진척도 목록
+router.use('/info', require('./info')); // 진척도 상세정보
 
 module.exports = router;

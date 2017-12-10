@@ -7,10 +7,11 @@ var path = require('path');
 var fs = require('fs');
 var async = require('async');
 
-var id;
+// 이력서 작성 및 수정 페이지를 불러온다
 router.get('/', function(req, res, next) {
     async.series([
         function(callback) {
+            // 학부 및 학과정보 읽기
             fs.readFile('public/data/major.json', 'utf-8', function(err, data) {
                 if(err) callback(err);
                 callback(null, JSON.parse(data));
@@ -18,6 +19,7 @@ router.get('/', function(req, res, next) {
         },
         function(callback) {
           pool.getConnection(function(err, connection) {
+              // 특정 사용자의 이력서 조회
               connection.query("SELECT * FROM resume WHERE _UID=?", req.session._UID, function(err, rows) {
                   if(err) callback(err);
                   callback(null, rows[0]);
@@ -34,10 +36,10 @@ router.get('/', function(req, res, next) {
         });
     });
 });
-
+// 이력서를 등록 및 수정한다
 router.post('/', upload.array('File', 3), function(req, res){
     var body = req.body;
-
+    // 입력한 자격증을 문자열로 저장한다
     var licenses = '';
     if(Array.isArray(body.License)) {
         for (var i = 0; i < body.License.length; i++) {
@@ -48,8 +50,8 @@ router.post('/', upload.array('File', 3), function(req, res){
     } else if (body.License)
         licenses = body.License;
 
+    // 기존 이미지 Url을 문자열로 저장한다
     var imgUrl = '';
-
     if(Array.isArray(body.curFile)) {
         for (var i = 0; i < body.curFile.length; i++) {
             imgUrl += body.curFile[i];
@@ -58,10 +60,10 @@ router.post('/', upload.array('File', 3), function(req, res){
         }
     } else if (body.curFile)
         imgUrl = body.curFile;
-
+    // 새로운 업로드 파일이 있으면 구분자 '%&' 추가
     if(imgUrl && req.files[0])
         imgUrl += '%&';
-
+    // 새로운 이미지 Url을 문자열로 저장한다
     if(Array.isArray(req.files)) {
         for (var i = 0; i < req.files.length; i++) {
             imgUrl += req.files[i].filename;
@@ -75,6 +77,7 @@ router.post('/', upload.array('File', 3), function(req, res){
     pool.getConnection(function(err, connection) {
         async.waterfall([
             function(callback) {
+                // 최근 이력서번호 조회
                 connection.query('SELECT _RID FROM resume ORDER BY _RID DESC limit 1', function(err, rows) {
                       if(err) callback(err);
                       var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._RID) + 1;
@@ -82,6 +85,7 @@ router.post('/', upload.array('File', 3), function(req, res){
                 });
             },
             function(newId, callback) {
+                // 사용자의 이력서 번호 조회
                 connection.query('SELECT _RID FROM resume WHERE _UID=?', req.session._UID, function(err, rows) {
                       if(err) callback(err);
                       callback(null, newId, rows[0]);
@@ -90,6 +94,7 @@ router.post('/', upload.array('File', 3), function(req, res){
             function(newId, resume, callback) {
                 if(!resume) {
                     var inputs = [newId, req.session._UID, body.Course, body.Colleage, body.Major, licenses, body.Content, imgUrl];
+                    // 입력한 이력서 정보 등록
                     var queryStr = 'INSERT INTO resume(_RID, _UID, Course,  Colleage , Major , License , Content , imageUrl) VALUES(?,?,?,?,?,?,?,?)';
                     connection.query(queryStr, inputs, function(err, rows) {
                           if(err) callback(err);
@@ -100,6 +105,7 @@ router.post('/', upload.array('File', 3), function(req, res){
             function(resume, callback) {
                 if(resume) {
                     var inputs = [req.session._UID, body.Course, body.Colleage, body.Major, licenses, body.Content, imgUrl, resume._RID];
+                    // 입력한 이력서 정보 수정
                     var queryStr = 'UPDATE resume SET _UID=?, Course=?, Colleage=?, Major=?, License=?, Content=?, imageUrl=? WHERE _RID=?';
                     connection.query(queryStr, inputs, function(err) {
                           if(err) callback(err);

@@ -35,6 +35,7 @@ router.post('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.waterfall([
             function(callback) {
+                // 최근 외주번호 조회
                 connection.query('SELECT _OID FROM orders ORDER BY _OID DESC limit 1', function(err, rows) {
                     if(err) callback(err);
                     var newId = (!rows[0]) ? 1000000001 : Number(rows[0]._OID) + 1; // 최근 _OID 값 + 1 저장

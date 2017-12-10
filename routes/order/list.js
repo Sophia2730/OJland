@@ -22,10 +22,11 @@ router.get('/:category', function(req, res, next) {
                 });
               },
               function(orders, dates, callback) {
+                  // 매칭실패를 제외한 지원 조회
                   connection.query("SELECT * FROM application WHERE Status<>'F'", function(err, apps) {
-                      var reqNums = [];
+                      var reqNums = []; // 지원자 수를 저장할 배열
                       for (var i = 0; i < orders.length; i++) {
-                          reqNums[i] = 0;
+                          reqNums[i] = 0; // 초기화
                           for (var j = 0; j < apps.length; j++) {
                               if (orders[i]._OID == apps[j]._OID)
                                   reqNums[i]++;

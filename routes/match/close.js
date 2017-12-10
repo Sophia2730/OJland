@@ -4,9 +4,10 @@ var pool = require('../../config.js').pool;
 var async = require('async');
 
 // 특정 발주를 마감한다
-router.put('/:id', function(req, res, next) {
+router.put('/:oid', function(req, res, next) {
     pool.getConnection(function(err, connection) {
-        connection.query("UPDATE orders SET Status='B' WHERE _OID=?", req.params.id, function(err) {
+        // 특정 발주의 상태를 마감 상태로 변경한다
+        connection.query("UPDATE orders SET Status='B' WHERE _OID=?", req.params.oid, function(err) {
             if(err) console.log(err);
             res.send(true);
             connection.release();

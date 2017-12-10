@@ -10,12 +10,14 @@ router.get('/:oid', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.waterfall([
             function(callback) {
+                // 특정 발주 조회
                 connection.query('SELECT * FROM orders WHERE _OID=?', params.oid, function(err, orders) {
                     if(err) callback(err);
                     callback(null, orders[0]);
                 });
             },
             function(order, callback) {
+                // 해당 발주의 발주자 조회
                 connection.query("SELECT * FROM user WHERE _UID=?", order._UID, function(err, users) {
                     if(err) callback(err);
                     callback(null, [order, users[0]]);

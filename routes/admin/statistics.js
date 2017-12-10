@@ -13,30 +13,35 @@ router.get('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.series([
             function(callback) {
+                // 가입 승인 처리된 발주자, 수주자의 수 조회
                 connection.query("SELECT UserType, count(*) as cnt FROM user WHERE Status=1 GROUP BY UserType;", function(err, rows) {
                     if(err) callback(err);
                     callback(null, rows);
                 });
             },
             function(callback) {
+                // 모든 외주의 시간 정보 조회
                 connection.query("SELECT Time FROM orders;", function(err, rows) {
                     if(err) callback(err);
                     callback(null, rows);
                 });
             },
             function(callback) {
+                // 이달의 가입자 수를 조회
                 connection.query("SELECT count(*) as cnt FROM user WHERE Status=1 AND RegTime LIKE '%" + d1 +"%';", function(err, rows) {
                     if(err) callback(err);
                     callback(null, rows);
                 });
             },
             function(callback) {
+                // 오늘의 가입자 수를 조회
                 connection.query("SELECT count(*) as cnt FROM user WHERE Status=1 AND RegTime LIKE '%" + d2 +"%';", function(err, rows) {
                     if(err) callback(err);
                     callback(null, rows);
                 });
             },
             function(callback) {
+                // 상태별 외주 수를 조회
                 connection.query("SELECT Status, count(*) as cnt FROM orders GROUP BY Status;", function(err, rows) {
                     if(err) callback(err);
                     callback(null, rows);
@@ -44,13 +49,12 @@ router.get('/', function(req, res, next) {
             }
         ], function(err, results) {
             if (err) console.log('err: ', err);
-            date = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+            date = [0,0,0,0,0,0,0,0,0,0,0,0,0]; // 월 별 외주 수를 저장할 배열
             for (var i = 0; i < results[1].length; i++) {
                 var a = parseInt(moment(results[1][i].Time).format('MM'));
                 date[a] += 1;
             }
-            orders = [0,0,0,0,0,0];
-            console.log(results[4]);
+            orders = [0,0,0,0,0,0]; // 상태 별 외주 수를 저장할 배열
             for(var i=0; i< results[4].length; i++){
                 switch(results[4][i].Status){
                     case 'A':
@@ -70,10 +74,10 @@ router.get('/', function(req, res, next) {
                         break;
                 }
             }
+            // 총 외주 수를 구한다
             for(var i = 0; i < 5; i++) {
                 orders[5] += orders[i];
             }
-            console.log(orders, results);
             res.render('admin/statistics', {
                 user: results[0],
                 ojcnt: date,

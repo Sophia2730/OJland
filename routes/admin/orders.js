@@ -9,18 +9,21 @@ router.get('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
         async.parallel([
             function(callback) {
+                // 모든 회원 정보 조회
                 connection.query('SELECT * FROM user', function(err, rows) {
                     if(err) callback(err);
                     callback(null, rows);
                 });
             },
             function(callback) {
+                // 모든 외주 정보 조회
                 connection.query('SELECT * FROM orders', function(err, rows) {
                     if(err) callback(err);
                     callback(null, rows);
                 });
             },
             function(callback) {
+                // 모든 지원 정보 조회
                 connection.query('SELECT * FROM application', function(err, rows) {
                     if(err) callback(err);
                     callback(null, rows);
