@@ -54,7 +54,7 @@ router.post('/:id', function(req, res, next) {
                     if(err) callback(err);
                     if (!rows[0]) {
                         res.send('<script>alert("이력서를 작성해 주세요!");'
-                                  + 'window.location.replace("/resume");</script>');
+                                  + 'window.location.replace("/user/resume");</script>');
                         return;
                     }
                     total += rows[0].Score; // 총 점수에 평점 추가

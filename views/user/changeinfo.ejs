@@ -3,24 +3,26 @@
 <head>
     <% include ../config/header.ejs %>
     <script>
-        var Name = $("input[name=Name]");
-        var Birth = $("input[name=Birth]");
-        var Tel = $("input[name=Tel]");
+        $(document).ready(function() {
+            var Name = $("input[name=Name]");
+            var Birth = $("input[name=Birth]");
+            var Tel = $("input[name=Tel]");
 
-        $("input[type=submit]").on('click', function(e) {
-              if(Name.val().length < 2 || Name.val().length > 6) {
-                  e.preventDefault();
-                  alert('2~6자리의 이름을 입력해주세요!');
-                  Name.focus();
-              } else if (Birth.val().length != 8) {
-                  e.preventDefault();
-                  alert('8자리의 생년월일을 입력해주세요!');
-                  Birth.focus();
-              } else if (Tel.val().length < 12 || Tel.val().indexOf('-') == -1) {
-                  e.preventDefault();
-                  alert('전화번호를 다시 한번 확인해 주세요!');
-                  Tel.focus();
-              }
+            $("input[type=submit]").on('click', function(e) {
+                  if(Name.val().length < 2 || Name.val().length > 6) {
+                      e.preventDefault();
+                      alert('2~6자리의 이름을 입력해주세요!');
+                      Name.focus();
+                  } else if (Birth.val().length != 8) {
+                      e.preventDefault();
+                      alert('8자리의 생년월일을 입력해주세요!');
+                      Birth.focus();
+                  } else if (Tel.val().length < 12 || Tel.val().indexOf('-') == -1) {
+                      e.preventDefault();
+                      alert('전화번호를 다시 한번 확인해 주세요!');
+                      Tel.focus();
+                  }
+            });
         });
     </script>
 </head>

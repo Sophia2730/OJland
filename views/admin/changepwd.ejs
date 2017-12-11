@@ -30,7 +30,7 @@
                     } else {
                         $.post("/admin/changepwd?_method=PUT", {pwd: pwd1.val()});
                         alert('비밀번호가 변경되었습니다!');
-                        location.href = '/user/main';
+                        location.href = '/';
                     }
                 }
             });
