@@ -57,10 +57,12 @@
                       $(this).parent().remove();  // 버튼이 속해있는 li 제거
                   }
               });
-              var count = <%= (imageUrls) ? imageUrls.length : 1 %>;
+              var count = "<%= resume.imageUrl.split('%&').length %>";
               var fHtml = '<li class="mb-3"><input type="file" name="File" class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">'
                          + ' <a class="btn btn-info text-white">+</a></li>';
+              console.log(count);
               $('.file').on('click', 'a', function(e) {
+                   console.log('click');
                    if ($(this).text() == '+' && count < 3) {
                        if ($(this).siblings().val() != '') {
                            count++;
@@ -72,6 +74,7 @@
                        }
                    } else if ($(this).text() == '-' && count > 1) {
                        count--;
+                       console.log(count);
                        $(this).parent().prev().children("input").last().attr('readonly', false);  // 이전  input을 수정가능으로 변경
                        if ($(this).parent().next().children("a").text() != '+')  // 다음 버튼이 '+'이 아니면
                            $(this).parent().prev().children("a").text('+');  // 이전 버튼 텍스트를 +로 변경
