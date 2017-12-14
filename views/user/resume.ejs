@@ -57,7 +57,11 @@
                       $(this).parent().remove();  // 버튼이 속해있는 li 제거
                   }
               });
-              var count = "<%= resume.imageUrl.split('%&').length %>";
+              <% if(resume) { %>
+                    var count = <%= (resume.imageUrl) ? resume.imageUrl.split('%&').length + 1 : 1 %>;
+              <% } else { %>
+                    var count = 1;
+              <% } %>
               var fHtml = '<li class="mb-3"><input type="file" name="File" class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">'
                          + ' <a class="btn btn-info text-white">+</a></li>';
               console.log(count);
@@ -161,10 +165,10 @@
                 <div class="form-group">
                   <label for="File">사진첨부</label><br>
                   <ul class="file">
-                    <% if (resume && resume.imageUrl[0]) { %>
+                    <% if (resume) { %>
                       <% var imageUrls = resume.imageUrl.split('%&'); %>
                       <% for (var i = 0; i < imageUrls.length; i++) { %>
-                          <% if (i == imageUrls.length - 1) { %>
+                          <% if (i == 2) { %>
                             <li class="mb-3">
                               <input type="text" name="curFile" value="<%= imageUrls[i] %>" style="width:47%" readonly>
                               <input type='file' name='File' class="hidden mb-2" value="<%= imageUrls[i] %>">
@@ -178,11 +182,17 @@
                             </li>
                           <% } %>
                       <% } %>
+                      <% if (imageUrls.length < 3) { %>
+                            <li class="mb-3">
+                                <input type='file' name='File' class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">
+                                <a class="btn btn-info text-white">+</a>
+                            </li>
+                      <% } %>
                     <% } else { %>
-                          <li class="mb-3">
-                              <input type='file' name='File' class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">
-                              <a class="btn btn-info text-white">+</a>
-                          </li>
+                      <li class="mb-3">
+                          <input type='file' name='File' class="mb-2" accept=".jpg,.jpeg,.png,.gif,.bmp">
+                          <a class="btn btn-info text-white">+</a>
+                      </li>
                     <% } %>
                   </ul>
                 </div>

@@ -27,9 +27,9 @@
                         } else if (data[1] == '0') {
                             alert('인증메일을 확인해주세요!');
                         } else {
-                              $.post("/user/login", {Email: Email.val(), Password: Pwd.val()}, function(data) {
-                                  location.href = '/';
-                              });
+                            $.post("/user/login", {Email: Email.val(), Password: Pwd.val()}, function(data) {
+                                location.href = '/';
+                            });
                         }
                     });
                   }

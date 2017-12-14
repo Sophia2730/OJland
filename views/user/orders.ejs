@@ -18,7 +18,6 @@
               <% if (session.UserType == 'EE') {
                   for (var i = 0; i < data.length; i++) { %>
                     $.get('/user/orders/status/<%= data[i]._OID %>', function(data) {
-                        console.log(data);
                         if (data == 'A')
                             status = '매칭대기';
                         else if (data =='B')
@@ -27,8 +26,7 @@
                             status = '외주완료';
                         else if (data =='F')
                             status = '매칭실패';
-
-                        $("a[id=<%= data[i]._UID %>]").eq(<%= data.length - i - 1 %>).parent().next().text(status);
+                        $("a[id=<%= data[i]._OID %>]").parent().next().next().next().text(status);
                     });
               <% }} %>
               <% if (session.UserType == 'ER') {
@@ -123,7 +121,7 @@
                         <tr>
                             <td><%= i+1 %></td>
                             <td><%= data[i].Category %></td>
-                            <td><a href="/order/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
+                            <td><a id="<%= data[i]._OID %>" href="/order/info/<%= data[i]._OID %>"><%= data[i].Title %></a></td>
                             <td><%= data[i].Cost %></td>
                             <td><a id="<%= data[i]._UID %>" data-toggle="modal" data-target="#myModal" href=""><%= data[i].Name %></a></td>
                             <td></td>

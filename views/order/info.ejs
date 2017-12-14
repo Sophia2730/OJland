@@ -69,6 +69,7 @@
                    if (!resume) { // 이력서가 없으면
                        alert('이력서가 없습니다!');
                        location.href = '/user/resume';
+                       return;
                    }
                    $.get('/match/request/colleage', function(colleage) {
                        if (colleage != '<%= data.Colleage %>' && '<%= data.Colleage %>' != '무관') {
